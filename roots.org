@@ -32,8 +32,8 @@ is using ~:hook~ to enable modes instead of just calling them. Compare:
 
 * Basic Setup
 This section defines what I consider "sane defaults;" there are so many
-variations on that idea out there that I doubt you need me to convince you of
-any of this. Try it and see if you like it.
+variations of that idea out there that I doubt my opinions here are needed; just
+try it and see if you like it.
 
 ** Lexical binding
 For a discussion on what lexical binding is, and why this is
@@ -45,3 +45,66 @@ necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the
   ;; `roots.org' for the rationale behind the code.
 #+END_SRC
 
+
+** Editor defaults
+These settings are essentially subjective, but serve to disable some annoyances
+(lockfiles, audible bell) or improve ergonomics (~TAB~ for completion instead of
+~C-M-i~).
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :hook (after-init . r/set-defaults)
+    :config
+    (defun r/set-defaults ()
+      ;; By using `fundamental-mode' as the initial major mode, we're deferring
+      ;; loading of `prog-mode' and some of its derivatives when starting up
+      (setq inhibit-startup-screen t)
+      (setq initial-major-mode 'fundamental-mode)
+      (setq initial-scratch-message nil)
+
+      ;; Avoid/streamline interactive questions.
+      (defalias 'yes-or-no-p 'y-or-n-p)
+      (setq confirm-kill-processes nil)
+      (setq use-dialog-box nil)
+
+      ;; Don't create backup/lockfiles.
+      ;; This is the 21st century; we have git.
+      (setq create-lockfiles nil)
+      (setq make-backup-files nil)
+
+      ;; `folder/filename' instead of `filename<2>'
+      (setq uniquify-buffer-name-style 'forward)
+
+      ;; Line style and indentation
+      (setq-default indent-tabs-mode nil)
+      (setq-default truncate-lines t)
+      (setq-default fill-column 80)
+      (setq require-final-newline t)
+
+      ;; Scrolling
+      (setq scroll-conservatively 101)
+      (setq auto-hscroll-mode 'current-line)
+
+      ;; Minibuffer
+      (setq enable-recursive-minibuffers t)
+      (setq max-mini-window-height 8)
+
+      ;; Miscellaneous improvements
+      (setq tab-always-indent 'complete)
+      (setq Man-notify-method 'pushy)
+      (setq ring-bell-function 'ignore)
+      (setq line-spacing 0.1)))
+
+  ;; Commands
+  (use-package emacs
+    :hook
+    (after-init . repeat-mode)
+    (after-init . r/enable-commands)
+    :config
+    (defun r/enable-commands ()
+      (put 'narrow-to-region 'disabled nil)
+      (put 'downcase-region 'disabled nil)
+      (put 'upcase-region 'disabled nil)
+      (put 'scroll-left 'disabled nil)
+      (put 'scroll-right 'disabled nil)))
+#+END_SRC
