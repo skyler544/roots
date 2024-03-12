@@ -42,3 +42,12 @@
   (package-install 'use-package))
 (unless (package-installed-p 'vc-use-package)
   (package-vc-install "https://github.com/slotThe/vc-use-package"))
+
+(use-package use-package
+  :config
+  ;; Install missing packages by default
+  (setq use-package-always-ensure t)
+  (setq use-package-always-defer t)
+  (setq use-package-verbose t)
+  (setq use-package-compute-statistics t))
+
