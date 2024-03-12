@@ -57,3 +57,9 @@
 (use-package minions
   :hook (after-init . minions-mode)
   :config (setq minions-mode-line-lighter "--"))
+
+;; Garbage collection
+;; ----------------------------------------------------
+(use-package gcmh
+  :init (setq gcmh-idle-delay 'auto)
+  :hook (emacs-startup . gcmh-mode))
