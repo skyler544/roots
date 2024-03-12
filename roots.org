@@ -124,3 +124,28 @@ and it's very helpful when discussing code with colleagues.
     (setq-default display-line-numbers-widen t)
     (setq-default display-line-numbers-grow-only t))
   #+END_SRC
+
+** History
+Keeping track of where you've been and the things you've done is an incredible
+time saver. These settings are enabled in a function to shave maybe a few
+milliseconds off of the init time.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :hook
+    (after-init . recentf-mode)
+    (after-init . save-place-mode)
+    (after-init . savehist-mode)
+    (after-init . r/configure-history)
+    :config
+    (defun r/configure-history ()
+      (with-eval-after-load 'recentf
+        (setq recentf-max-saved-items 200)
+        (add-to-list 'recentf-exclude '("\\/sudo:root@localhost.*"))
+        (run-at-time nil (* 5 60) 'recentf-save-list))
+      (setq savehist-additional-variables
+            '(file-name-history
+              search-ring
+              command-history
+              regexp-search-ring))))
+#+END_SRC
