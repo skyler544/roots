@@ -108,3 +108,19 @@ These settings are essentially subjective, but serve to disable some annoyances
       (put 'scroll-left 'disabled nil)
       (put 'scroll-right 'disabled nil)))
 #+END_SRC
+
+** Line Numbers
+Some say that line numbers are something of an anti-pattern in Emacs, but
+~display-line-numbers-mode~ doesn't seem to have an appreciable performance impact
+and it's very helpful when discussing code with colleagues.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :hook
+    (prog-mode . display-line-numbers-mode)
+    (display-line-numbers-mode . hl-line-mode)
+    :config
+    (setq-default display-line-numbers-width 3)
+    (setq-default display-line-numbers-widen t)
+    (setq-default display-line-numbers-grow-only t))
+  #+END_SRC
