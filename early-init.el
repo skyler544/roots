@@ -35,3 +35,8 @@
 ;; If the package list is empty, initialize it.
 (unless package-archive-contents
   (package-refresh-contents))
+
+;; Enable `use-package'; not necessary on Emacs 29.1+.
+;; `use-package' is used to declaratively configure packages.
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
