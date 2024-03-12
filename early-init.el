@@ -51,3 +51,9 @@
   (setq use-package-verbose t)
   (setq use-package-compute-statistics t))
 
+;; Organization
+;; ----------------------------------------------------
+(use-package no-littering :demand t)
+(use-package minions
+  :hook (after-init . minions-mode)
+  :config (setq minions-mode-line-lighter "--"))
