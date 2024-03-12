@@ -194,3 +194,41 @@ information for it to show.
       (interactive)
       (message "%s" (format-mode-line mode-line-format))))
 #+END_SRC
+
+** Dired
+Dired is the greatest file manager ever created. The existence of ~wdired~ alone
+makes it superior to any graphical file manager I've ever seen; add on
+everything else dired is capable of, and there's just no contest.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dired
+    :ensure nil
+    :hook
+    (dired-mode . dired-hide-details-mode)
+    (dired-mode . auto-revert-mode)
+    (after-init . (lambda () (load "dired-x")))
+    :bind (:map dired-mode-map
+                ("C-c C-e" . wdired-change-to-wdired-mode))
+    :config
+    (setq dired-listing-switches "-alh --group-directories-first")
+    (setq dired-dwim-target t)
+    (setq dired-clean-up-buffers-too nil))
+
+  ;; Add some color to dired
+  (use-package diredfl
+    :hook (after-init . diredfl-global-mode))
+
+  (use-package dired-subtree
+    :vc (:fetcher github :repo Fuco1/dired-hacks)
+    :commands r/dired-subtree-face-override
+    :hook
+    (dired-mode
+     . (lambda () (bind-key [tab] #'dired-subtree-cycle 'dired-mode-map)))
+    :config
+    (defun r/dired-subtree-face-override ()
+      (interactive)
+      (with-eval-after-load 'org-faces
+        (let ((facelist (r/face-filter "^dired-subtree-")))
+          (dolist (face facelist)
+            (set-face-attribute face nil :extend t :background 'unspecified))))))
+#+END_SRC
