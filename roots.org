@@ -3,6 +3,7 @@
 #+PROPERTY: header-args :tangle init.el
 #+STARTUP: overview
 
+
 * Usage
 ** Tangling
 This file must be tangled or otherwise loaded with the help of ~org-babel~ in
@@ -27,3 +28,20 @@ is using ~:hook~ to enable modes instead of just calling them. Compare:
   (use-package which-key
     :hook (after-init . which-key-mode))
 #+END_SRC
+
+
+* Basic Setup
+This section defines what I consider "sane defaults;" there are so many
+variations on that idea out there that I doubt you need me to convince you of
+any of this. Try it and see if you like it.
+
+** Lexical binding
+For a discussion on what lexical binding is, and why this is
+necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the manual.
+
+#+BEGIN_SRC emacs-lisp
+  ;;; -*- lexical-binding: t -*-
+  ;; This file is generated with `org-babel'. See the accompanying file
+  ;; `roots.org' for the rationale behind the code.
+#+END_SRC
+
