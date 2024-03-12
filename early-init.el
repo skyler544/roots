@@ -1,5 +1,16 @@
 ;;; -*- lexical-binding: t -*-
 ;;
+;; This is Roots. This config works with Emacs 29.1+; older versions may require
+;; manual tweaking. See the file `roots.org' for the documentation for this
+;; config. This file ensures that packages can be installed and then installs
+;; and configures `use-package' (declarative macro for configuring packages),
+;; `no-littering' (library for keeping `user-emacs-directory' organized),
+;; 'minions' (space saving package for the modeline), and `gcmh' (package for
+;; automating a common "fix" for excessive elisp garbage collection).
+;;
+;; `init.el' will not exist without tangling `roots.org'. Run make retangle in
+;; your shell to generate it.
+;;
 ;; Basic initialization
 ;; ----------------------------------------------------
 ;; Create some directories for later use

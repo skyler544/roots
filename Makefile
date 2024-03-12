@@ -1,5 +1,5 @@
 EMACS   := emacs --init-directory=.
-TANGLE  := "(progn (require 'ob-tangle) (org-babel-tangle-file \"flux.org\"))"
+TANGLE  := "(progn (require 'ob-tangle) (org-babel-tangle-file \"roots.org\"))"
 
 run:
 	$(EMACS)

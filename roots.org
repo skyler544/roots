@@ -1,4 +1,4 @@
-#+TITLE: Flux
+#+TITLE: Roots
 #+DATE: 2024
 #+PROPERTY: header-args :tangle init.el
 #+STARTUP: overview
