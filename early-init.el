@@ -58,7 +58,11 @@
   :config
   ;; Install missing packages by default
   (setq use-package-always-ensure t)
+
+  ;; Use lazy loading by default
   (setq use-package-always-defer t)
+
+  ;; Be as informative as possible
   (setq use-package-verbose t)
   (setq use-package-compute-statistics t))
 

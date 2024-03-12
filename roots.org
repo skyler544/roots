@@ -2,3 +2,28 @@
 #+DATE: 2024
 #+PROPERTY: header-args :tangle init.el
 #+STARTUP: overview
+
+* Usage
+** Tangling
+This file must be tangled or otherwise loaded with the help of ~org-babel~ in
+order to activate any of the configuration contained within it. This can be
+easily done from the root of this repository with ~make retangle~.
+
+** Lazy Loading
+The argument for lazy loading is mostly taken from the [[info:use-package#Deferring loading][Deferring loading]] section
+of the ~use-package~ manual. This config attempts to be "strict" about lazy
+loading; packages will be loaded lazily by default according to
+~use-package-always-defer~ (See the ~use-package~ setup in ~early-init.el~.). The
+~use-package~ manual describes how to leverage its features for this purpose, but
+one of the simplest approaches that can be immediately applied to many packages
+is using ~:hook~ to enable modes instead of just calling them. Compare:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  ;; Immediately loads the package
+  (use-package which-key
+    :config (which-key-mode))
+
+  ;; Defers loading
+  (use-package which-key
+    :hook (after-init . which-key-mode))
+#+END_SRC
