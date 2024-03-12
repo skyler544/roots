@@ -232,3 +232,24 @@ everything else dired is capable of, and there's just no contest.
           (dolist (face facelist)
             (set-face-attribute face nil :extend t :background 'unspecified))))))
 #+END_SRC
+
+** Calendar
+All I really want in a calendar is to see the days of the month and the week
+numbers. This thing does that beautifully, and it's right here.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    ;; Always highlight today if it's visible
+    :hook (calendar-today-visible . calendar-mark-today)
+    :config
+    (setq calendar-week-start-day 1)
+    ;; Show week numbers
+    (setq calendar-intermonth-text
+          '(propertize
+            (format "%2d"
+                    (car
+                     (calendar-iso-from-absolute
+                      (calendar-absolute-from-gregorian (list month day year)))))
+            'font-lock-face 'font-lock-keyword-face)))
+#+END_SRC
+
