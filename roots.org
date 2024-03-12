@@ -46,6 +46,24 @@ necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the
 #+END_SRC
 
 
+** Utility Functions
+This is where I define any functions that I want available from the start of the
+init file.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Places where this would be useful were identified with `esup'.
+  (defun r/run-idly (function seconds)
+    "Run the no-arg `function' after `seconds' of idle time."
+    (run-with-idle-timer
+     seconds nil function))
+
+  (defun r/face-filter (regex)
+    "Return a list of faces matching `regex'."
+    (cl-remove-if-not
+     (lambda (s) (string-match-p regex (symbol-name s)))
+     (face-list)))
+#+END_SRC
+
 ** Editor defaults
 These settings are essentially subjective, but serve to disable some annoyances
 (lockfiles, audible bell) or improve ergonomics (~TAB~ for completion instead of
