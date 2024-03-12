@@ -22,3 +22,16 @@
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'meta)
   (setq manual-program "gman"))
+
+;; Package management
+;; ----------------------------------------------------
+;; Start up the built-in Emacs package manager.
+(package-initialize)
+
+;; Add a larger package repository.
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/")))
+
+;; If the package list is empty, initialize it.
+(unless package-archive-contents
+  (package-refresh-contents))
