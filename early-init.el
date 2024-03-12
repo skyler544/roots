@@ -11,3 +11,6 @@
   (startup-redirect-eln-cache
    (convert-standard-filename
     (expand-file-name "var/eln-cache" user-emacs-directory))))
+
+;; Don't let `customize' output to `init.el'.
+(setq custom-file (expand-file-name "var/custom.el" user-emacs-directory))
