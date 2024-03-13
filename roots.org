@@ -951,3 +951,35 @@ otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
 ** JS/TS
 The Javascript/Typescript landscape is a huge maze of both awesome and terrible
 technology. This is how I interact with it.
+
+*** Scripts
+This ~run-command~ recipe lets me run scripts from ~package.json~. This recipe is
+stolen directly from their project readme.
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'run-command
+
+    (defun run-command-recipe-package-json ()
+      "Provide commands to run script from `package.json'.
+  Automatically detects package manager based on lockfile: npm, yarn, and pnpm."
+      (when-let* ((project-dir (locate-dominating-file default-directory "package.json"))
+                  (project-info (with-temp-buffer
+                                  (insert-file-contents (concat project-dir "package.json"))
+                                  (json-parse-buffer)))
+                  (package-manager
+                   (cond
+                    ((file-exists-p (concat project-dir "pnpm-lock.yaml")) "pnpm")
+                    ((file-exists-p (concat project-dir "yarn.lock")) "yarn")
+                    (t "npm")))
+                  (scripts (map-keys (map-elt project-info "scripts"))))
+        (seq-map
+         (lambda (script)
+           (list
+            :command-name script
+            :command-line (concat package-manager " run " script)
+            :display script
+            :working-dir project-dir))
+         scripts)))
+
+    (add-to-list 'run-command-recipes 'run-command-recipe-package-json))
+#+END_SRC
