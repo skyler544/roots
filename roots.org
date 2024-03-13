@@ -1171,3 +1171,65 @@ MacOS) for a second when a fresh Emacs instance is launched.
         (scroll-bar-mode -1)))
     (r/run-idly #'r/frame-cleanup 1))
 #+END_SRC
+
+** Eye Candy
+This stuff isn't really necessary, but it looks cool.
+
+#+BEGIN_SRC emacs-lisp
+  ;; briefly overlay results of `eval-last-sexp' in the buffer
+  (use-package eros
+    :hook (after-init . eros-mode)
+    :custom-face
+    (eros-result-overlay-face
+     ((t ( :background ,(face-attribute 'region :background) :box t)))))
+
+  ;; Briefly flash current line after a long movement.
+  (use-package pulsar
+    :init (setq pulsar-face 'pulsar-generic)
+    :hook (after-init . pulsar-global-mode)
+    :custom-face
+    (pulsar-generic
+     ((t (:background unspecified :inherit region))))
+    :config
+    (setq pulsar-functions
+          '(iwindow-select
+            avy-goto-char-timer
+            isearch-repeat-forward
+            isearch-repeat-backward))
+    (dolist (f pulsar-functions)
+      (add-to-list 'pulsar-pulse-functions f)))
+
+  ;; Highlight TODO items in buffers
+  (use-package hl-todo
+    :hook (prog-mode . hl-todo-mode))
+
+  (use-package page-break-lines
+    :hook (help-mode . page-break-lines-mode))
+#+END_SRC
+
+** Icons
+Shows icons via some special icon fonts.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :config (setq all-the-icons-color-icons nil))
+
+  (use-package all-the-icons-dired
+    :hook (dired-mode . all-the-icons-dired-mode))
+#+END_SRC
+
+** Project Drawer
+Project browser with multiple-root functionality.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package treemacs-all-the-icons
+    :commands r/treemacs-all-the-icons
+    :config (defun r/treemacs-all-the-icons ()
+              (treemacs-load-theme "all-the-icons")))
+
+  (use-package treemacs
+    :hook
+    (treemacs-mode . r/treemacs-all-the-icons)
+    (treemacs-mode
+     . (lambda () (setq-local truncate-lines t))))
+#+END_SRC
