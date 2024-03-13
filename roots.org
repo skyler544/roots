@@ -231,10 +231,14 @@ everything else dired is capable of, and there's just no contest.
   (use-package diredfl
     :hook (after-init . diredfl-global-mode))
 
+  ;; This package lets you show subfolders in a tree view instead of
+  ;; inserting them below. It's very slow on deeply nested directories,
+  ;; so use it carefully.
   (use-package dired-subtree
     :vc (:fetcher github :repo Fuco1/dired-hacks)
     :commands r/dired-subtree-face-override
     :hook
+    ;; HACK: for some reason, using `:bind' doesn't work consistently for this
     (dired-mode
      . (lambda () (bind-key [tab] #'dired-subtree-cycle 'dired-mode-map)))
     :config
