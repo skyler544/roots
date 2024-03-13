@@ -584,9 +584,10 @@ terminal applications, but that person isn't me.
     (defun r/sh-command-at-point ()
       "Run the command at point or in the selected region in the shell."
       (interactive)
-      (async-shell-command (if (use-region-p)
-                               (buffer-substring (region-beginning) (region-end))
-                             (thing-at-point 'line t)))))
+      (async-shell-command
+       (if (use-region-p)
+           (buffer-substring (region-beginning) (region-end))
+         (thing-at-point 'line t)))))
 
   ;; Fix ansi color codes in compilation buffers
   (use-package emacs
