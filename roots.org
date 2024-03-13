@@ -1148,3 +1148,9 @@ The swiss-army outline tool.
     :hook (org-mode . org-superstar-mode)
     :config (setq org-superstar-headline-bullets-list '("●")))
 #+END_SRC
+
+* UI
+This section enables themes, tweaks font faces, adds icons, etc. This section is
+not as important as the actual functionality and should be considered a layer of
+"nice to have" stuff that could be easily disabled all at once for a
+hypothetical terminal-only workflow.
