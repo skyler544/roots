@@ -1071,3 +1071,12 @@ the shell is better suited for that.
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode)
 #+END_SRC
+
+** Web Requests
+Provides a nice tool for sending HTTP requests.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Send REST requests
+  (use-package restclient
+    :mode ("\\.rcl$" . restclient-mode))
+#+END_SRC
