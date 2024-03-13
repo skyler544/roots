@@ -707,6 +707,33 @@ experience.
   (use-package consult-eglot)
 #+END_SRC
 
+** TreeSitter
+Abstract syntax tree based language parsing and syntax highlighting. This works
+quite nicely, other than occasional breakage of the grammars. The package
+~treesit-auto~ is something of a stopgap for the disconnect between the built-in
+treesitter major modes and the traditional ones. It automatically installs
+missing grammars and switches to the ~*-ts-mode~ if it exists. There is a caveat
+here (like always) in that the builtin ~yaml-ts-mode~ does not actually provide a
+usable yaml mode (it inherits from ~text-mode~ instead of ~prog-mode~, and it does
+not provide any indentation logic, both of which preclude it actually being
+useful for yaml files), so we disable it here.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :config (setq treesit-font-lock-level 4))
+
+  (use-package treesit-auto
+    :hook (after-init . r/treesit-auto-setup)
+    :config
+    (defun r/treesit-auto-setup ()
+      (interactive)
+      (setq treesit-auto-install t)
+      (treesit-auto-install-all)
+      (setq treesit-auto-langs
+            (delq 'yaml treesit-auto-langs))
+      (global-treesit-auto-mode)))
+#+END_SRC
+
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
