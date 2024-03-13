@@ -29,6 +29,10 @@ is using ~:hook~ to enable modes instead of just calling them. Compare:
     :hook (after-init . which-key-mode))
 #+END_SRC
 
+This can also be useful for removing the startup penalty involved in changing
+Emacs' default settings; doing that is basically just yak shaving though because
+the code still has to be loaded /somehow/. Still, changing built-in settings in a
+function via ~after-init-hook~ can shave a few milliseconds off of the init time.
 
 * Basic Setup
 This section defines what I consider "sane defaults;" there are so many
@@ -155,8 +159,7 @@ and it's very helpful when discussing code with colleagues.
 
 ** History
 Keeping track of where you've been and the things you've done is an incredible
-time saver. These settings are enabled in a function to shave maybe a few
-milliseconds off of the init time.
+time saver.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
