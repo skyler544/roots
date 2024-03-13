@@ -680,6 +680,13 @@ text.
   ;; Reformat buffers when needed
   (use-package apheleia
     :hook (prog-mode . apheleia-mode))
+
+  (use-package rainbow-mode)
+
+  (defun r/kill-relative-path ()
+    "Kill the path to the current project relative to the project root."
+    (interactive)
+    (kill-new (file-relative-name buffer-file-name (project-root (project-current t)))))
 #+END_SRC
 
 ** Eglot
