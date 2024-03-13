@@ -975,6 +975,14 @@ technology. This is how I interact with it.
       (when-let* ((root (locate-dominating-file (buffer-file-name) "package.json"))
                   (rc (locate-file ".eslintrc" (list root) '(".js" ".json"))))
         (flymake-eslint-enable))))
+
+  (use-package prisma-mode
+    :vc (:fetcher github :repo pimeys/emacs-prisma-mode)
+    :hook (prisma-mode . eglot-ensure)
+    :config
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '(prisma-mode "prisma-language-server" "--stdio"))))
 #+END_SRC
 
 *** Scripts
