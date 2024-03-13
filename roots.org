@@ -589,6 +589,11 @@ terminal applications, but that person isn't me.
     :commands eat-compile-terminfo
     :config (setq eat-enable-auto-line-mode t))
 
+  ;; Configurable command recipes
+  (use-package run-command
+    :bind ("C-c C-r" . run-command)
+    :config (setq run-command-default-runner 'run-command-runner-eat))
+
   ;; Automatically set shell scripts to executable when saving
   (use-package emacs
     :hook (after-save . executable-make-buffer-file-executable-if-script-p))
