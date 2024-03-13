@@ -464,6 +464,13 @@ Searching text is split between these kinds of dedicated packages and consult.
     :bind (:map minibuffer-mode-map
                 ("C-c C-d" . r/embark-become-deadgrep)))
 
+  ;; Edit grep results like they were a normal buffer.
+  (use-package wgrep
+    :after embark
+    :bind (:map embark-collect-mode-map
+                ("C-c C-p" . wgrep-change-to-wgrep-mode))
+    :config (setq wgrep-auto-save-buffer t))
+
   (use-package wgrep-deadgrep
     :after deadgrep
     :config
