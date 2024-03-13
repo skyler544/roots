@@ -3,8 +3,9 @@
 #+PROPERTY: header-args :tangle init.el
 #+STARTUP: overview
 
-
 * Usage
+This section describes the rationale of this config.
+
 ** Philosophy
 Less is more. If there are feasible built-in options, use those. Streamline
 repetitive configuration with wrapper functions. Document design
