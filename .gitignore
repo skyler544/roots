@@ -1,4 +1,6 @@
-/elpa/
 /init.el
-/var/
+
+/elpa/
 /etc/
+/tree-sitter/
+/var/
