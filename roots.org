@@ -384,3 +384,54 @@ on completion candidates.
       (setq completion-category-defaults nil)
       (setq completion-category-overrides '((file) (styles partial-completion)))))
 #+END_SRC
+
+** Vertico
+Vertico hooks into ~completing-read~ to provide a powerup for interacting with the
+minibuffer. Everywhere the user might be prompted for some kind of input,
+vertico is there to make it better. The only really "unique" part of my setup of
+this package is ~r/vertico-highlight-file-base-name~; this function adds color to
+the "base name" of files, but only when completing candidates with
+~project-file~. What this means concretely is that if a candidate looks like
+~some/super/long/path/to/file.el~, the part ~file.el~ will be a different color.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package vertico
+    :hook (after-init . vertico-mode)
+    :custom-face
+    (vertico-group-title
+     ((t ( :inherit font-lock-comment-face))))
+    :config
+    (vertico-multiform-mode)
+
+    (defvar +vertico-transform-functions nil)
+
+    (cl-defmethod vertico--format-candidate :around
+      (cand prefix suffix index start &context ((not +vertico-transform-functions) null))
+      (dolist (fun (ensure-list +vertico-transform-functions))
+        (setq cand (funcall fun cand)))
+      (cl-call-next-method cand prefix suffix index start))
+
+    (defun r/vertico-highlight-file-base-name (file)
+      "If FILE is a relative path with directory components, highlight only the base filename."
+      (if (and (string-match "/" file) (not (string-suffix-p "/" file)))
+          (progn (add-face-text-property
+                  (length (file-name-directory file)) (length file)
+                  'font-lock-type-face nil file)
+                 file)
+        file))
+
+    (add-to-list 'vertico-multiform-categories
+                 '(project-file (+vertico-transform-functions . r/vertico-highlight-file-base-name)))
+
+    (setq vertico-cycle t)
+    (setq vertico-count 12)
+    (setq vertico-resize nil))
+
+  (use-package vertico-directory
+    :after vertico
+    :ensure nil
+    :bind (:map vertico-map
+                ("RET" . vertico-directory-enter)
+                ("DEL" . vertico-directory-delete-char))
+    :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+#+END_SRC
