@@ -1313,3 +1313,37 @@ The rules I try to enforce are pretty simple:
       (r/dired-subtree-face-override)
       (r/org-mode-face-override)))
 #+END_SRC
+
+** Themes
+A good theme can make editing even more fun. Since themes are essentially just a
+collection of face settings, often with intricate logic for enabling them, this
+section is tightly connected with the [[*Faces][Faces]] section.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package gruvbox-theme)
+
+  (use-package emacs
+    :hook (after-init . r/theme-setup)
+    :config
+    (setq custom-theme-directory (expand-file-name "themes/" user-emacs-directory))
+    (setq *r/theme-mode* 'dark)
+
+    (defun r/load-theme (theme)
+      "Wrapper for loading themes with my face overrides applied."
+      (mapc #'disable-theme custom-enabled-themes)
+      (load-theme theme t)
+      (r/face-overrides))
+
+    (defun r/dark-mode ()
+      "Switch to dark mode, featuring `gruvbox-dark-hard' theme."
+      (interactive)
+      (r/load-theme 'gruvbox-dark-hard))
+
+    (defun r/light-mode ()
+      "Switch to light mode, featuring `modus-operandi' theme."
+      (interactive)
+      (r/load-theme 'modus-operandi))
+
+    (defun r/theme-setup ()
+      (if (equal *r/theme-mode* 'light) (r/light-mode) (r/dark-mode))))
+#+END_SRC
