@@ -435,3 +435,20 @@ the "base name" of files, but only when completing candidates with
                 ("DEL" . vertico-directory-delete-char))
     :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 #+END_SRC
+
+** Embark
+Embark is essentially a keyboard-driven right-click menu, but with all of the
+power and extensibility that Emacs Lisp offers. The fact that it works
+seamlessly in the minibuffer is the cherry on top of an already very useful
+package.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package embark
+    :bind (("C-;" . embark-act)
+           :map minibuffer-local-map
+           ("C-'" . embark-act-all)
+           ("C-c C-e" . embark-export))
+    :config
+    (setq embark-indicators '(embark-minimal-indicator))
+    (setq embark-prompter 'embark-completing-read-prompter))
+#+END_SRC
