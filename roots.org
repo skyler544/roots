@@ -373,6 +373,21 @@ great functions that you might otherwise end up writing yourself.
            ("C-c L" . crux-downcase-region)
            ("C-c cu" . crux-sudo-edit)))
 
+  ;; Jump anywhere quickly; C-' to activate, then type a few letters.
+  (use-package avy
+    :bind ("C-'" . avy-goto-char-timer)
+    :config (setq avy-all-windows t))
+
+  ;; Switch quickly between more than two active windows.
+  (use-package iwindow
+    :bind ("C-x o" . iwindow-select)
+    :config
+    (setq iwindow-selection-keys
+          '(97 115 100 102 103 104 106 107 108))
+    :custom-face
+    (iwindow-highlight-default
+     ((t ( :background unspecified
+           :inherit hl-line)))))
 #+END_SRC
 
 * Minibuffer and Completion Interaction Overhaul (MOVECC)
