@@ -557,3 +557,48 @@ nicely with ~C-f~, ~C-b~, etc.
                     corfu-popupinfo-delay nil)
         (corfu-mode 1))))
 #+END_SRC
+
+* Shell
+Interacting with the shell through Emacs is quite a bit nicer than via a
+terminal emulator. For instance, there's no need to mess around with pagers if
+you have all your Emacs facilities available. This workflow isn't really an
+appropriate replacement for someone who uses ncurses style or other fullscreen
+terminal applications, but that person isn't me.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Improvements to `shell-command' and friends.
+  (use-package shell-command-x
+    :hook (after-init . shell-command-x-mode))
+
+  ;; Automatically set shell scripts to executable when saving
+  (use-package emacs
+    :hook (after-save . executable-make-buffer-file-executable-if-script-p))
+
+  ;; Configure built-in `comint' mode
+  (use-package emacs
+    :config (setq comint-scroll-to-bottom-on-output t))
+
+  (use-package emacs
+    :bind ("C-c &" . r/sh-command-at-point)
+    :config
+    (defun r/sh-command-at-point ()
+      "Run the command at point or in the selected region in the shell."
+      (interactive)
+      (async-shell-command (if (use-region-p)
+                               (buffer-substring (region-beginning) (region-end))
+                             (thing-at-point 'line t)))))
+
+  ;; Fix ansi color codes in compilation buffers
+  (use-package emacs
+    :hook (compilation-filter . r/ansi-colorize-buffer)
+    :config
+    (defun r/ansi-colorize-buffer ()
+      (let ((buffer-read-only nil))
+        (ansi-color-apply-on-region (point-min) (point-max)))))
+
+  (use-package eat
+    :bind (:map eat-semi-char-mode-map
+                ("," . nil))
+    :commands eat-compile-terminfo
+    :config (setq eat-enable-auto-line-mode t))
+#+END_SRC
