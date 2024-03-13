@@ -270,3 +270,31 @@ numbers. This thing does that beautifully, and it's right here.
             'font-lock-face 'font-lock-keyword-face)))
 #+END_SRC
 
+** Directories
+Emacs normally fails to perform a file operation when trying to write or copy
+files into directories which do not yet exist. This behavior is almost never
+helpful; instead, if I'm working in the minibuffer and explicitly say to put a
+file into a directory which does not yet exist, I mean that the directory should
+be created and the file should be put there. This sort of DWIM behavior is
+surprisingly lacking by default. This section fixes that oversight.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Make missing directories instead of uselessly failing.
+  (defun r/make-directory-if-not-exists (filename)
+    "Create parent directory if not exists while operating on `FILENAME'."
+    (unless (file-exists-p filename)
+      (let ((dir (file-name-directory filename)))
+        (unless (file-exists-p dir)
+          (make-directory dir t)))))
+
+  ;; TODO figure out how to do this with less duplication
+  (defun r/advise-file-operations ()
+    (defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
+      (r/make-directory-if-not-exists filename))
+    (defadvice copy-file (before make-directory-maybe (file newname &optional ok-if-already-exists keep-time preserve-uid-gid preserve-permissions) activate)
+      (r/make-directory-if-not-exists newname))
+    (defadvice rename-file (before make-directory-maybe (file newname &optional ok-if-already-exists) activate)
+      (r/make-directory-if-not-exists newname)))
+
+  (r/run-idly #'r/advise-file-operations 1)
+#+END_SRC
