@@ -407,6 +407,33 @@ great functions that you might otherwise end up writing yourself.
            :inherit hl-line)))))
 #+END_SRC
 
+** Buffer Display
+Have a look at [[https://www.masteringemacs.org/article/demystifying-emacs-window-manager][this chapter of Mastering Emacs]] for a deep dive into how these
+settings work. I find that most windows that I interact with are either used
+only briefly, or are dedicated to some specific task that requires full
+attention. I don't want to deal with the slight interruption of flow that occurs
+when I open a help window and then have to explicitly switch to it in order to
+follow a documentation link or something like that. Splitting windows is not the
+right approach for these use cases in my opinion; hence this block that
+specifies some windows that should replace ~current-buffer~ in the window that I'm
+already working in.
+
+#+BEGIN_SRC emacs-lisp
+  ;; This variable specifies which buffers should be opened in the
+  ;; active window instead of popping up off to one side. Some of these
+  ;; apply to packages that are loaded later in the config.
+  (setq r/buffer-regexes '("\\*Help" "\\*helpful" "^magit:" "^*shell:"))
+
+  (defun r/display-buffer-same-window (regex)
+    "Set the buffer name pattern specified by `regex' to be opened in
+  the active window."
+    (add-to-list 'display-buffer-alist
+                 `(,regex (display-buffer-same-window))))
+
+  (dolist (regex r/buffer-regexes)
+    (r/display-buffer-same-window regex))
+#+END_SRC
+
 * Minibuffer and Completion Interaction Overhaul (MOVECC)
 These packages work together as building blocks to extend default Emacs input
 scenarios in impressive ways. This includes overhauling minibuffer and
@@ -568,33 +595,6 @@ nicely with ~C-f~, ~C-b~, etc.
         (setq-local corfu-echo-delay nil
                     corfu-popupinfo-delay nil)
         (corfu-mode 1))))
-#+END_SRC
-
-* Buffer display
-Have a look at [[https://www.masteringemacs.org/article/demystifying-emacs-window-manager][this chapter of Mastering Emacs]] for a deep dive into how these
-settings work. I find that most windows that I interact with are either used
-only briefly, or are dedicated to some specific task that requires full
-attention. I don't want to deal with the slight interruption of flow that occurs
-when I open a help window and then have to explicitly switch to it in order to
-follow a documentation link or something like that. Splitting windows is not the
-right approach for these use cases in my opinion; hence this block that
-specifies some windows that should replace ~current-buffer~ in the window that I'm
-already working in.
-
-#+BEGIN_SRC emacs-lisp
-  ;; This variable specifies which buffers should be opened in the
-  ;; active window instead of popping up off to one side. Some of these
-  ;; apply to packages that are loaded later in the config.
-  (setq r/buffer-regexes '("\\*Help" "\\*helpful" "^magit:" "^*shell:"))
-
-  (defun r/display-buffer-same-window (regex)
-    "Set the buffer name pattern specified by `regex' to be opened in
-  the active window."
-    (add-to-list 'display-buffer-alist
-                 `(,regex (display-buffer-same-window))))
-
-  (dolist (regex r/buffer-regexes)
-    (r/display-buffer-same-window regex))
 #+END_SRC
 
 * Shell
