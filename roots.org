@@ -406,6 +406,10 @@ great functions that you might otherwise end up writing yourself.
     (iwindow-highlight-default
      ((t ( :background unspecified
            :inherit hl-line)))))
+
+  ;; Automatically close parentheses/quotes etc.
+  (use-package elec-pair
+    :hook (prog-mode . electric-pair-mode))
 #+END_SRC
 
 ** Buffer Display
@@ -463,6 +467,10 @@ Searching text is split between these kinds of dedicated packages and consult.
         (embark--become-command #'deadgrep target)))
     :bind (:map minibuffer-mode-map
                 ("C-c C-d" . r/embark-become-deadgrep)))
+
+  (use-package xref
+    :bind (:map prog-mode-map
+                ("M-/" . xref-find-references)))
 
   ;; Edit grep results like they were a normal buffer.
   (use-package wgrep
