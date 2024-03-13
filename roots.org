@@ -435,6 +435,43 @@ already working in.
     (r/display-buffer-same-window regex))
 #+END_SRC
 
+** Search
+Searching text is split between these kinds of dedicated packages and consult.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Improves isearch without unexpected behavioral changes
+  (use-package ctrlf
+    :hook (after-init . ctrlf-mode)
+    :config (setq ctrlf-auto-recenter t))
+
+  ;; Nice search package with a clear and powerful interface.
+  (use-package deadgrep
+    :config
+    ;; HACK: this does work, but it's not that nice. Starting a search
+    ;; explicitly via `deadgrep' works better.
+    (defun r/embark-become-deadgrep (&optional full)
+      (interactive "P")
+      (unless (minibufferp)
+        (user-error "Not in a minibuffer"))
+      (let* ((target (embark--display-string ; remove invisible portions
+                      (if full
+                          (minibuffer-contents)
+                        (pcase-let ((`(,beg . ,end) (embark--boundaries)))
+                          (string-remove-prefix
+                           "#" (substring (minibuffer-contents) beg
+                                          (+ end (embark--minibuffer-point)))))))))
+        (embark--become-command #'deadgrep target)))
+    :bind (:map minibuffer-mode-map
+                ("C-c C-d" . r/embark-become-deadgrep)))
+
+  (use-package wgrep-deadgrep
+    :after deadgrep
+    :config
+    (defun deadgrep-edit-mode ()
+      (interactive)
+      (wgrep-change-to-wgrep-mode)))
+#+END_SRC
+
 * Minibuffer and Completion Interaction Overhaul (MOVECC)
 These packages work together as building blocks to extend default Emacs input
 scenarios in impressive ways. This includes overhauling minibuffer and
@@ -670,39 +707,6 @@ other utility packages related to git.
            :inherit font-lock-comment-face)))))
 #+END_SRC
 
-* Search
-Searching text is split between these kinds of dedicated packages and consult.
 
 #+BEGIN_SRC emacs-lisp
-  ;; Improves isearch without unexpected behavioral changes
-  (use-package ctrlf
-    :hook (after-init . ctrlf-mode)
-    :config (setq ctrlf-auto-recenter t))
-
-  ;; Nice search package with a clear and powerful interface.
-  (use-package deadgrep
-    :config
-    ;; HACK: this does work, but it's not that nice. Starting a search
-    ;; explicitly via `deadgrep' works better.
-    (defun r/embark-become-deadgrep (&optional full)
-      (interactive "P")
-      (unless (minibufferp)
-        (user-error "Not in a minibuffer"))
-      (let* ((target (embark--display-string ; remove invisible portions
-                      (if full
-                          (minibuffer-contents)
-                        (pcase-let ((`(,beg . ,end) (embark--boundaries)))
-                          (string-remove-prefix
-                           "#" (substring (minibuffer-contents) beg
-                                          (+ end (embark--minibuffer-point)))))))))
-        (embark--become-command #'deadgrep target)))
-    :bind (:map minibuffer-mode-map
-                ("C-c C-d" . r/embark-become-deadgrep)))
-
-  (use-package wgrep-deadgrep
-    :after deadgrep
-    :config
-    (defun deadgrep-edit-mode ()
-      (interactive)
-      (wgrep-change-to-wgrep-mode)))
 #+END_SRC
