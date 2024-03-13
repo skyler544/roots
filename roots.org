@@ -1045,3 +1045,12 @@ syntax highlighting for dotenv files.
         (r/load-nvm))
       (nvm-use-for)))
 #+END_SRC
+
+** PHP
+There's no built-in mode for this, for whatever reason. The ~php-mode~ package
+does the job.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package php-mode
+    :hook (php-mode . eglot-ensure))
+#+END_SRC
