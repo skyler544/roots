@@ -452,3 +452,39 @@ package.
     (setq embark-indicators '(embark-minimal-indicator))
     (setq embark-prompter 'embark-completing-read-prompter))
 #+END_SRC
+
+** Consult
+This package provides many nice functions for streamlining/enabling a smooth
+minibuffer workflow. It covers a lot of use cases, and the way I use it is just
+one (very) small subset of the possibilities it offers. I have added two wrapper
+functions for some default consult commands due to the fact that they
+misleadingly (that is, the docstrings don't mention this) use the current
+project as detected with ~project.el~ instead of ~default-directory~. I don't
+normally want this, especially in large projects.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package consult
+    :bind (("C-x b" . consult-buffer)
+           ("C-x pr" . consult-ripgrep)
+           ("C-c cr" . r/consult-rg-current-directory)
+           ("C-c cf" . r/consult-fd-current-directory)
+           ("C-c cl" . consult-line)
+           ("C-\\" . consult-line)
+           ("M-g i" . consult-imenu))
+    :config
+    (setq xref-show-xrefs-function 'consult-xref)
+    (setq xref-show-definitions-function 'consult-xref)
+
+    (defun r/consult-rg-current-directory ()
+      (interactive)
+      (consult-ripgrep default-directory))
+    (defun r/consult-fd-current-directory ()
+      (interactive)
+      (consult-fd default-directory)))
+
+  (use-package consult-dir
+    :bind (:map minibuffer-mode-map
+                ("C-M-d" . consult-dir)))
+
+  (use-package embark-consult)
+#+END_SRC
