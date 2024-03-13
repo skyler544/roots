@@ -713,6 +713,32 @@ other utility packages related to git.
            :inherit font-lock-comment-face)))))
 #+END_SRC
 
+** Make
+So far the only configuration I need for ~make~ is a ~run-command~ recipe. Emacs
+otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
 
 #+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'run-command
+
+    (defun run-command-recipe-make ()
+      "Provide commands to run Makefile targets."
+      (require 'make-mode)
+      (when-let* ((project-dir
+                   (locate-dominating-file default-directory "Makefile"))
+                  (makefile (concat project-dir "Makefile"))
+                  (targets (mapcar #'car (with-current-buffer
+                                             (find-file-noselect makefile t)
+                                           (setq makefile-need-target-pickup t)
+                                           (makefile-pickup-targets)
+                                           makefile-target-table))))
+        (seq-map
+         (lambda (target)
+           (list
+            :command-name target
+            :command-line (concat "make " target)
+            :display target
+            :working-dir project-dir))
+         targets)))
+
+    (add-to-list 'run-command-recipes 'run-command-recipe-make))
 #+END_SRC
