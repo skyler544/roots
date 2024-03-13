@@ -362,3 +362,11 @@ These packages work together as building blocks to extend default Emacs input
 scenarios in impressive ways. This includes overhauling minibuffer and
 completion interaction. ~MOVECC~ is just a halfway usable acronym for referring to
 this package stack.
+
+** Marginalia
+Marginalia adds information to minibuffer completion candidates.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package marginalia
+    :hook (after-init . marginalia-mode))
+#+END_SRC
