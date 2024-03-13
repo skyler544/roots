@@ -148,9 +148,9 @@ and it's very helpful when discussing code with colleagues.
     (prog-mode . display-line-numbers-mode)
     (display-line-numbers-mode . hl-line-mode)
     :config
+    (setq display-line-numbers-grow-only t)
     (setq-default display-line-numbers-width 3)
-    (setq-default display-line-numbers-widen t)
-    (setq-default display-line-numbers-grow-only t))
+    (setq-default display-line-numbers-widen t))
   #+END_SRC
 
 ** History
