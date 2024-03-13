@@ -11,7 +11,7 @@ retangle:
 	$(EMACS) -q --batch --eval $(TANGLE)
 
 clean:
-	rm -rf init.el elpa/
+	rm -rf init.el elpa/ var/eln-cache/
 
 clean-install: clean retangle
 	$(EMACS) --eval $(INSTALL)
