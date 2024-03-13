@@ -5,6 +5,11 @@
 
 
 * Usage
+** Philosophy
+Less is more. If there are feasible built-in options, use those. Streamline
+repetitive configuration with wrapper functions. Document design
+decisions. Enable modes in a more granular fashion. Use hooks wisely.
+
 ** Tangling
 This file must be tangled or otherwise loaded with the help of ~org-babel~ in
 order to activate any of the configuration contained within it. This can be
