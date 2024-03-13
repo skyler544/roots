@@ -681,6 +681,32 @@ text.
     :hook (prog-mode . apheleia-mode))
 #+END_SRC
 
+** Eglot
+Use language servers in Emacs. Eglot is not quite "zero configuration," but it's
+easy enough to set up. Unfortunately it's sometimes necessary to use weird hacks
+and workarounds to get certain functionality, but all-in-all it's a decent
+experience.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eglot
+    :bind (:map eglot-mode-map
+                ("C-c ef" . eglot-format-buffer)
+                ("C-c ea" . eglot-code-actions))
+    :config
+    ;; HACK: logging the traffic between eglot and some servers is slow
+    (fset #'jsonrpc--log-event #'ignore)
+    (setq jsonrpc-default-request-timeout 20)
+    (setq eglot-confirm-server-initiated-edits nil)
+    (setq eglot-sync-connect nil)
+    (setq eglot-autoshutdown t)
+    (setq eglot-events-buffer-size 0))
+
+  (use-package breadcrumb
+    :hook (eglot-managed-mode . breadcrumb-local-mode))
+
+  (use-package consult-eglot)
+#+END_SRC
+
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
