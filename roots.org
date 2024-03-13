@@ -983,3 +983,32 @@ stolen directly from their project readme.
 
     (add-to-list 'run-command-recipes 'run-command-recipe-package-json))
 #+END_SRC
+
+*** Environment
+JS/TS projects sometimes need special fiddling with the shell environment; this
+section attempts to make sure that those cases are handled, as well as enabling
+syntax highlighting for dotenv files.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Enable conf-mode for .env files
+  (use-package conf-mode
+    :mode ("\\.env\\.*.*$" . conf-mode))
+
+  ;; Dependency version switching
+  (use-package nvm
+    :vc (:fetcher github :repo rejeep/nvm.el)
+    :commands (r/nvm-use)
+    :config
+    (setq *r/nvm-enabled* nil)
+    (defun r/load-nvm ()
+      "Start nvm."
+      (interactive)
+      (setq *r/nvm-enabled* t)
+      (async-shell-command "source ~/.local/bin/load-nvm"))
+    (defun r/nvm-use ()
+      "Use the .nvmrc file."
+      (interactive)
+      (unless *r/nvm-enabled*
+        (r/load-nvm))
+      (nvm-use-for)))
+#+END_SRC
