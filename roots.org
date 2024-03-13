@@ -370,3 +370,17 @@ Marginalia adds information to minibuffer completion candidates.
   (use-package marginalia
     :hook (after-init . marginalia-mode))
 #+END_SRC
+
+** Orderless
+The orderless completion style allows for more powerful and intuitive matching
+on completion candidates.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package orderless
+    :hook (after-init . r/setup-orderless)
+    :config
+    (defun r/setup-orderless ()
+      (setq completion-styles '(orderless basic))
+      (setq completion-category-defaults nil)
+      (setq completion-category-overrides '((file) (styles partial-completion)))))
+#+END_SRC
