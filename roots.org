@@ -228,18 +228,23 @@ information for it to show.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :hook
-    (after-init . display-battery-mode)
-    (after-init . display-time-mode)
-    (after-init . column-number-mode)
-    (after-init . r/modeline-info)
+    :hook (after-init . r/modeline-info)
     :config
+    ;; Don't waste space in the modeline showing me the version control
+    ;; status.
+    (setq-default mode-line-format
+                  (delete '(vc-mode vc-mode)
+                          mode-line-format))
+
     (defun r/modeline-info ()
       (setq battery-mode-line-format "[%b%p%%] ")
       (setq datetime-timezone 'Europe/Vienna)
       (setq display-time-24hr-format 1)
       (setq display-time-format "[%H:%M] ")
-      (setq display-time-default-load-average nil))
+      (setq display-time-default-load-average nil)
+      (display-battery-mode)
+      (display-time-mode)
+      (column-number-mode))
 
     (defun r/echo-modeline ()
       "Show the current mode line in the minibuffer. The minibuffer will
