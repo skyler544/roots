@@ -305,3 +305,27 @@ surprisingly lacking by default. This section fixes that oversight.
 
   (r/run-idly #'r/advise-file-operations 1)
 #+END_SRC
+
+** Informational
+This section provides informational improvements to the default user experience.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Improvements for help commands.
+  (use-package helpful
+    :bind (("C-h f" . helpful-callable)
+           ("C-h v" . helpful-variable)
+           ("C-h k" . helpful-key)))
+
+  ;; Make ibuffer a little more user-friendly by categorizing buffers into projects
+  (use-package ibuffer-project
+    :hook (ibuffer . r/ibuffer-project)
+    :config
+    (defun r/ibuffer-project ()
+      (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+      (unless (eq ibuffer-sorting-mode 'project-file-relative)
+        (ibuffer-do-sort-by-project-file-relative))))
+
+  ;; Show next possible keys after a short delay.
+  (use-package which-key
+    :hook (after-init . which-key-mode))
+#+END_SRC
