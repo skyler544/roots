@@ -350,4 +350,9 @@ great functions that you might otherwise end up writing yourself.
            ("C-c U" . crux-upcase-region)
            ("C-c L" . crux-downcase-region)
            ("C-c cu" . crux-sudo-edit)))
+
+  ;; This is much more useful than `iconify-frame'; in the terminal this
+  ;; might be a problem, but I never use Emacs in the terminal anyways.
+  (use-package emacs
+    :bind ("C-z" . bury-buffer))
 #+END_SRC
