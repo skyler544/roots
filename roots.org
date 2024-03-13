@@ -81,7 +81,7 @@ init file.
 ** Editor Defaults
 These settings are essentially subjective, but serve to disable some annoyances
 (lockfiles, audible bell) or improve ergonomics (~TAB~ for completion instead of
-~C-M-i~).
+~C-M-i~, ~winner-mode~).
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
@@ -139,6 +139,13 @@ These settings are essentially subjective, but serve to disable some annoyances
       (put 'upcase-region 'disabled nil)
       (put 'scroll-left 'disabled nil)
       (put 'scroll-right 'disabled nil)))
+
+  ;; Take control over windows; C-c <left> and C-c <right> to go back
+  ;; and forth in the window history.
+  (use-package emacs
+    :hook (after-init . winner-mode)
+    :bind (("C-c wu" . winner-undo)
+           ("C-c wr" . winner-redo)))
 #+END_SRC
 
 ** Line Numbers
