@@ -635,12 +635,13 @@ nicely with ~C-f~, ~C-b~, etc.
         (corfu-mode 1))))
 #+END_SRC
 
-* Shell
 * Technologies
 Up until this point, the configuration has been solely related to building up
 the platform in which my workflow occurs. This section provides configuration
 for specific technologies such as programming languages and corresponding
 language servers.
+
+** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
 you have all your Emacs facilities available. This workflow isn't really an
@@ -692,7 +693,7 @@ terminal applications, but that person isn't me.
         (ansi-color-apply-on-region (point-min) (point-max)))))
 #+END_SRC
 
-* Git
+** Git
 Although Emacs does come with a built-in interface to version control, it's
 cumbersome and inelegant compared to Magit. This section sets up Magit and a few
 other utility packages related to git.
