@@ -35,7 +35,7 @@ This section defines what I consider "sane defaults;" there are so many
 variations of that idea out there that I doubt my opinions here are needed; just
 try it and see if you like it.
 
-** Lexical binding
+** Lexical Binding
 For a discussion on what lexical binding is, and why this is
 necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the manual.
 
@@ -74,7 +74,7 @@ init file.
      (face-list)))
 #+END_SRC
 
-** Editor defaults
+** Editor Defaults
 These settings are essentially subjective, but serve to disable some annoyances
 (lockfiles, audible bell) or improve ergonomics (~TAB~ for completion instead of
 ~C-M-i~).
