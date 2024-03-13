@@ -656,6 +656,31 @@ the platform in which my workflow occurs. This section provides configuration
 for specific technologies such as programming languages and corresponding
 language servers.
 
+** General Purpose
+This section enables some tools which are generally useful for manipulating
+text.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Enclose regions with (), [], {}, etc.
+  (use-package wrap-region
+    :hook (after-init . wrap-region-mode))
+
+  ;; Faster/more interactive way of doing
+  ;; `query-replace-regex'
+  (use-package iedit
+    :bind ("C-." . iedit-mode))
+
+  (use-package string-inflection)
+
+  ;; cleanup stray whitespace on save
+  (use-package ws-butler
+    :hook (prog-mode . ws-butler-mode))
+
+  ;; Reformat buffers when needed
+  (use-package apheleia
+    :hook (prog-mode . apheleia-mode))
+#+END_SRC
+
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
