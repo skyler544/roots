@@ -788,6 +788,34 @@ information in the echo area.
     :config (add-to-list 'eldoc-box-self-insert-command-list 'scroll-other-window))
 #+END_SRC
 
+** Lisp
+This section provides tools for interacting with Lisp interpreters and editing
+Lisp code. The main difference between the Lisp editing experience and editing
+other kinds of text is the Lispy package. Lispy provides some slick
+functionality for manipulating Lisp code, but that power comes with some
+caveats. The "special mode" often surprises me, as there is no indication that
+it's active. Most of the time, it isn't a problem, but there are some situations
+where it gets in the way. Hence the machinery here for disabling some of its
+keybindings. Otherwise, [[https://github.com/joaotavora/sly][SLY]] is pretty awesome. I would have had a much more
+difficult time learning Common Lisp without it.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lispy
+    :bind (:map lispy-mode-map
+                ("C-<backspace>" . lispy-delete-backward))
+    :hook
+    (emacs-lisp-mode . lispy-mode)
+    (lisp-mode . lispy-mode)
+    (sly-mrepl-mode . lispy-mode)
+    :config
+    (let ((keylist '(")" ":" "M-j" "M-k" "DEL")))
+      (dolist (key keylist)
+        (keymap-unset lispy-mode-map-lispy key))))
+
+  (use-package sly
+    :config (setq inferior-lisp-program "sbcl"))
+#+END_SRC
+
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
