@@ -734,6 +734,44 @@ useful for yaml files), so we disable it here.
       (global-treesit-auto-mode)))
 #+END_SRC
 
+** Hideshow
+Hideshow is built-in, but does not provide any straightforward way of folding
+the (sometimes huge) list of imports that you find at the top of files for many
+programming languages. This section configures a hacky workaround for that,
+enabling import folding for certain filetypes. Code folding itself is a
+secondary feature here; it does work, but I never use it.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package hideshow
+    :hook
+    (prog-mode . hs-minor-mode)
+    (php-mode . r/hs-fold-imports-lang)
+    (tsx-ts-mode . r/hs-fold-imports-lang)
+    (typescript-ts-mode . r/hs-fold-imports-lang)
+    :bind ("C-c <tab>" . hs-toggle-hiding)
+    :config
+    (defvar r/hs-fold-imports-alist
+      '((php-mode . "^use ")
+        (tsx-ts-mode . "^import ")
+        (typescript-ts-mode . "^import ")))
+
+    (defun r/hs-fold-imports (pattern)
+      (save-excursion
+        (goto-char (point-min))
+        (ignore-errors (re-search-forward pattern))
+        (set-mark (point))
+        (while (ignore-errors (re-search-forward pattern)))
+        (ignore-errors (hs-hide-comment-region (region-beginning) (region-end)))
+        (deactivate-mark t)))
+
+    (defun r/hs-fold-imports-lang ()
+      "Hide the initial block of import statements in a buffer of `major-mode'."
+      (interactive)
+      (r/hs-fold-imports
+       (when (boundp 'r/hs-fold-imports-alist)
+         (alist-get major-mode r/hs-fold-imports-alist)))))
+#+END_SRC
+
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
