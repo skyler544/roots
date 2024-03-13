@@ -151,6 +151,23 @@ These settings are essentially subjective, but serve to disable some annoyances
   ;; might be a problem, but I never use Emacs in the terminal anyways.
   (use-package emacs
     :bind ("C-z" . bury-buffer))
+
+  ;; Follow newly split windows
+  (use-package emacs
+    :bind (("C-c wv" . r/split-right)
+           ("C-c ws" . r/split-below))
+    :config
+    (defun r/split-direction (direction)
+      (funcall direction)
+      (other-window 1))
+    (defun r/split-below ()
+      "Split window below and follow."
+      (interactive)
+      (r/split-direction #'split-window-below))
+    (defun r/split-right ()
+      "Split window right and follow."
+      (interactive)
+      (r/split-direction #'split-window-right)))
 #+END_SRC
 
 ** Line Numbers
