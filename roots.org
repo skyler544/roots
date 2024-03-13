@@ -488,3 +488,34 @@ normally want this, especially in large projects.
 
   (use-package embark-consult)
 #+END_SRC
+
+** Corfu
+Corfu provides a popup completion menu that works with default completions,
+similarly to vertico. My config is intended to be driven entirely via ~TAB~; it
+worked better when I used evil, and I haven't gotten around to making it work
+nicely with ~C-f~, ~C-b~, etc.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package corfu
+    :hook
+    (after-init . global-corfu-mode)
+    (minibuffer-setup . corfu-enable-in-minibuffer)
+    (eglot-managed-mode . corfu-popupinfo-mode)
+    :bind (:map corfu-map
+                ("TAB" . corfu-next)
+                ([tab] . corfu-next)
+                ("S-TAB" . corfu-previous)
+                ([backtab] . corfu-previous))
+    :config
+    (setq corfu-cycle t)
+    (setq corfu-max-width 80)
+    (setq corfu-auto t)
+    (setq corfu-auto-delay 0.5)
+    (setq corfu-preselect 'prompt)
+    (defun corfu-enable-in-minibuffer ()
+      "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+      (when (where-is-internal #'completion-at-point (list (current-local-map)))
+        (setq-local corfu-echo-delay nil
+                    corfu-popupinfo-delay nil)
+        (corfu-mode 1))))
+#+END_SRC
