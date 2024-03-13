@@ -4,7 +4,7 @@ INSTALL := "(add-hook 'native-comp-async-all-done-hook 'kill-emacs)"
 
 all: run
 
-run:
+run: retangle
 	$(EMACS)
 
 retangle:
