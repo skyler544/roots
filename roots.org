@@ -952,6 +952,31 @@ otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
 The Javascript/Typescript landscape is a huge maze of both awesome and terrible
 technology. This is how I interact with it.
 
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :hook
+    (yaml-mode . eglot-ensure)
+    (js-ts-mode . eglot-ensure)
+    (tsx-ts-mode . eglot-ensure)
+    (typescript-ts-mode . eglot-ensure)
+    :config
+    (setq js-indent-level 2)
+    :mode
+    ("\\.ts$" . typescript-ts-mode)
+    ("\\.tsx$" . tsx-ts-mode))
+
+  (use-package flymake-eslint
+    :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
+    :config
+    (defun r/flymake-eslint-enable-maybe ()
+      "Enable `flymake-eslint' based on the project configuration.
+  Search for the project ESLint configuration to determine whether the buffer
+  should be checked."
+      (when-let* ((root (locate-dominating-file (buffer-file-name) "package.json"))
+                  (rc (locate-file ".eslintrc" (list root) '(".js" ".json"))))
+        (flymake-eslint-enable))))
+#+END_SRC
+
 *** Scripts
 This ~run-command~ recipe lets me run scripts from ~package.json~. This recipe is
 stolen directly from their project readme.
