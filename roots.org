@@ -582,6 +582,13 @@ terminal applications, but that person isn't me.
   (use-package shell-command-x
     :hook (after-init . shell-command-x-mode))
 
+  ;; Emulate A Terminal -> eat
+  (use-package eat
+    :bind (:map eat-semi-char-mode-map
+                ("," . nil))
+    :commands eat-compile-terminfo
+    :config (setq eat-enable-auto-line-mode t))
+
   ;; Automatically set shell scripts to executable when saving
   (use-package emacs
     :hook (after-save . executable-make-buffer-file-executable-if-script-p))
@@ -609,9 +616,4 @@ terminal applications, but that person isn't me.
       (let ((buffer-read-only nil))
         (ansi-color-apply-on-region (point-min) (point-max)))))
 
-  (use-package eat
-    :bind (:map eat-semi-char-mode-map
-                ("," . nil))
-    :commands eat-compile-terminfo
-    :config (setq eat-enable-auto-line-mode t))
 #+END_SRC
