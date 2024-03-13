@@ -329,3 +329,25 @@ This section provides informational improvements to the default user experience.
   (use-package which-key
     :hook (after-init . which-key-mode))
 #+END_SRC
+
+** Ergonomics
+This section sets up some ergonomic packages. [[https://susam.github.io/devil/][Devil]] mode allows you to use the
+comma key as the ~C-~ and ~M-~ prefixes prevalent in Emacs keychords. It freely
+translates sequences like ~, x , f~ or ~, m x~ into the equivalent ~C-x C-f~ and ~M-x~
+respectively. The best part is that it does not interfere with normal
+keybindings and it works in the minibuffer. Crux is a package containing lots of
+great functions that you might otherwise end up writing yourself.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package devil
+    :hook (after-init . global-devil-mode)
+    :config (setq devil-all-keys-repeatable t))
+
+  (use-package crux
+    :bind (("C-M-j" . crux-top-join-line)
+           ("C-M-k" . crux-kill-whole-line)
+           ("C-c D" . crux-duplicate-current-line-or-region)
+           ("C-c U" . crux-upcase-region)
+           ("C-c L" . crux-downcase-region)
+           ("C-c cu" . crux-sudo-edit)))
+#+END_SRC
