@@ -772,6 +772,22 @@ secondary feature here; it does work, but I never use it.
          (alist-get major-mode r/hs-fold-imports-alist)))))
 #+END_SRC
 
+** ElDoc
+ElDoc is another nice built-in package that shows the user different kinds of
+information in the echo area.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eldoc
+    :config
+    (setq eldoc-echo-area-use-multiline-p nil)
+    (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+
+  (use-package eldoc-box
+    :bind (:map eglot-mode-map
+                ("M-h" . eldoc-box-help-at-point))
+    :config (add-to-list 'eldoc-box-self-insert-command-list 'scroll-other-window))
+#+END_SRC
+
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
