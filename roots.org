@@ -867,7 +867,7 @@ terminal applications, but that person isn't me.
 
   ;; Configurable command recipes
   (use-package run-command
-    :bind ("C-c C-r" . run-command)
+    :bind ("C-c r" . run-command)
     :config (setq run-command-default-runner 'run-command-runner-eat))
 
   ;; Automatically set shell scripts to executable when saving
