@@ -1233,3 +1233,83 @@ Project browser with multiple-root functionality.
     (treemacs-mode
      . (lambda () (setq-local truncate-lines t))))
 #+END_SRC
+
+** Faces
+This section is a mess of hacks. Sadly, faces in Emacs are one of the most
+painful parts of configuration, and getting the look and experience I want
+involves jumping through so many hoops that it's almost not worth it. /Almost/.
+The size used here may be inappropriate for your display; tweak if needed. Good
+values seem to be 100 - 160 on mine.
+
+The rules I try to enforce are pretty simple:
++ No variable pitch fonts in a text editor.
++ No unexpected mixed-width characters.
++ No unexpected changes to font size or family.
++ High contrast/saturation for colors.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :config
+    (defun r/default-face-override ()
+      (setq *r/font-size* 140)
+      (set-face-attribute 'default nil
+                          :height *r/font-size*
+                          :family "CommitMono")
+      (set-face-attribute 'variable-pitch nil
+                          :family 'unspecified
+                          :inherit 'default)
+      (set-face-attribute 'fixed-pitch nil
+                          :family 'unspecified
+                          :inherit 'default)
+      (set-face-attribute 'header-line nil
+                          :box '(:line-width 2 :style flat-button))
+      (set-face-attribute 'mode-line nil
+                          :box '(:line-width 2 :style flat-button))
+      (set-face-attribute 'mode-line-inactive nil
+                          :box '(:line-width 2 :style flat-button))
+      (set-face-attribute 'vertical-border nil
+                          :inherit 'font-lock-comment-face)
+      (set-face-attribute 'fringe nil
+                          :background 'unspecified)
+      (set-face-attribute 'help-key-binding nil
+                          :foreground 'unspecified
+                          :background 'unspecified
+                          :box 'unspecified
+                          :weight 'bold))
+    :bind (("C-c -" . text-scale-decrease)
+           ("C-c =" . text-scale-increase)
+           ("C-c 0" . text-scale-adjust)))
+
+  ;; Provides C-M-+, C-M--, C-M-0 keybindings for
+  ;; increasing/decreasing/resetting font size for the
+  ;; whole frame at once.
+  (use-package default-text-scale
+    :hook (after-init . default-text-scale-mode))
+
+  (use-package info
+    :config
+    (defun r/info-mode-face-override ()
+      (interactive)
+      (set-face-attribute 'Info-quoted nil
+                          :inherit 'unspecified
+                          :inherit 'font-lock-function-name-face)
+      (set-face-attribute 'info-menu-star nil
+                          :foreground 'unspecified)
+      (set-face-attribute 'info-node nil
+                          :foreground 'unspecified)))
+
+  ;; Collect all of the face overrides into a single function that can
+  ;; be called after switching themes.
+  (use-package emacs
+    :config
+    (defun r/face-overrides ()
+      "Override various faces that are either not covered by themes or
+  are covered in a way that I disagree with. It's interactive so
+  that I can call it on demand if the faces end up in a weird
+  configuration."
+      (interactive)
+      (r/default-face-override)
+      (r/info-mode-face-override)
+      (r/dired-subtree-face-override)
+      (r/org-mode-face-override)))
+#+END_SRC
