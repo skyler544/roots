@@ -132,6 +132,13 @@ These settings are essentially subjective, but serve to disable some annoyances
       (setq ring-bell-function 'ignore)
       (setq line-spacing 0.1)))
 
+  ;; The default UX when using `visual-line-mode' without line numbers
+  ;; isn't great; this package indents wrapped lines to make it clearer
+  ;; that they've been wrapped.
+  (use-package adaptive-wrap
+    :hook (visual-line-mode . adaptive-wrap-prefix-mode)
+    :config (setq adaptive-wrap-extra-indent 3))
+
   ;; Commands
   (use-package emacs
     :hook
