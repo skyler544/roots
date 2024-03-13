@@ -1154,3 +1154,20 @@ This section enables themes, tweaks font faces, adds icons, etc. This section is
 not as important as the actual functionality and should be considered a layer of
 "nice to have" stuff that could be easily disabled all at once for a
 hypothetical terminal-only workflow.
+
+** Frames
+This is where I disable most of the ugly, clicky parts of the GUI; running it
+idly also seems to fix the dreaded problems with client frames, with the
+downside being that it looks a little janky (especially the awful scroll bars on
+MacOS) for a second when a fresh Emacs instance is launched.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :config
+    (defun r/frame-cleanup ()
+      (menu-bar-mode -1)
+      (when (display-graphic-p)
+        (tool-bar-mode -1)
+        (scroll-bar-mode -1)))
+    (r/run-idly #'r/frame-cleanup 1))
+#+END_SRC
