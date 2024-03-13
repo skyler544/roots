@@ -1081,3 +1081,70 @@ Provides a nice tool for sending HTTP requests.
   (use-package restclient
     :mode ("\\.rcl$" . restclient-mode))
 #+END_SRC
+
+* Org Mode
+The swiss-army outline tool.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :commands r/org-mode-face-override
+    :bind (:map org-mode-map
+                ([return] . r/org-dwim-at-point)
+                :map org-src-mode-map
+                ("C-c C-c" . org-edit-src-exit))
+    :config
+    ;; Improve readability
+    (setq org-startup-indented t)
+    (setq org-adapt-indentation t)
+
+    ;; Reduce visual noise
+    (setq org-hide-leading-stars t)
+    (setq org-hide-emphasis-markers t)
+    (setq org-ellipsis " ⯆")
+
+    ;; Subjectively friendlier behavior
+    (setq org-fold-catch-invisible-edits 'show-and-error)
+    (setq org-src-window-setup 'current-window)
+    (keymap-unset org-mode-map "C-'")
+
+    ;; Time clocking
+    (setq org-enforce-todo-dependencies t)
+    (setq org-log-done 'time)
+    (setq org-log-into-drawer t)
+
+    (setq org-default-notes-file (concat org-directory "/notes.org"))
+
+    (defun r/org-mode-face-override ()
+      "Makes all the headings bold and fixes themes messing with the
+   face height."
+      (interactive)
+      (let ((facelist (r/face-filter "^org-level-")))
+        (dolist (face facelist)
+          (set-face-attribute face nil :weight 'bold :height 'unspecified))))
+
+    (defun r/org-dwim-at-point (&optional arg)
+      "Toggle the todo state of a headline, toggle a checkbox, or follow
+   a link."
+      (interactive)
+      (let* ((context (org-element-context))
+             (checkbox (org-element-property :checkbox context))
+             (todo (org-element-property :todo-type context))
+             (link (equal (org-element-type context) 'link)))
+        (cond
+         (link (org-open-at-point))
+         (todo (org-todo))
+         (checkbox
+          (let ((operation
+                 (cond ((equal checkbox 'off) '(16))
+                       ((equal checkbox 'on) nil)
+                       (t t))))
+            (org-toggle-checkbox operation)))
+         (t (org-return)))
+        (when (or todo checkbox)
+          (org-update-checkbox-count)
+          (org-update-parent-todo-statistics)))))
+
+  (use-package org-superstar
+    :hook (org-mode . org-superstar-mode)
+    :config (setq org-superstar-headline-bullets-list '("●")))
+#+END_SRC
