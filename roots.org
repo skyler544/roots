@@ -647,5 +647,24 @@ terminal applications, but that person isn't me.
     (defun r/ansi-colorize-buffer ()
       (let ((buffer-read-only nil))
         (ansi-color-apply-on-region (point-min) (point-max)))))
+#+END_SRC
 
+* Git
+Although Emacs does come with a built-in interface to version control, it's
+cumbersome and inelegant compared to Magit. This section sets up Magit and a few
+other utility packages related to git.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :config (setq magit-display-buffer-function 'display-buffer))
+
+  ;; Show previous versions of a file
+  (use-package git-timemachine)
+
+  ;; Display git blame for the current line
+  (use-package why-this
+    :custom-face
+    (why-this-face
+     ((t ( :foreground unspecified
+           :inherit font-lock-comment-face)))))
 #+END_SRC
