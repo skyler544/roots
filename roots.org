@@ -816,6 +816,36 @@ difficult time learning Common Lisp without it.
     :config (setq inferior-lisp-program "sbcl"))
 #+END_SRC
 
+** Structured Text
+Syntax highlighting for (non-org-mode) structured text. In practice, this means
+yaml, markdown, and html.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :hook (markdown-mode . visual-line-mode))
+
+  (use-package yaml-mode
+    :hook (yaml-mode . display-line-numbers-mode)
+    :mode ("\\.ya*ml\\.*.*" . yaml-mode))
+
+  (use-package yaml-pro
+    :hook (yaml-mode . yaml-pro-ts-mode))
+
+  (use-package emmet-mode
+    :hook (mhtml-mode . emmet-mode))
+
+  ;; html and css
+  (use-package emacs
+    :config (setq css-indent-offset 2)
+    :hook
+    (css-ts-mode . display-line-numbers-mode)
+    (mhtml-mode . display-line-numbers-mode)
+    (mhtml-mode
+     . (lambda ()
+         (add-to-list 'completion-at-point-functions
+                      'comint-completion-at-point))))
+#+END_SRC
+
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
