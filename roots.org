@@ -356,3 +356,9 @@ great functions that you might otherwise end up writing yourself.
   (use-package emacs
     :bind ("C-z" . bury-buffer))
 #+END_SRC
+
+* Minibuffer and Completion Interaction Overhaul (MOVECC)
+These packages work together as building blocks to extend default Emacs input
+scenarios in impressive ways. This includes overhauling minibuffer and
+completion interaction. ~MOVECC~ is just a halfway usable acronym for referring to
+this package stack.
