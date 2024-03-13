@@ -1347,3 +1347,7 @@ section is tightly connected with the [[*Faces][Faces]] section.
     (defun r/theme-setup ()
       (if (equal *r/theme-mode* 'light) (r/light-mode) (r/dark-mode))))
 #+END_SRC
+
+* Machine Specific Tweaks
+This section is reserved for whatever configuration that might occur that only
+applies to one specific machine.
