@@ -142,7 +142,6 @@ These settings are essentially subjective, but serve to disable some annoyances
 
       ;; Minibuffer
       (setq enable-recursive-minibuffers t)
-      (setq max-mini-window-height 8)
 
       ;; Miscellaneous improvements
       (setq tab-always-indent 'complete)
