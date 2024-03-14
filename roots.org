@@ -1105,6 +1105,13 @@ Provides a nice tool for sending HTTP requests.
     :mode ("\\.rcl$" . restclient-mode))
 #+END_SRC
 
+** Lua
+Add syntax highlighting for Lua.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lua-mode)
+#+END_SRC
+
 * Org Mode
 The swiss-army outline tool.
 
