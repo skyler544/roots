@@ -1362,9 +1362,9 @@ section is tightly connected with the [[*Faces][Faces]] section.
       (r/load-theme 'gruvbox-dark-hard))
 
     (defun r/light-mode ()
-      "Switch to light mode, featuring `modus-operandi' theme."
+      "Switch to light mode, featuring `gruvbox-light-hard' theme."
       (interactive)
-      (r/load-theme 'modus-operandi))
+      (r/load-theme 'gruvbox-light-hard))
 
     (defun r/theme-setup ()
       (if (equal *r/theme-mode* 'light) (r/light-mode) (r/dark-mode))))
