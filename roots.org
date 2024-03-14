@@ -1139,7 +1139,10 @@ The swiss-army outline tool.
 
     (defun r/org-mode-face-override ()
       (dolist (face (r/face-filter "^org-level-"))
-        (set-face-attribute face nil :weight 'bold :height 'unspecified)))
+        (set-face-attribute face nil :weight 'bold :height 'unspecified))
+      (set-face-attribute 'org-code nil
+                          :inherit 'unspecified
+                          :inherit 'font-lock-function-call-face))
 
     (defun r/org-dwim-at-point (&optional arg)
       "Toggle the todo state of a headline, toggle a checkbox, or follow
