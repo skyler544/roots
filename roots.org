@@ -92,6 +92,15 @@ init file.
      (face-list)))
 #+END_SRC
 
+** Global Variables
+This section is where any variables that need to be globally available should be
+defined.
+
+#+BEGIN_SRC emacs-lisp
+  (defvar *r/font-size* 120)
+  (defvar *r/font-family* "CommitMono")
+#+END_SRC
+
 ** Editor Defaults
 These settings are essentially subjective, but serve to disable some annoyances
 (lockfiles, audible bell) or improve ergonomics (~TAB~ for completion instead of
@@ -1267,8 +1276,9 @@ Project browser with multiple-root functionality.
 This section is a mess of hacks. Sadly, faces in Emacs are one of the most
 painful parts of configuration, and getting the look and experience I want
 involves jumping through so many hoops that it's almost not worth it. /Almost/.
-The size used here may be inappropriate for your display; tweak if needed. Good
-values seem to be 100 - 160 on mine.
+See the [[*Global Variables][Global Variables]] section for where to set the font size and face. The
+size used may be inappropriate for your display; tweak if needed. Good values
+seem to be 100 - 160 on mine.
 
 The rules I try to enforce are pretty simple:
 + No variable pitch fonts in a text editor.
@@ -1286,10 +1296,9 @@ The rules I try to enforce are pretty simple:
   (use-package emacs
     :config
     (defun r/default-face-override ()
-      (setq *r/font-size* 140)
       (set-face-attribute 'default nil
                           :height *r/font-size*
-                          :family "CommitMono")
+                          :family *r/font-family*)
       (set-face-attribute 'variable-pitch nil
                           :family 'unspecified
                           :inherit 'default)
