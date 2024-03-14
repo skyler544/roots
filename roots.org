@@ -1273,6 +1273,12 @@ The rules I try to enforce are pretty simple:
 + High contrast/saturation for colors.
 
 #+BEGIN_SRC emacs-lisp
+  ;; Provides C-M-+, C-M--, C-M-0 keybindings for
+  ;; increasing/decreasing/resetting font size for the
+  ;; whole frame at once.
+  (use-package default-text-scale
+    :hook (after-init . default-text-scale-mode))
+
   (use-package emacs
     :config
     (defun r/default-face-override ()
@@ -1304,12 +1310,6 @@ The rules I try to enforce are pretty simple:
     :bind (("C-c -" . text-scale-decrease)
            ("C-c =" . text-scale-increase)
            ("C-c 0" . text-scale-adjust)))
-
-  ;; Provides C-M-+, C-M--, C-M-0 keybindings for
-  ;; increasing/decreasing/resetting font size for the
-  ;; whole frame at once.
-  (use-package default-text-scale
-    :hook (after-init . default-text-scale-mode))
 
   (use-package info
     :config
