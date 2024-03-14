@@ -300,11 +300,9 @@ everything else dired is capable of, and there's just no contest.
      . (lambda () (bind-key [tab] #'dired-subtree-cycle 'dired-mode-map)))
     :config
     (defun r/dired-subtree-face-override ()
-      (interactive)
       (with-eval-after-load 'org-faces
-        (let ((facelist (r/face-filter "^dired-subtree-")))
-          (dolist (face facelist)
-            (set-face-attribute face nil :extend t :background 'unspecified))))))
+        (dolist (face (r/face-filter "^dired-subtree-"))
+          (set-face-attribute face nil :extend t :background 'unspecified)))))
 #+END_SRC
 
 ** Calendar
@@ -1140,12 +1138,8 @@ The swiss-army outline tool.
     (setq org-default-notes-file (concat org-directory "/notes.org"))
 
     (defun r/org-mode-face-override ()
-      "Makes all the headings bold and fixes themes messing with the
-   face height."
-      (interactive)
-      (let ((facelist (r/face-filter "^org-level-")))
-        (dolist (face facelist)
-          (set-face-attribute face nil :weight 'bold :height 'unspecified))))
+      (dolist (face (r/face-filter "^org-level-"))
+        (set-face-attribute face nil :weight 'bold :height 'unspecified)))
 
     (defun r/org-dwim-at-point (&optional arg)
       "Toggle the todo state of a headline, toggle a checkbox, or follow
@@ -1314,7 +1308,6 @@ The rules I try to enforce are pretty simple:
   (use-package info
     :config
     (defun r/info-mode-face-override ()
-      (interactive)
       (set-face-attribute 'Info-quoted nil
                           :inherit 'unspecified
                           :inherit 'font-lock-function-name-face)
