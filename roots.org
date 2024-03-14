@@ -66,6 +66,14 @@ that. As an end-user, I don't want to see them.
   (setq warning-minimum-level :error)
 #+END_SRC
 
+** Profiling
+This section enables ~esup~, the Emacs Start Up Profiler.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package esup
+    :config (setq esup-depth 0))
+#+END_SRC
+
 ** Utility Functions
 This is where I define any functions that I want available from the start of the
 init file.
