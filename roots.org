@@ -1130,25 +1130,16 @@ Add syntax highlighting for Lua.
 #+END_SRC
 
 * Org Mode
-The swiss-army outline tool.
+The swiss-army outline tool. This section defines what I consider to be a solid
+baseline for Org Mode. Subsections implement the actual workflow configuration.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org
-    :commands r/org-mode-face-override
     :hook
     (org-mode . auto-fill-mode)
     (org-mode . electric-pair-mode)
-    :bind (("C-c oc" . org-capture)
-           ("C-c oa" . org-agenda))
-    :bind (:map org-mode-map
-                ([return] . r/org-dwim-at-point))
     :bind (:map org-src-mode-map
                 ("C-c C-c" . org-edit-src-exit))
-    :bind (:map org-read-date-minibuffer-local-map
-                ("C-f" . r/org-calendar-forward-day)
-                ("C-b" . r/org-calendar-backward-day)
-                ("C-n" . r/org-calendar-forward-week)
-                ("C-p" . r/org-calendar-backward-week))
     :config
     ;; Improve readability
     (setq org-startup-indented t)
@@ -1166,12 +1157,29 @@ The swiss-army outline tool.
     (setq org-reverse-note-order t)
     (setq org-list-demote-modify-bullet
           '(("+" . "-") ("-" . "+")))
-    (keymap-unset org-mode-map "C-'")
+    (keymap-unset org-mode-map "C-'"))
+#+END_SRC
 
+** Workflow
+This section defines my capture and agenda workflow.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :bind (("C-c oc" . org-capture)
+           ("C-c oa" . org-agenda))
+    :config
     ;; Time clocking
     (setq org-enforce-todo-dependencies t)
     (setq org-log-done 'time)
     (setq org-log-into-drawer t)
+
+    ;; Refiling
+    (setq org-refile-targets
+          '((nil :maxlevel . 3)
+            (org-agenda-files :maxlevel . 3)))
+    (setq org-refile-use-outline-path t)
+    (setq org-refile-allow-creating-parent-nodes t)
+    (setq org-log-refile t)
 
     ;; Files and capturing
     (setq org-directory *r/org-directory*)
@@ -1188,26 +1196,40 @@ The swiss-army outline tool.
     (add-to-list 'org-agenda-files org-directory)
     (setq org-agenda-span 10)
     (setq org-agenda-start-on-weekday nil)
-    (setq org-agenda-start-day "-3d")
+    (setq org-agenda-start-day "-3d"))
+#+END_SRC
 
-    ;; Refiling
-    (setq org-refile-targets
-          '((nil :maxlevel . 3)
-            (org-agenda-files :maxlevel . 3)))
-    (setq org-refile-use-outline-path t)
-    (setq org-refile-allow-creating-parent-nodes t)
-    (setq org-log-refile t)
+** Tweaks
+This section is where custom code that does not directly correspond to existing
+org-mode functionality lands.
 
-    ;; Faces
-    (defun r/org-mode-face-override ()
-      (dolist (face (r/face-filter "^org-level-"))
-        (set-face-attribute face nil :weight 'bold :height 'unspecified))
-      (set-face-attribute 'org-code nil
-                          :inherit 'unspecified
-                          :inherit 'font-lock-function-call-face))
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :commands r/org-mode-face-override
+    :bind (:map org-mode-map
+                ([return] . r/org-dwim-at-point))
+    :bind (:map org-read-date-minibuffer-local-map
+                ("C-f" . r/org-calendar-forward-day)
+                ("C-b" . r/org-calendar-backward-day)
+                ("C-n" . r/org-calendar-forward-week)
+                ("C-p" . r/org-calendar-backward-week))
+    :config
+    ;; Minibuffer calendar interaction
+    (defun r/org-calendar-forward-day ()
+      (interactive)
+      (org-eval-in-calendar '(calendar-forward-day 1)))
+    (defun r/org-calendar-backward-day ()
+      (interactive)
+      (org-eval-in-calendar '(calendar-backward-day 1)))
+    (defun r/org-calendar-forward-week ()
+      (interactive)
+      (org-eval-in-calendar '(calendar-forward-week 1)))
+    (defun r/org-calendar-backward-week ()
+      (interactive)
+      (org-eval-in-calendar '(calendar-backward-week 1)))
 
-    ;; Hacks
-    (defun r/org-dwim-at-point (&optional arg)
+    ;; DWIM Behavior
+    (defun r/org-dwim-at-point ()
       "Toggle the todo state of a headline, toggle a checkbox, or follow
    a link."
       (interactive)
@@ -1229,20 +1251,19 @@ The swiss-army outline tool.
           (org-update-checkbox-count)
           (org-update-parent-todo-statistics))))
 
-    (defun r/org-calendar-forward-day ()
-      (interactive)
-      (org-eval-in-calendar '(calendar-forward-day 1)))
-    (defun r/org-calendar-backward-day ()
-      (interactive)
-      (org-eval-in-calendar '(calendar-backward-day 1)))
-    (defun r/org-calendar-forward-week ()
-      (interactive)
-      (org-eval-in-calendar '(calendar-forward-week 1)))
-    (defun r/org-calendar-backward-week ()
-      (interactive)
-      (org-eval-in-calendar '(calendar-backward-week 1))))
+    ;; Faces
+    (defun r/org-mode-face-override ()
+      (dolist (face (r/face-filter "^org-level-"))
+        (set-face-attribute face nil :weight 'bold :height 'unspecified))
+      (set-face-attribute 'org-code nil
+                          :inherit 'unspecified
+                          :inherit 'font-lock-function-call-face)))
+#+END_SRC
 
-  ;; Eye candy
+** Eye Candy
+This section enables spicing up the buffer with some unicode characters.
+
+#+BEGIN_SRC emacs-lisp
   (use-package org-superstar
     :hook (org-mode . org-superstar-mode)
     :config (setq org-superstar-headline-bullets-list '("●")))
