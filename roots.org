@@ -1138,6 +1138,8 @@ The swiss-army outline tool.
     :hook
     (org-mode . auto-fill-mode)
     (org-mode . electric-pair-mode)
+    :bind (("C-c oc" . org-capture)
+           ("C-c oa" . org-agenda))
     :bind (:map org-mode-map
                 ([return] . r/org-dwim-at-point))
     :bind (:map org-src-mode-map
