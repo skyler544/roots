@@ -532,6 +532,7 @@ text.
   (use-package apheleia
     :hook (prog-mode . apheleia-mode))
 
+  ;; Colorize hexadecimal color strings
   (use-package rainbow-mode)
 
   (defun r/kill-relative-path ()
