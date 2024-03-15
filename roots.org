@@ -1134,6 +1134,7 @@ The swiss-army outline tool.
 #+BEGIN_SRC emacs-lisp
   (use-package org
     :commands r/org-mode-face-override
+    :hook (org-mode . auto-fill-mode)
     :bind (:map org-mode-map
                 ([return] . r/org-dwim-at-point)
                 :map org-src-mode-map
