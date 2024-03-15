@@ -1161,7 +1161,8 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
     (setq org-src-window-setup 'current-window)
     (setq org-list-demote-modify-bullet
           '(("+" . "-") ("-" . "+")))
-    (keymap-unset org-mode-map "C-'"))
+    (keymap-unset org-mode-map "C-'")
+    (keymap-unset org-mode-map "C-,"))
 #+END_SRC
 
 ** Workflow
