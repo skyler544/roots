@@ -1170,6 +1170,14 @@ The swiss-army outline tool.
     (setq org-default-notes-file (concat org-directory "inbox/inbox.org"))
     (setq org-archive-location (concat org-directory "archive/%s_archive::"))
 
+    ;; Agenda
+    (setq-default org-agenda-window-setup 'current-window)
+    (setq org-agenda-span 10)
+    (setq org-agenda-start-on-weekday nil)
+    (setq org-agenda-start-day "-3d")
+    (setq org-agenda-files `(,(concat org-directory "tasks.org")
+                             ,(concat org-directory "life.org")))
+
     ;; Refiling
     (setq org-refile-targets 'org-agenda-files)
     (setq org-refile-use-outline-path t)
