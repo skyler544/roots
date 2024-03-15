@@ -1174,7 +1174,7 @@ The swiss-army outline tool.
     (setq org-archive-location (concat org-directory "archive/%s_archive::"))
     (setq org-capture-templates
           '(("t" "Todo" entry (file "inbox.org")
-             "* TODO %?\n%T")
+             "* TODO [#B] %?\n%T")
             ("j" "Journal" plain (file+datetree "journal.org")
              "%T\n%?")))
 
