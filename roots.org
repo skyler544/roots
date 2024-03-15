@@ -1189,7 +1189,9 @@ This section defines my capture and agenda workflow.
           '(("t" "Todo" entry (file "backlog.org")
              "* TODO [#B] %?\nSCHEDULED: %t\n** Estimate:\n** Actions [/]\n** Notes")
             ("j" "Journal" plain (file+datetree "journal.org")
-             "%T\n%?")))
+             "")
+            ("d" "Brain dump" entry (file+headline "dump.org" "Thoughts")
+             "* %T\n%?")))
 
     ;; Agenda
     (setq-default org-agenda-window-setup 'current-window)
