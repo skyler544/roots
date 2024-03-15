@@ -1154,7 +1154,6 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
     ;; Subjectively friendlier behavior
     (setq org-fold-catch-invisible-edits 'show-and-error)
     (setq org-src-window-setup 'current-window)
-    (setq org-reverse-note-order t)
     (setq org-list-demote-modify-bullet
           '(("+" . "-") ("-" . "+")))
     (keymap-unset org-mode-map "C-'"))
@@ -1177,8 +1176,6 @@ This section defines my capture and agenda workflow.
     (setq org-refile-targets
           '((nil :maxlevel . 3)
             (org-agenda-files :maxlevel . 3)))
-    (setq org-refile-use-outline-path t)
-    (setq org-refile-allow-creating-parent-nodes t)
     (setq org-log-refile t)
 
     ;; Files and capturing
