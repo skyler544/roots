@@ -1172,6 +1172,11 @@ The swiss-army outline tool.
     (setq org-directory *r/org-directory*)
     (setq org-default-notes-file (concat org-directory "inbox.org"))
     (setq org-archive-location (concat org-directory "archive/%s_archive::"))
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file "inbox.org")
+             "* TODO %?\n%T")
+            ("j" "Journal" plain (file+datetree "journal.org")
+             "%T\n%?")))
 
     ;; Agenda
     (setq-default org-agenda-window-setup 'current-window)
