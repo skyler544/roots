@@ -99,6 +99,7 @@ defined.
 #+BEGIN_SRC emacs-lisp
   (defvar *r/font-size* 120)
   (defvar *r/font-family* "CommitMono")
+  (defvar *r/org-directory* (expand-file-name "~/mega/org/"))
 #+END_SRC
 
 ** Editor Defaults
@@ -1152,6 +1153,7 @@ The swiss-army outline tool.
     ;; Subjectively friendlier behavior
     (setq org-fold-catch-invisible-edits 'show-and-error)
     (setq org-src-window-setup 'current-window)
+    (setq org-reverse-note-order t)
     (keymap-unset org-mode-map "C-'")
 
     ;; Time clocking
@@ -1159,8 +1161,19 @@ The swiss-army outline tool.
     (setq org-log-done 'time)
     (setq org-log-into-drawer t)
 
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
+    ;; Files and capturing
+    (setq org-directory *r/org-directory*)
+    (setq org-default-notes-file (concat org-directory "inbox/inbox.org"))
+    (setq org-archive-location (concat org-directory "archive/%s_archive::"))
 
+    ;; Refiling
+    (setq org-refile-targets 'org-agenda-files)
+    (setq org-refile-use-outline-path t)
+    (setq org-refile-allow-creating-parent-nodes t)
+    (setq org-log-refile t)
+    (setq org-outline-path-complete-in-steps t)
+
+    ;; Faces
     (defun r/org-mode-face-override ()
       (dolist (face (r/face-filter "^org-level-"))
         (set-face-attribute face nil :weight 'bold :height 'unspecified))
@@ -1168,6 +1181,7 @@ The swiss-army outline tool.
                           :inherit 'unspecified
                           :inherit 'font-lock-function-call-face))
 
+    ;; Hacks
     (defun r/org-dwim-at-point (&optional arg)
       "Toggle the todo state of a headline, toggle a checkbox, or follow
    a link."
@@ -1190,6 +1204,7 @@ The swiss-army outline tool.
           (org-update-checkbox-count)
           (org-update-parent-todo-statistics)))))
 
+  ;; Eye candy
   (use-package org-superstar
     :hook (org-mode . org-superstar-mode)
     :config (setq org-superstar-headline-bullets-list '("●")))
