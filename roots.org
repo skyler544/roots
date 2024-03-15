@@ -1135,7 +1135,9 @@ The swiss-army outline tool.
 #+BEGIN_SRC emacs-lisp
   (use-package org
     :commands r/org-mode-face-override
-    :hook (org-mode . auto-fill-mode)
+    :hook
+    (org-mode . auto-fill-mode)
+    (org-mode . electric-pair-mode)
     :bind (:map org-mode-map
                 ([return] . r/org-dwim-at-point))
     :bind (:map org-src-mode-map
@@ -1154,6 +1156,8 @@ The swiss-army outline tool.
     (setq org-fold-catch-invisible-edits 'show-and-error)
     (setq org-src-window-setup 'current-window)
     (setq org-reverse-note-order t)
+    (setq org-list-demote-modify-bullet
+          '(("+" . "-") ("-" . "+")))
     (keymap-unset org-mode-map "C-'")
 
     ;; Time clocking
