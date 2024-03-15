@@ -1155,6 +1155,7 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
     (setq org-ellipsis " ⯆")
 
     ;; Subjectively friendlier behavior
+    (setq org-M-RET-may-split-line nil)
     (setq org-fold-catch-invisible-edits 'show-and-error)
     (setq org-src-window-setup 'current-window)
     (setq org-list-demote-modify-bullet
