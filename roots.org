@@ -1170,11 +1170,11 @@ The swiss-army outline tool.
 
     ;; Files and capturing
     (setq org-directory *r/org-directory*)
-    (setq org-default-notes-file (concat org-directory "inbox.org"))
+    (setq org-default-notes-file (concat org-directory "backlog.org"))
     (setq org-archive-location (concat org-directory "archive/%s_archive::"))
     (setq org-capture-templates
-          '(("t" "Todo" entry (file "inbox.org")
-             "* TODO [#B] %?\n%T")
+          '(("t" "Todo" entry (file "backlog.org")
+             "* TODO [#B] %?\nSCHEDULED: %t\n** Estimate:\n** Actions [/]\n** Notes")
             ("j" "Journal" plain (file+datetree "journal.org")
              "%T\n%?")))
 
