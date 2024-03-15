@@ -1204,6 +1204,7 @@ This section defines my capture and agenda workflow.
     ;; Agenda
     (setq-default org-agenda-window-setup 'current-window)
     (add-to-list 'org-agenda-files org-directory)
+    (setq org-use-tag-inheritance nil)
     (setq org-agenda-span 10)
     (setq org-agenda-start-on-weekday nil)
     (setq org-agenda-start-day "-3d"))
