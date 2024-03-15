@@ -234,6 +234,7 @@ time saver.
       (with-eval-after-load 'recentf
         (setq recentf-max-saved-items 200)
         (add-to-list 'recentf-exclude '("\\/sudo:root@localhost.*"))
+        (add-to-list 'recentf-exclude '("\\.org_archive$"))
         (run-at-time nil (* 5 60) 'recentf-save-list))
       (setq savehist-additional-variables
             '(file-name-history
