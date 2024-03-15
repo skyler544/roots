@@ -535,6 +535,10 @@ text.
   ;; Colorize hexadecimal color strings
   (use-package rainbow-mode)
 
+  ;; Widen the margins a little when writing prose
+  (use-package olivetti
+    :hook (markdown-mode . olivetti-mode))
+
   (defun r/kill-relative-path ()
     "Kill the path to the current project relative to the project root."
     (interactive)
