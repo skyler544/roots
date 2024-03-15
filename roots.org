@@ -1144,6 +1144,11 @@ The swiss-army outline tool.
                 ([return] . r/org-dwim-at-point))
     :bind (:map org-src-mode-map
                 ("C-c C-c" . org-edit-src-exit))
+    :bind (:map org-read-date-minibuffer-local-map
+                ("C-f" . r/org-calendar-forward-day)
+                ("C-b" . r/org-calendar-backward-day)
+                ("C-n" . r/org-calendar-forward-week)
+                ("C-p" . r/org-calendar-backward-week))
     :config
     ;; Improve readability
     (setq org-startup-indented t)
@@ -1222,7 +1227,20 @@ The swiss-army outline tool.
          (t (org-return)))
         (when (or todo checkbox)
           (org-update-checkbox-count)
-          (org-update-parent-todo-statistics)))))
+          (org-update-parent-todo-statistics))))
+
+    (defun r/org-calendar-forward-day ()
+      (interactive)
+      (org-eval-in-calendar '(calendar-forward-day 1)))
+    (defun r/org-calendar-backward-day ()
+      (interactive)
+      (org-eval-in-calendar '(calendar-backward-day 1)))
+    (defun r/org-calendar-forward-week ()
+      (interactive)
+      (org-eval-in-calendar '(calendar-forward-week 1)))
+    (defun r/org-calendar-backward-week ()
+      (interactive)
+      (org-eval-in-calendar '(calendar-backward-week 1))))
 
   ;; Eye candy
   (use-package org-superstar
