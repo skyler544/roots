@@ -100,8 +100,6 @@ defined.
   (defvar *r/font-size* 120)
   (defvar *r/font-family* "CommitMono")
   (defvar *r/org-directory* (expand-file-name "~/mega/org/"))
-  (defvar *r/agenda-files* `(,(concat *r/org-directory* "tasks.org")
-                             ,(concat *r/org-directory* "life.org")))
 #+END_SRC
 
 ** Editor Defaults
@@ -1180,10 +1178,10 @@ The swiss-army outline tool.
 
     ;; Agenda
     (setq-default org-agenda-window-setup 'current-window)
+    (add-to-list 'org-agenda-files org-directory)
     (setq org-agenda-span 10)
     (setq org-agenda-start-on-weekday nil)
     (setq org-agenda-start-day "-3d")
-    (setq org-agenda-files *r/agenda-files*)
 
     ;; Refiling
     (setq org-refile-targets
