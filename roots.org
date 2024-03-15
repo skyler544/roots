@@ -1170,7 +1170,7 @@ The swiss-army outline tool.
 
     ;; Files and capturing
     (setq org-directory *r/org-directory*)
-    (setq org-default-notes-file (concat org-directory "inbox/inbox.org"))
+    (setq org-default-notes-file (concat org-directory "inbox.org"))
     (setq org-archive-location (concat org-directory "archive/%s_archive::"))
 
     ;; Agenda
