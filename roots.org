@@ -1199,7 +1199,9 @@ This section defines my capture and agenda workflow.
             ("y" "Yakshaving" entry (file "backlog.org")
              "* TODO [#B] %? :yakshaving:\n** Estimate:\n** Actions [/]\n** Notes")
             ("j" "Journal" plain (file+datetree "journal.org")
-             "%?\n---")))
+             "%?\n---")
+            ("i" "Idea" plain (file+headline "backlog.org" "Ideas")
+             "+ %U\n  %?")))
 
     ;; Agenda
     (setq-default org-agenda-window-setup 'current-window)
