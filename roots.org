@@ -1160,6 +1160,10 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
     (setq org-hide-emphasis-markers t)
     (setq org-ellipsis " ⯆")
 
+    ;; File handling
+    (add-to-list 'org-file-apps '("\\.png\\'" . "feh %s"))
+    (add-to-list 'org-file-apps '("\\.pdf\\'" . "zathura %s"))
+
     ;; Subjectively friendlier behavior
     (setq org-M-RET-may-split-line nil)
     (setq org-fold-catch-invisible-edits 'show-and-error)
