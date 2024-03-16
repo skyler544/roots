@@ -1147,6 +1147,7 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
     :hook
     (org-mode . auto-fill-mode)
     (org-mode . electric-pair-mode)
+    (auto-save . org-save-all-org-buffers)
     :bind (:map org-src-mode-map
                 ("C-c C-c" . org-edit-src-exit))
     :config
