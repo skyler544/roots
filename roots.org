@@ -284,12 +284,17 @@ everything else dired is capable of, and there's just no contest.
   (use-package dired
     :ensure nil
     :hook
+    (dired-mode . r/set-file-associations)
     (dired-mode . dired-hide-details-mode)
     (dired-mode . auto-revert-mode)
     (after-init . (lambda () (load "dired-x")))
     :bind (:map dired-mode-map
                 ("C-c C-e" . wdired-change-to-wdired-mode))
     :config
+    (defun r/set-file-associations ()
+      (add-to-list 'dired-guess-shell-alist-user '("\\.pdf\\'" "zathura"))
+      (add-to-list 'dired-guess-shell-alist-user '("\\.mp4\\'" "mpv"))
+      (add-to-list 'dired-guess-shell-alist-user '("\\.mkv\\'" "mpv")))
     (setq dired-listing-switches "-alh --group-directories-first")
     (setq dired-dwim-target t)
     (setq dired-clean-up-buffers-too nil))
