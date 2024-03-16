@@ -779,12 +779,14 @@ secondary feature here; it does work, but I never use it.
     :hook
     (prog-mode . hs-minor-mode)
     (php-mode . r/hs-fold-imports-lang)
+    (java-ts-mode . r/hs-fold-imports-lang)
     (tsx-ts-mode . r/hs-fold-imports-lang)
     (typescript-ts-mode . r/hs-fold-imports-lang)
     :bind ("C-c <tab>" . hs-toggle-hiding)
     :config
     (defvar r/hs-fold-imports-alist
       '((php-mode . "^use ")
+        (java-ts-mode . "^import ")
         (tsx-ts-mode . "^import ")
         (typescript-ts-mode . "^import ")))
 
