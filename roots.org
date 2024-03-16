@@ -1191,7 +1191,7 @@ This section defines my capture and agenda workflow.
     ;; Refiling
     (setq org-refile-targets
           '((nil :maxlevel . 3)
-            (org-agenda-files :maxlevel . 3)))
+            (org-agenda-files :maxlevel . 2)))
     (setq org-log-refile t)
 
     ;; Files and capturing
