@@ -440,7 +440,7 @@ great functions that you might otherwise end up writing yourself.
 
   ;; Automatically close parentheses/quotes etc.
   (use-package elec-pair
-    :hook (prog-mode . electric-pair-mode))
+    :hook (after-init . electric-pair-mode))
 #+END_SRC
 
 ** Buffer Display
@@ -1158,7 +1158,6 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
   (use-package org
     :hook
     (org-mode . auto-fill-mode)
-    (org-mode . electric-pair-mode)
     (auto-save . org-save-all-org-buffers)
     :bind (:map org-src-mode-map
                 ("C-c C-c" . org-edit-src-exit))
