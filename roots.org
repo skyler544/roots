@@ -823,6 +823,7 @@ information in the echo area.
     (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 
   (use-package eldoc-box
+    :after eglot
     :bind (:map eglot-mode-map
                 ("M-h" . eldoc-box-help-at-point))
     :config (add-to-list 'eldoc-box-self-insert-command-list 'scroll-other-window))
