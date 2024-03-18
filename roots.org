@@ -834,6 +834,17 @@ information in the echo area.
     :config (add-to-list 'eldoc-box-self-insert-command-list 'scroll-other-window))
 #+END_SRC
 
+** Emacs Lisp
+This section adds tweaks to the syntax highlighting of Emacs Lisp.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-defined
+    :hook (emacs-lisp-mode . highlight-defined-mode))
+
+  (use-package highlight-quoted
+    :hook (emacs-lisp-mode . highlight-quoted-mode))
+#+END_SRC
+
 ** Lisp
 This section provides tools for interacting with Lisp interpreters and editing
 Lisp code. The main difference between the Lisp editing experience and editing
