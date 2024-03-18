@@ -90,6 +90,11 @@ init file.
     (cl-remove-if-not
      (lambda (s) (string-match-p regex (symbol-name s)))
      (face-list)))
+
+  (defun r/funcall-or-nil (function)
+    "Call `function' if it is not void, else return nil."
+    (when (fboundp function)
+      (funcall function)))
 #+END_SRC
 
 ** Global Variables
@@ -435,7 +440,7 @@ great functions that you might otherwise end up writing yourself.
 
   ;; Automatically close parentheses/quotes etc.
   (use-package elec-pair
-    :hook (prog-mode . electric-pair-mode))
+    :hook (after-init . electric-pair-mode))
 #+END_SRC
 
 ** Buffer Display
@@ -1154,7 +1159,6 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
   (use-package org
     :hook
     (org-mode . auto-fill-mode)
-    (org-mode . electric-pair-mode)
     (auto-save . org-save-all-org-buffers)
     :bind (:map org-src-mode-map
                 ("C-c C-c" . org-edit-src-exit))
@@ -1188,6 +1192,7 @@ This section defines my capture and agenda workflow.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org
+    :hook (org-agenda-mode . hl-line-mode)
     :bind (("C-c oc" . org-capture)
            ("C-c oa" . org-agenda))
     :config
@@ -1453,11 +1458,12 @@ The rules I try to enforce are pretty simple:
   that I can call it on demand if the faces end up in a weird
   configuration."
       (interactive)
-      (r/default-face-override)
-      (r/info-mode-face-override)
-      (r/dired-subtree-face-override)
-      (r/org-mode-face-override)
-      (r/diff-hl-mode-face-override)))
+      (dolist (func '(r/default-face-override
+                      r/info-mode-face-override
+                      r/org-mode-face-override
+                      r/dired-subtree-face-override
+                      r/diff-hl-mode-face-override))
+        (r/funcall-or-nil func))))
 #+END_SRC
 
 ** Themes
