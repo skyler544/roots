@@ -90,6 +90,11 @@ init file.
     (cl-remove-if-not
      (lambda (s) (string-match-p regex (symbol-name s)))
      (face-list)))
+
+  (defun r/funcall-or-nil (function)
+    "Call `function' if it is not void, else return nil."
+    (when (fboundp function)
+      (funcall function)))
 #+END_SRC
 
 ** Global Variables
@@ -1452,11 +1457,12 @@ The rules I try to enforce are pretty simple:
   that I can call it on demand if the faces end up in a weird
   configuration."
       (interactive)
-      (r/default-face-override)
-      (r/info-mode-face-override)
-      (r/dired-subtree-face-override)
-      (r/org-mode-face-override)
-      (r/diff-hl-mode-face-override)))
+      (dolist (func '(r/default-face-override
+                      r/info-mode-face-override
+                      r/org-mode-face-override
+                      r/dired-subtree-face-override
+                      r/diff-hl-mode-face-override))
+        (r/funcall-or-nil func))))
 #+END_SRC
 
 ** Themes
