@@ -1191,6 +1191,7 @@ This section defines my capture and agenda workflow.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org
+    :hook (org-agenda-mode . hl-line-mode)
     :bind (("C-c oc" . org-capture)
            ("C-c oa" . org-agenda))
     :config
