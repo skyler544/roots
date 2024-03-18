@@ -104,6 +104,7 @@ defined.
 #+BEGIN_SRC emacs-lisp
   (defvar *r/font-size* 120)
   (defvar *r/font-family* "CommitMono")
+  (defvar *r/theme-mode* 'dark)
   (defvar *r/org-directory* (expand-file-name "~/mega/org/"))
 #+END_SRC
 
@@ -1489,7 +1490,6 @@ section is tightly connected with the [[*Faces][Faces]] section.
     :hook (after-init . r/theme-setup)
     :config
     (setq custom-theme-directory (expand-file-name "themes/" user-emacs-directory))
-    (setq *r/theme-mode* 'dark)
 
     (defun r/load-theme (theme)
       "Wrapper for loading themes with my face overrides applied."
