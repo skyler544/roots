@@ -1156,6 +1156,13 @@ Provides a nice tool for sending HTTP requests.
     :mode ("\\.rcl$" . restclient-mode))
 #+END_SRC
 
+** Buffers as Webpages
+This package lets you serve webpages locally.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package impatient-mode)
+#+END_SRC
+
 ** Lua
 Add syntax highlighting for Lua.
 
