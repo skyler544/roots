@@ -1336,7 +1336,8 @@ MacOS) for a second when a fresh Emacs instance is launched.
   (use-package emacs
     :config
     (defun r/frame-cleanup ()
-      (menu-bar-mode -1)
+      (unless (string-equal system-type "darwin")
+        (menu-bar-mode -1))
       (when (display-graphic-p)
         (tool-bar-mode -1)
         (scroll-bar-mode -1)))
