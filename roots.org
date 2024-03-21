@@ -735,7 +735,8 @@ experience.
   (use-package eglot
     :bind (:map eglot-mode-map
                 ("C-c ef" . eglot-format-buffer)
-                ("C-c ea" . eglot-code-actions))
+                ("C-c ea" . eglot-code-actions)
+                ("C-c ed" . flymake-show-project-diagnostics))
     :config
     ;; HACK: logging the traffic between eglot and some servers is slow
     (fset #'jsonrpc--log-event #'ignore)
