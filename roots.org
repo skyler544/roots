@@ -733,11 +733,17 @@ experience.
 
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
+    :commands r/eglot-restart-server
     :bind (:map eglot-mode-map
+                ("C-c er" . r/eglot-restart-server)
                 ("C-c ef" . eglot-format-buffer)
                 ("C-c ea" . eglot-code-actions)
                 ("C-c ed" . flymake-show-project-diagnostics))
     :config
+    (defun r/eglot-restart-server ()
+      (interactive)
+      (eglot-shutdown (eglot-current-server))
+      (revert-buffer-quick))
     ;; HACK: logging the traffic between eglot and some servers is slow
     (fset #'jsonrpc--log-event #'ignore)
     (setq jsonrpc-default-request-timeout 20)
