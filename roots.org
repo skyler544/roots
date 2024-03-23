@@ -1250,6 +1250,12 @@ This section defines my capture and agenda workflow.
     (setq org-capture-templates
           '(("t" "Todo" entry (file "backlog.org")
              "* TODO [#B] %?\nSCHEDULED: %t\n** Estimate:\n** Actions [/]\n** Notes")
+            ("r" "Region to todo" entry (file "backlog.org")
+             "* TODO [#B] %i\nSCHEDULED: %t\n** Estimate:\n** Actions [/]\n** Notes"
+             :immediate-finish t)
+            ("k" "Last kill to todo" entry (file "backlog.org")
+             "* TODO [#B] %c\nSCHEDULED: %t\n** Estimate:\n** Actions [/]\n** Notes"
+             :immediate-finish t)
             ("y" "Yakshaving" entry (file "backlog.org")
              "* TODO [#C] %? :yakshaving:\n** Estimate:\n** Actions [/]\n** Notes")
             ("j" "Journal" plain (file+olp+datetree "journal.org")
