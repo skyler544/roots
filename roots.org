@@ -442,6 +442,16 @@ great functions that you might otherwise end up writing yourself.
   ;; Automatically close parentheses/quotes etc.
   (use-package elec-pair
     :hook (after-init . electric-pair-mode))
+
+  ;; Marking
+  (use-package emacs
+    :bind ("C-c mw" . r/mark-symbol-at-point)
+    :config
+    (defun r/mark-symbol-at-point ()
+      (interactive)
+      (thing-at-point--beginning-of-symbol)
+      (set-mark (point))
+      (forward-symbol 1)))
 #+END_SRC
 
 ** Buffer Display
