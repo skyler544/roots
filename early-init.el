@@ -14,8 +14,10 @@
 ;; Basic initialization
 ;; ----------------------------------------------------
 ;; Create some directories for later use
-(unless (file-directory-p "var") (make-directory "var"))
-(unless (file-directory-p "etc") (make-directory "etc"))
+(let ((var (expand-file-name (concat user-emacs-directory "var")))
+      (etc (expand-file-name (concat user-emacs-directory "etc"))))
+  (unless (file-directory-p var) (make-directory var))
+  (unless (file-directory-p etc) (make-directory etc)))
 
 ;; Redirect native-comp cache.
 (when (fboundp 'startup-redirect-eln-cache)
