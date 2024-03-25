@@ -768,6 +768,17 @@ experience.
   (use-package consult-eglot)
 #+END_SRC
 
+** Flymake
+This builtin tool displays error messages via configurable sources. For me, the
+sources are language servers.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flymake
+    :bind (:map flymake-mode-map
+                ([remap next-error] . flymake-goto-next-error)
+                ([remap previous-error] . flymake-goto-prev-error)))
+#+END_SRC
+
 ** TreeSitter
 Abstract syntax tree based language parsing and syntax highlighting. This works
 quite nicely, other than occasional breakage of the grammars. The package
