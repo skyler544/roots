@@ -1375,7 +1375,7 @@ This stuff isn't really necessary, but it looks cool.
     :hook (after-init . eros-mode)
     :custom-face
     (eros-result-overlay-face
-     ((t ( :background ,(face-attribute 'region :background) :box t)))))
+     ((t ( :background unspecified :inherit region :box t)))))
 
   ;; Briefly flash current line after a long movement.
   (use-package pulsar
