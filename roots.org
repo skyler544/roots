@@ -1111,7 +1111,8 @@ technology. This is how I interact with it.
                 ("t" . r/test-current-file))
     :config
     (defun r/test-current-file ()
-      "If the current file is a jest test spec in a project with a test script, "
+      "If the current visited file is a jest test spec in a project with
+  a test script, run just that test."
       (interactive)
       (let ((default-directory (project-root (project-current t))))
         (async-shell-command (format "yarn test %s" (r/project-relative-path))))))
