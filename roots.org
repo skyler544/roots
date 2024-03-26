@@ -1105,6 +1105,16 @@ technology. This is how I interact with it.
     (with-eval-after-load 'eglot
       (add-to-list 'eglot-server-programs
                    '(prisma-mode "prisma-language-server" "--stdio"))))
+
+  (use-package project
+    :bind (:map project-prefix-map
+                ("t" . r/test-current-file))
+    :config
+    (defun r/test-current-file ()
+      "If the current file is a jest test spec in a project with a test script, "
+      (interactive)
+      (let ((default-directory (project-root (project-current t))))
+        (async-shell-command (format "yarn test %s" (r/project-relative-path))))))
 #+END_SRC
 
 *** Scripts
