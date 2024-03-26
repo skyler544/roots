@@ -97,6 +97,22 @@ init file.
       (funcall function)))
 #+END_SRC
 
+** Editing Functions
+This is where I define any editing functions that I want available from the start of the
+init file.
+
+#+BEGIN_SRC emacs-lisp
+  (defun r/project-relative-path ()
+    "Return the path to the current file relative to the project root."
+    (interactive)
+    (file-relative-name buffer-file-name (project-root (project-current t))))
+
+  (defun r/kill-relative-path ()
+    "Kill the path to the current file relative to the project root."
+    (interactive)
+    (kill-new (r/project-relative-path)))
+#+END_SRC
+
 ** Global Variables
 This section is where any variables that need to be globally available should be
 defined.
@@ -559,11 +575,6 @@ text.
   ;; Widen the margins a little when writing prose
   (use-package olivetti
     :hook (markdown-mode . olivetti-mode))
-
-  (defun r/kill-relative-path ()
-    "Kill the path to the current project relative to the project root."
-    (interactive)
-    (kill-new (file-relative-name buffer-file-name (project-root (project-current t)))))
 #+END_SRC
 
 * Minibuffer and Completion Interaction Overhaul (MOVECC)
