@@ -1088,6 +1088,17 @@ technology. This is how I interact with it.
     ("\\.ts$" . typescript-ts-mode)
     ("\\.tsx$" . tsx-ts-mode))
 
+  (use-package web-mode
+    :hook (r/vue-mode . eglot-ensure)
+    :mode ("\\.vue$" . r/vue-mode)
+    :config
+    (define-derived-mode r/vue-mode web-mode "r/vue"
+      "Wrapper for web-mode to make setting the appropriate language
+  server simpler.")
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '(r/vue-mode "vls"))))
+
   (use-package flymake-eslint
     :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
     :config
