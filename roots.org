@@ -953,7 +953,8 @@ terminal applications, but that person isn't me.
 #+BEGIN_SRC emacs-lisp
   ;; Improvements to `shell-command' and friends.
   (use-package shell-command-x
-    :hook (after-init . shell-command-x-mode))
+    :hook (after-init . shell-command-x-mode)
+    :config (setq async-shell-command-buffer 'new-buffer))
 
   ;; Emulate A Terminal -> eat
   (use-package eat
