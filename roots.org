@@ -943,6 +943,34 @@ yaml, markdown, and html.
                       'comint-completion-at-point))))
 #+END_SRC
 
+** LaTeX
+Syntax highlighting and build tools for LaTeX.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package tex
+    :ensure auctex
+    :hook
+    (TeX-mode . display-line-numbers-mode)
+    (TeX-mode . visual-line-mode)
+    (TeX-mode . r/latex-mode-face-override)
+    :config
+    (setq TeX-parse-self t)
+    (add-to-list 'TeX-expand-list
+                 '("%(-PDF)"
+                   (lambda ()
+                     (if TeX-PDF-mode
+                         (cond ((eq TeX-engine 'default) "-pdf")
+                               ((eq TeX-engine 'xetex) "-pdfxe")
+                               ((eq TeX-engine 'luatex) "-pdflua")) ""))))
+    (add-to-list 'TeX-command-list
+                 '("LaTeXmk" "latexmk -shell-escape %(-PDF) -%(PDF)%(latex)='%`%l%(mode)%'' %(output-dir) %t"
+                   TeX-run-format nil (latex-mode doctex-mode) :help "Run Latexmk"))
+
+    (defun r/latex-mode-face-override ()
+      (dolist (face (r/face-filter "^font-latex-"))
+        (set-face-attribute face nil :height 'unspecified))))
+#+END_SRC
+
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
@@ -1550,7 +1578,8 @@ The rules I try to enforce are pretty simple:
                       r/info-mode-face-override
                       r/org-mode-face-override
                       r/dired-subtree-face-override
-                      r/diff-hl-mode-face-override))
+                      r/diff-hl-mode-face-override
+                      r/latex-mode-face-override))
         (r/funcall-or-nil func))))
 #+END_SRC
 
