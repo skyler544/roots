@@ -1101,7 +1101,6 @@ technology. This is how I interact with it.
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
     :hook
-    (yaml-mode . eglot-ensure)
     (js-ts-mode . eglot-ensure)
     (tsx-ts-mode . eglot-ensure)
     (typescript-ts-mode . eglot-ensure)
