@@ -1014,14 +1014,6 @@ terminal applications, but that person isn't me.
        (if (use-region-p)
            (buffer-substring (region-beginning) (region-end))
          (thing-at-point 'line t)))))
-
-  ;; Fix ansi color codes in compilation buffers
-  (use-package emacs
-    :hook (compilation-filter . r/ansi-colorize-buffer)
-    :config
-    (defun r/ansi-colorize-buffer ()
-      (let ((buffer-read-only nil))
-        (ansi-color-apply-on-region (point-min) (point-max)))))
 #+END_SRC
 
 ** Git
