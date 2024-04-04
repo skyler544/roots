@@ -1227,15 +1227,6 @@ does the job.
     :hook (php-mode . eglot-ensure))
 #+END_SRC
 
-** Docker
-Add syntax highlighting for Dockerfiles. I used to use packages for interacting
-with the containers themselves, but Docker is a continually changing target and
-the shell is better suited for that.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-mode)
-#+END_SRC
-
 ** Web Requests
 Provides a nice tool for sending HTTP requests.
 
