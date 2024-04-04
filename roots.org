@@ -1265,7 +1265,6 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
     ;; Improve readability
     (setq org-startup-indented t)
     (setq org-adapt-indentation t)
-    (setq org-startup-folded nil)
 
     ;; Reduce visual noise
     (setq org-hide-leading-stars t)
