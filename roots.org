@@ -952,29 +952,11 @@ yaml, markdown, and html.
 Syntax highlighting and build tools for LaTeX.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package tex
-    :ensure auctex
+  (use-package emacs
     :hook
-    (TeX-mode . display-line-numbers-mode)
-    (TeX-mode . visual-line-mode)
-    (TeX-mode . r/latex-mode-face-override)
-    (TeX-output-mode . compilation-minor-mode)
-    :config
-    (setq TeX-parse-self t)
-    (add-to-list 'TeX-expand-list
-                 '("%(-PDF)"
-                   (lambda ()
-                     (if TeX-PDF-mode
-                         (cond ((eq TeX-engine 'default) "-pdf")
-                               ((eq TeX-engine 'xetex) "-pdfxe")
-                               ((eq TeX-engine 'luatex) "-pdflua")) ""))))
-    (add-to-list 'TeX-command-list
-                 '("LaTeXmk" "latexmk -shell-escape %(-PDF) -%(PDF)%(latex)='%`%l%(mode)%'' %(output-dir) %t"
-                   TeX-run-format nil (latex-mode doctex-mode) :help "Run Latexmk"))
-
-    (defun r/latex-mode-face-override ()
-      (dolist (face (r/face-filter "^font-latex-"))
-        (set-face-attribute face nil :height 'unspecified))))
+    (tex-mode . eglot-ensure)
+    (tex-mode . display-line-numbers-mode)
+    (tex-mode . visual-line-mode))
 #+END_SRC
 
 ** Shell
