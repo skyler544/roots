@@ -1430,6 +1430,7 @@ MacOS) for a second when a fresh Emacs instance is launched.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
+    :hook (server-after-make-frame . r/frame-cleanup)
     :config
     (defun r/frame-cleanup ()
       (unless (string-equal system-type "darwin")
