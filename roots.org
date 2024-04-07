@@ -953,6 +953,7 @@ Syntax highlighting and build tools for LaTeX.
     (TeX-mode . display-line-numbers-mode)
     (TeX-mode . visual-line-mode)
     (TeX-mode . r/latex-mode-face-override)
+    (TeX-output-mode . compilation-minor-mode)
     :config
     (setq TeX-parse-self t)
     (add-to-list 'TeX-expand-list
