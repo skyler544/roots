@@ -487,11 +487,11 @@ already working in.
   ;; apply to packages that are loaded later in the config.
   (setq r/buffer-regexes '("\\*Help" "\\*helpful" "^magit:" "^*shell:"))
 
-  (defun r/display-buffer-same-window (regex)
-    "Set the buffer name pattern specified by `regex' to be opened in
+  (defun r/display-buffer-same-window (regex-or-predicate)
+    "Set the buffer pattern specified by `regex-or-predicate' to be opened in
   the active window."
     (add-to-list 'display-buffer-alist
-                 `(,regex (display-buffer-same-window))))
+                 `(,regex-or-predicate (display-buffer-same-window))))
 
   (dolist (regex r/buffer-regexes)
     (r/display-buffer-same-window regex))
