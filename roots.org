@@ -811,7 +811,12 @@ useful for yaml files), so we disable it here.
     (defun r/treesit-auto-setup ()
       (interactive)
       (setq treesit-auto-install t)
+      (setq treesit-auto-langs
+            '( bash c cpp css dockerfile html java javascript json
+               lua make org python sql toml tsx typescript yaml))
       (treesit-auto-install-all)
+      ;; This is necessary to prevent the broken builtin `yaml-ts-mode' from being
+      ;; activated along with the working ones.
       (setq treesit-auto-langs
             (delq 'yaml treesit-auto-langs))
       (global-treesit-auto-mode)))
@@ -980,10 +985,16 @@ appropriate replacement for someone who uses ncurses-style or other fullscreen
 terminal applications, but that person isn't me.
 
 #+BEGIN_SRC emacs-lisp
+  ;; Configure built-in `shell' and friends
+  (use-package emacs
+    :config
+    (setq comint-scroll-to-bottom-on-output t)
+    (setq async-shell-command-display-buffer nil)
+    (setq async-shell-command-buffer 'new-buffer))
+
   ;; Improvements to `shell-command' and friends.
   (use-package shell-command-x
-    :hook (after-init . shell-command-x-mode)
-    :config (setq async-shell-command-buffer 'new-buffer))
+    :hook (after-init . shell-command-x-mode))
 
   ;; Emulate A Terminal -> eat
   (use-package eat
@@ -1001,10 +1012,7 @@ terminal applications, but that person isn't me.
   (use-package emacs
     :hook (after-save . executable-make-buffer-file-executable-if-script-p))
 
-  ;; Configure built-in `comint' mode
-  (use-package emacs
-    :config (setq comint-scroll-to-bottom-on-output t))
-
+  ;; Custom behaviors and tweaks
   (use-package emacs
     :bind ("C-c &" . r/sh-command-at-point)
     :config
@@ -1015,14 +1023,6 @@ terminal applications, but that person isn't me.
        (if (use-region-p)
            (buffer-substring (region-beginning) (region-end))
          (thing-at-point 'line t)))))
-
-  ;; Fix ansi color codes in compilation buffers
-  (use-package emacs
-    :hook (compilation-filter . r/ansi-colorize-buffer)
-    :config
-    (defun r/ansi-colorize-buffer ()
-      (let ((buffer-read-only nil))
-        (ansi-color-apply-on-region (point-min) (point-max)))))
 #+END_SRC
 
 ** Git
@@ -1107,7 +1107,6 @@ technology. This is how I interact with it.
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
     :hook
-    (yaml-mode . eglot-ensure)
     (js-ts-mode . eglot-ensure)
     (tsx-ts-mode . eglot-ensure)
     (typescript-ts-mode . eglot-ensure)
@@ -1229,15 +1228,6 @@ does the job.
     :hook (php-mode . eglot-ensure))
 #+END_SRC
 
-** Docker
-Add syntax highlighting for Dockerfiles. I used to use packages for interacting
-with the containers themselves, but Docker is a continually changing target and
-the shell is better suited for that.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-mode)
-#+END_SRC
-
 ** Web Requests
 Provides a nice tool for sending HTTP requests.
 
@@ -1276,7 +1266,6 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
     ;; Improve readability
     (setq org-startup-indented t)
     (setq org-adapt-indentation t)
-    (setq org-startup-folded nil)
 
     ;; Reduce visual noise
     (setq org-hide-leading-stars t)
