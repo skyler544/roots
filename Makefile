@@ -1,6 +1,6 @@
 EMACS   := emacs --init-directory=.
 TANGLE  := "(progn (require 'ob-tangle) (org-babel-tangle-file \"roots.org\"))"
-INSTALL := "(add-hook 'native-comp-async-all-done-hook 'kill-emacs)"
+INSTALL := "(progn (add-hook 'native-comp-async-all-done-hook 'kill-emacs) (eat-compile-terminfo))"
 
 all: run
 
