@@ -485,7 +485,7 @@ already working in.
   ;; This variable specifies which buffers should be opened in the
   ;; active window instead of popping up off to one side. Some of these
   ;; apply to packages that are loaded later in the config.
-  (setq r/buffer-regexes '("\\*Help" "\\*helpful" "^magit:" "^*shell:" "^*SQL:"))
+  (setq r/buffer-regexes '("\\*Help" "\\*helpful" "^magit:" "^*shell:"))
 
   (defun r/display-buffer-same-window (regex-or-predicate)
     "Set the buffer pattern specified by `regex-or-predicate' to be opened in
