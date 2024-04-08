@@ -1031,6 +1031,9 @@ cumbersome and inelegant compared to Magit. This section sets up Magit and a few
 other utility packages related to git.
 
 #+BEGIN_SRC emacs-lisp
+  (use-package project
+    :commands project-current)
+
   (use-package magit
     :config (setq magit-display-buffer-function 'display-buffer))
 
