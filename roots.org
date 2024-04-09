@@ -1243,7 +1243,12 @@ does the job.
 
 #+BEGIN_SRC emacs-lisp
   (use-package php-mode
-    :hook (php-mode . eglot-ensure))
+    :hook (php-mode . eglot-ensure)
+    :config
+    (with-eval-after-load 'apheleia
+      (setf (alist-get 'phpcs apheleia-formatters)
+            '("composer" "--no-interaction" (concat "--working-dir=" (r/project-root))
+              "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name)))))
 #+END_SRC
 
 ** Web Requests
