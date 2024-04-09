@@ -201,6 +201,10 @@ These settings are essentially subjective, but serve to disable some annoyances
     :bind (("C-c wu" . winner-undo)
            ("C-c wr" . winner-redo)))
 
+  ;; Automatically revert buffers when they change outside of Emacs
+  (use-package autorevert
+    :hook (after-init . global-auto-revert-mode))
+
   ;; This is much more useful than `iconify-frame'; in the terminal this
   ;; might be a problem, but I never use Emacs in the terminal anyways.
   (use-package emacs
