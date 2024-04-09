@@ -784,7 +784,7 @@ experience.
 #+END_SRC
 
 ** Flymake
-This builtin tool displays error messages via configurable sources. For me, the
+This built-in tool displays error messages via configurable sources. For me, the
 sources are language servers.
 
 #+BEGIN_SRC emacs-lisp
