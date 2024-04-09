@@ -585,6 +585,19 @@ text.
     :hook (markdown-mode . olivetti-mode))
 #+END_SRC
 
+** Project
+Project.el provides a nice set of tools for working with projects.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package project
+    :commands r/project-root
+    :config
+    (defun r/project-root ()
+      "Return the absolute path to the current project root."
+      (interactive)
+      (expand-file-name (project-root (project-current)))))
+#+END_SRC
+
 * Minibuffer and Completion Interaction Overhaul (MOVECC)
 These packages work together as building blocks to extend default Emacs input
 scenarios in impressive ways. This includes overhauling minibuffer and
@@ -1036,9 +1049,6 @@ cumbersome and inelegant compared to Magit. This section sets up Magit and a few
 other utility packages related to git.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package project
-    :commands project-current)
-
   (use-package magit
     :config (setq magit-display-buffer-function 'display-buffer))
 
