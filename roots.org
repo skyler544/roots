@@ -569,6 +569,10 @@ text.
   (use-package apheleia
     :hook (prog-mode . apheleia-mode))
 
+  ;; Conform to .editorconfig rules
+  (use-package editorconfig
+    :hook (after-init . editorconfig-mode))
+
   ;; Colorize hexadecimal color strings
   (use-package rainbow-mode)
 
