@@ -1616,9 +1616,11 @@ section is tightly connected with the [[*Faces][Faces]] section.
       (r/load-theme 'gruvbox-dark-hard))
 
     (defun r/light-mode ()
-      "Switch to light mode, featuring `gruvbox-light-hard' theme."
+      "Switch to light mode, featuring `modus-operandi' theme."
       (interactive)
-      (r/load-theme 'gruvbox-light-hard))
+      (setq modus-themes-deuteranopia t)
+      (setq modus-themes-org-blocks 'gray-background)
+      (r/load-theme 'modus-operandi))
 
     (defun r/theme-setup ()
       (if (equal *r/theme-mode* 'light) (r/light-mode) (r/dark-mode))))
