@@ -1236,6 +1236,8 @@ does the job.
 #+BEGIN_SRC emacs-lisp
   (use-package php-mode
     :hook (php-mode . eglot-ensure)
+    :bind (:map php-mode-map
+                ("C-." . nil))
     :config
     (with-eval-after-load 'apheleia
       (setf (alist-get 'phpcs apheleia-formatters)
