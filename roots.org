@@ -1002,7 +1002,8 @@ terminal applications, but that person isn't me.
   ;; Emulate A Terminal -> eat
   (use-package eat
     :bind (:map eat-semi-char-mode-map
-                ("," . nil))
+                ("," . nil)
+                ("C-z" . nil))
     :commands eat-compile-terminfo
     :config
     (setq eat-enable-auto-line-mode t)
