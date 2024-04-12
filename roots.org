@@ -1127,7 +1127,9 @@ technology. This is how I interact with it.
 
   (use-package web-mode
     :hook (r/vue-mode . eglot-ensure)
-    :mode ("\\.vue$" . r/vue-mode)
+    :mode
+    ("\\.vue$" . r/vue-mode)
+    ("\\.twig$" . web-mode)
     :config
     (define-derived-mode r/vue-mode web-mode "r/vue"
       "Wrapper for web-mode to make setting the appropriate language
