@@ -1360,7 +1360,8 @@ org-mode functionality lands.
   (use-package org
     :commands r/org-mode-face-override
     :bind (:map org-mode-map
-                ([return] . r/org-dwim-at-point))
+                ([return] . r/org-dwim-at-point)
+                ("C-c T" . r/org-paste-todo-context))
     :bind (:map org-read-date-minibuffer-local-map
                 ("C-f" . r/org-calendar-forward-day)
                 ("C-b" . r/org-calendar-backward-day)
@@ -1380,6 +1381,11 @@ org-mode functionality lands.
     (defun r/org-calendar-backward-week ()
       (interactive)
       (org-eval-in-calendar '(calendar-backward-week 1)))
+
+    (defun r/org-paste-todo-context ()
+      (interactive)
+      (save-excursion
+        (org-paste-subtree 2 "* Estimate:\n* Actions [/]\n* Notes")))
 
     ;; DWIM Behavior
     (defun r/org-dwim-at-point ()
