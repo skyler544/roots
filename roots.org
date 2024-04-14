@@ -977,7 +977,8 @@ Syntax highlighting and build tools for LaTeX.
     :hook
     (tex-mode . eglot-ensure)
     (tex-mode . display-line-numbers-mode)
-    (tex-mode . visual-line-mode))
+    (tex-mode . visual-line-mode)
+    :config (setq bibtex-entry-format t))
 #+END_SRC
 
 ** Shell
@@ -1317,6 +1318,7 @@ This section defines my capture and agenda workflow.
     :config
     ;; Time clocking
     (setq org-enforce-todo-dependencies t)
+    (setq org-clock-clocked-in-display 'frame-title)
     (setq org-log-done 'time)
     (setq org-log-into-drawer t)
 
