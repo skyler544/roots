@@ -1632,6 +1632,7 @@ section is tightly connected with the [[*Faces][Faces]] section.
       (setq modus-themes-deuteranopia t)
       (setq modus-themes-hl-line nil)
       (setq modus-themes-org-blocks 'gray-background)
+      (setq modus-themes-org-agenda (quote ((header-block . (no-scale)))))
       (r/load-theme 'modus-operandi))
 
     (defun r/theme-setup ()
