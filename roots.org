@@ -1058,26 +1058,12 @@ other utility packages related to git.
     :hook
     (prog-mode . r/diff-hl-mode-enable-maybe)
     (org-mode . r/diff-hl-mode-enable-maybe)
-    :commands r/diff-hl-mode-face-override
     :config
-    ;; HACK: make the fringe bitmap look like a thin bar.
-    ;; stolen from: https://github.com/dgutov/diff-hl/issues/116#issuecomment-449134234
-    (defun r/apply-diff-hl-settings ()
-      (let* ((height (frame-char-height))
-             (width 4)
-             (ones (1- (expt 2 width)))
-             (bits (make-vector height ones)))
-        (define-fringe-bitmap 'r/diff-hl-bitmap bits height width))
-      (setq diff-hl-fringe-bmp-function (lambda (type pos) 'r/diff-hl-bitmap)))
+    (setq diff-hl-draw-borders nil)
 
     (defun r/diff-hl-mode-enable-maybe ()
       (when (and (display-graphic-p) (project-current))
-        (turn-on-diff-hl-mode)
-        (r/apply-diff-hl-settings)))
-
-    (defun r/diff-hl-mode-face-override ()
-      (dolist (face (r/face-filter "^diff-hl-"))
-        (set-face-attribute face nil :background 'unspecified))))
+        (turn-on-diff-hl-mode))))
 #+END_SRC
 
 ** Make

@@ -34,7 +34,8 @@
   (setq insert-directory-program "gls")
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'meta)
-  (setq manual-program "gman"))
+  (setq manual-program "gman")
+  (fringe-mode 4))
 
 ;; Package management
 ;; ----------------------------------------------------
