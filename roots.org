@@ -1582,9 +1582,7 @@ The rules I try to enforce are pretty simple:
       (dolist (func '(r/default-face-override
                       r/info-mode-face-override
                       r/org-mode-face-override
-                      r/dired-subtree-face-override
-                      r/diff-hl-mode-face-override
-                      r/latex-mode-face-override))
+                      r/dired-subtree-face-override))
         (r/funcall-or-nil func))))
 #+END_SRC
 
