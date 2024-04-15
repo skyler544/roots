@@ -1044,6 +1044,13 @@ other utility packages related to git.
   (use-package magit
     :config (setq magit-display-buffer-function 'display-buffer))
 
+  (when (string-equal system-type "darwin")
+    (use-package magit
+      :hook (magit-mode . r/macos-fringes)
+      :config
+      (defun r/macos-fringes ()
+        (setq left-fringe-width 12))))
+
   ;; Show previous versions of a file
   (use-package git-timemachine)
 
