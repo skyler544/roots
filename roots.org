@@ -939,6 +939,19 @@ difficult time learning Common Lisp without it.
     :config (setq inferior-lisp-program "sbcl"))
 #+END_SRC
 
+** Java
+
+#+BEGIN_SRC emacs-lisp
+(use-package emacs
+  :hook
+  (java-ts-mode . eglot-ensure)
+  (java-ts-mode
+   . (lambda () (cl-defmethod eglot-execute-command
+                  (_server (_cmd (eql java.apply.workspaceEdit)) arguments)
+                  "Eclipse JDT breaks spec and replies with edits as arguments."
+                  (mapc #'eglot--apply-workspace-edit arguments)))))
+#+END_SRC
+
 ** Structured Text
 Syntax highlighting for (non-org-mode) structured text. In practice, this means
 yaml, markdown, and html.
