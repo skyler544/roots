@@ -1068,8 +1068,11 @@ other utility packages related to git.
     :config
     (setq diff-hl-draw-borders nil)
 
+    (defun r/vc-buffer-p ()
+      (vc-backend (buffer-file-name (current-buffer))))
+
     (defun r/diff-hl-mode-enable-maybe ()
-      (when (and (display-graphic-p) (project-current))
+      (when (and (display-graphic-p) (r/vc-buffer-p))
         (turn-on-diff-hl-mode))))
 #+END_SRC
 
