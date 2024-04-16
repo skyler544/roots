@@ -1155,11 +1155,11 @@ technology. This is how I interact with it.
       (add-to-list 'eglot-server-programs
                    '(prisma-mode "prisma-language-server" "--stdio"))))
 
-  (use-package project
-    :bind (:map project-prefix-map
-                ("t" . r/test-current-file))
+  (use-package typescript-ts-mode
+    :bind (:map typescript-ts-mode-map
+                ("C-c ct" . r/jest-test-current-file))
     :config
-    (defun r/test-current-file ()
+    (defun r/jest-test-current-file ()
       "If the current visited file is a jest test spec in a project with
   a test script, run just that test."
       (interactive)
