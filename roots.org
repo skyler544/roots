@@ -1571,11 +1571,9 @@ The rules I try to enforce are pretty simple:
                           :height *r/font-size*
                           :family *r/font-family*)
       (set-face-attribute 'variable-pitch nil
-                          :family 'unspecified
-                          :inherit 'default)
+                          :family *r/font-family*)
       (set-face-attribute 'fixed-pitch nil
-                          :family 'unspecified
-                          :inherit 'default)
+                          :family *r/font-family*)
       (set-face-attribute 'header-line nil
                           :box '(:line-width 2 :style flat-button))
       (set-face-attribute 'mode-line nil
