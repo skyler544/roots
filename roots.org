@@ -767,6 +767,20 @@ the platform in which my workflow occurs. This section provides configuration
 for specific technologies such as programming languages and corresponding
 language servers.
 
+** Environment
+Making sure the environment is just right for some fragile piece of software can
+be a nightmare; this section attempts to mitigate some of that.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package inheritenv :demand
+    :config (inheritenv-add-advice #'async-shell-command))
+
+  (use-package buffer-env
+    :hook
+    (eat-mode . buffer-env-update)
+    (hack-local-variables . buffer-env-update))
+#+END_SRC
+
 ** Eglot
 Use language servers in Emacs. Eglot is not quite "zero configuration," but it's
 easy enough to set up. Unfortunately it's sometimes necessary to use weird hacks
