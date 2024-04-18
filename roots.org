@@ -822,7 +822,8 @@ sources are language servers.
   (use-package flymake
     :bind (:map flymake-mode-map
                 ([remap next-error] . flymake-goto-next-error)
-                ([remap previous-error] . flymake-goto-prev-error)))
+                ([remap previous-error] . flymake-goto-prev-error))
+    :config (setq flymake-fringe-indicator-position 'right-fringe))
 #+END_SRC
 
 ** TreeSitter
