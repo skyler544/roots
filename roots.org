@@ -376,21 +376,18 @@ surprisingly lacking by default. This section fixes that oversight.
 
 #+BEGIN_SRC emacs-lisp
   ;; Make missing directories instead of uselessly failing.
-  (defun r/make-directory-if-not-exists (filename)
+  (defun r/make-directory-if-not-exists (&rest r)
     "Create parent directory if not exists while operating on `FILENAME'."
-    (unless (file-exists-p filename)
-      (let ((dir (file-name-directory filename)))
-        (unless (file-exists-p dir)
-          (make-directory dir t)))))
+    (dolist (filename r)
+      (when (stringp filename)
+        (unless (file-exists-p filename)
+          (make-directory (file-name-directory filename) t)))))
 
-  ;; TODO figure out how to do this with less duplication
   (defun r/advise-file-operations ()
-    (defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
-      (r/make-directory-if-not-exists filename))
-    (defadvice copy-file (before make-directory-maybe (file newname &optional ok-if-already-exists keep-time preserve-uid-gid preserve-permissions) activate)
-      (r/make-directory-if-not-exists newname))
-    (defadvice rename-file (before make-directory-maybe (file newname &optional ok-if-already-exists) activate)
-      (r/make-directory-if-not-exists newname)))
+    (dolist (f '(find-file copy-file rename-file))
+      (advice-add f :before
+                  (lambda (&rest r)
+                    (apply #'r/make-directory-if-not-exists r)))))
 
   (r/run-idly #'r/advise-file-operations 1)
 #+END_SRC
