@@ -54,8 +54,6 @@
 ;; `use-package' is used to declaratively configure packages.
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
-(unless (package-installed-p 'vc-use-package)
-  (package-vc-install "https://github.com/slotThe/vc-use-package"))
 
 (use-package use-package
   :config

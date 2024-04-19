@@ -332,18 +332,16 @@ everything else dired is capable of, and there's just no contest.
   ;; This package lets you show subfolders in a tree view instead of
   ;; inserting them below. It's very slow on deeply nested directories,
   ;; so use it carefully.
-  (use-package dired-subtree
-    :vc (:fetcher github :repo Fuco1/dired-hacks)
+  (use-package dired-hacks
+    :after dired
+    :vc (:url "https://github.com/Fuco1/dired-hacks")
     :commands r/dired-subtree-face-override
-    :hook
-    ;; HACK: for some reason, using `:bind' doesn't work consistently for this
-    (dired-mode
-     . (lambda () (bind-key [tab] #'dired-subtree-cycle 'dired-mode-map)))
+    :bind (:map dired-mode-map
+                ("TAB" . dired-subtree-cycle))
     :config
     (defun r/dired-subtree-face-override ()
-      (with-eval-after-load 'org-faces
-        (dolist (face (r/face-filter "^dired-subtree-"))
-          (set-face-attribute face nil :extend t :background 'unspecified)))))
+      (dolist (face (r/face-filter "^dired-subtree-"))
+        (set-face-attribute face nil :extend t :background 'unspecified))))
 #+END_SRC
 
 ** Calendar
@@ -1176,7 +1174,7 @@ technology. This is how I interact with it.
         (flymake-eslint-enable))))
 
   (use-package prisma-mode
-    :vc (:fetcher github :repo pimeys/emacs-prisma-mode)
+    :vc (:url "https://github.com/pimeys/emacs-prisma-mode")
     :hook (prisma-mode . eglot-ensure)
     :config
     (with-eval-after-load 'eglot
@@ -1240,7 +1238,7 @@ syntax highlighting for dotenv files.
 
   ;; Dependency version switching
   (use-package nvm
-    :vc (:fetcher github :repo rejeep/nvm.el)
+    :vc (:url "https://github.com/rejeep/nvm.el")
     :commands (r/nvm-use)
     :config
     (setq *r/nvm-enabled* nil)
