@@ -1503,6 +1503,9 @@ This stuff isn't really necessary, but it looks cool.
     :config
     (setq pulsar-functions
           '(iwindow-select
+            delete-window
+            flymake-goto-next-error
+            flymake-goto-prev-error
             avy-goto-char-timer
             isearch-repeat-forward
             isearch-repeat-backward))
