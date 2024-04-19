@@ -174,12 +174,11 @@ These settings are essentially subjective, but serve to disable some annoyances
       (setq line-spacing 0.1)))
 
   ;; The default UX when using `visual-line-mode' without line numbers
-  ;; isn't great; this package indents wrapped lines to make it clearer
+  ;; isn't great; this feature indents wrapped lines to make it clearer
   ;; that they've been wrapped.
-  (use-package adaptive-wrap
+  (use-package emacs
     :bind ("C-c tw" . visual-line-mode)
-    :hook (visual-line-mode . adaptive-wrap-prefix-mode)
-    :config (setq adaptive-wrap-extra-indent 3))
+    :hook (visual-line-mode . visual-wrap-prefix-mode))
 
   ;; Commands
   (use-package emacs
