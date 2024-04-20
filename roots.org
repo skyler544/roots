@@ -182,9 +182,8 @@ These settings are essentially subjective, but serve to disable some annoyances
 
   ;; Commands
   (use-package emacs
-    :hook
-    (after-init . repeat-mode)
-    (after-init . r/enable-commands)
+    :hook ((after-init . repeat-mode)
+           (after-init . r/enable-commands))
     :config
     (defun r/enable-commands ()
       (put 'narrow-to-region 'disabled nil)
@@ -234,9 +233,8 @@ and it's very helpful when discussing code with colleagues.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :hook
-    (prog-mode . display-line-numbers-mode)
-    (display-line-numbers-mode . hl-line-mode)
+    :hook ((prog-mode . display-line-numbers-mode)
+           (display-line-numbers-mode . hl-line-mode))
     :config
     (setq display-line-numbers-grow-only t)
     (setq-default display-line-numbers-width 3)
@@ -249,11 +247,10 @@ time saver.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :hook
-    (after-init . recentf-mode)
-    (after-init . save-place-mode)
-    (after-init . savehist-mode)
-    (after-init . r/configure-history)
+    :hook ((after-init . recentf-mode)
+           (after-init . save-place-mode)
+           (after-init . savehist-mode)
+           (after-init . r/configure-history))
     :config
     (defun r/configure-history ()
       (with-eval-after-load 'recentf
@@ -308,11 +305,10 @@ everything else dired is capable of, and there's just no contest.
 #+BEGIN_SRC emacs-lisp
   (use-package dired
     :ensure nil
-    :hook
-    (dired-mode . r/set-file-associations)
-    (dired-mode . dired-hide-details-mode)
-    (dired-mode . auto-revert-mode)
-    (after-init . (lambda () (load "dired-x")))
+    :hook ((dired-mode . r/set-file-associations)
+           (dired-mode . dired-hide-details-mode)
+           (dired-mode . auto-revert-mode)
+           (after-init . (lambda () (load "dired-x"))))
     :bind (:map dired-mode-map
                 ("C-c C-e" . wdired-change-to-wdired-mode))
     :config
@@ -737,10 +733,9 @@ nicely with ~C-f~, ~C-b~, etc.
 
 #+BEGIN_SRC emacs-lisp
   (use-package corfu
-    :hook
-    (after-init . global-corfu-mode)
-    (minibuffer-setup . corfu-enable-in-minibuffer)
-    (eglot-managed-mode . corfu-popupinfo-mode)
+    :hook ((after-init . global-corfu-mode)
+           (minibuffer-setup . corfu-enable-in-minibuffer)
+           (eglot-managed-mode . corfu-popupinfo-mode))
     :bind (:map corfu-map
                 ("TAB" . corfu-next)
                 ([tab] . corfu-next)
@@ -775,9 +770,8 @@ be a nightmare; this section attempts to mitigate some of that.
     :config (inheritenv-add-advice #'async-shell-command))
 
   (use-package buffer-env
-    :hook
-    (eat-mode . buffer-env-update)
-    (hack-local-variables . buffer-env-update))
+    :hook ((eat-mode . buffer-env-update)
+           (hack-local-variables . buffer-env-update)))
 #+END_SRC
 
 ** Eglot
@@ -866,12 +860,11 @@ secondary feature here; it does work, but I never use it.
 
 #+BEGIN_SRC emacs-lisp
   (use-package hideshow
-    :hook
-    (prog-mode . hs-minor-mode)
-    (php-mode . r/hs-fold-imports-lang)
-    (java-ts-mode . r/hs-fold-imports-lang)
-    (tsx-ts-mode . r/hs-fold-imports-lang)
-    (typescript-ts-mode . r/hs-fold-imports-lang)
+    :hook ((prog-mode . hs-minor-mode)
+           (php-mode . r/hs-fold-imports-lang)
+           (java-ts-mode . r/hs-fold-imports-lang)
+           (tsx-ts-mode . r/hs-fold-imports-lang)
+           (typescript-ts-mode . r/hs-fold-imports-lang))
     :bind ("C-c <tab>" . hs-toggle-hiding)
     :config
     (defvar r/hs-fold-imports-alist
@@ -940,10 +933,9 @@ difficult time learning Common Lisp without it.
   (use-package lispy
     :bind (:map lispy-mode-map
                 ("C-<backspace>" . lispy-delete-backward))
-    :hook
-    (emacs-lisp-mode . lispy-mode)
-    (lisp-mode . lispy-mode)
-    (sly-mrepl-mode . lispy-mode)
+    :hook ((emacs-lisp-mode . lispy-mode)
+           (lisp-mode . lispy-mode)
+           (sly-mrepl-mode . lispy-mode))
     :config
     (let ((keylist '(")" ":" "M-j" "M-k" "DEL")))
       (dolist (key keylist)
@@ -956,14 +948,15 @@ difficult time learning Common Lisp without it.
 ** Java
 
 #+BEGIN_SRC emacs-lisp
-(use-package emacs
-  :hook
-  (java-ts-mode . eglot-ensure)
-  (java-ts-mode
-   . (lambda () (cl-defmethod eglot-execute-command
-                  (_server (_cmd (eql java.apply.workspaceEdit)) arguments)
-                  "Eclipse JDT breaks spec and replies with edits as arguments."
-                  (mapc #'eglot--apply-workspace-edit arguments)))))
+  (use-package emacs
+    :hook ((java-ts-mode . eglot-ensure)
+           (java-ts-mode . #'r/eglot-java-hack))
+    :config
+    (defun r/eglot-java-hack ()
+      (cl-defmethod eglot-execute-command
+        (_server (_cmd (eql java.apply.workspaceEdit)) arguments)
+        "Eclipse JDT breaks spec and replies with edits as arguments."
+        (mapc #'eglot--apply-workspace-edit arguments))))
 #+END_SRC
 
 ** Structured Text
@@ -987,13 +980,13 @@ yaml, markdown, and html.
   ;; html and css
   (use-package emacs
     :config (setq css-indent-offset 2)
-    :hook
-    (css-ts-mode . display-line-numbers-mode)
-    (mhtml-mode . display-line-numbers-mode)
-    (mhtml-mode
-     . (lambda ()
-         (add-to-list 'completion-at-point-functions
-                      'comint-completion-at-point))))
+    :hook ((css-ts-mode . display-line-numbers-mode)
+           (mhtml-mode . display-line-numbers-mode)
+           (mhtml-mode . #'r/capf-comint))
+    :config
+    (defun r/capf-comint ()
+      (add-to-list 'completion-at-point-functions
+                   'comint-completion-at-point)))
 #+END_SRC
 
 ** LaTeX
@@ -1001,10 +994,9 @@ Syntax highlighting and build tools for LaTeX.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :hook
-    (tex-mode . eglot-ensure)
-    (tex-mode . display-line-numbers-mode)
-    (tex-mode . visual-line-mode)
+    :hook ((tex-mode . eglot-ensure)
+           (tex-mode . display-line-numbers-mode)
+           (tex-mode . visual-line-mode))
     :config (setq bibtex-entry-format t))
 #+END_SRC
 
@@ -1089,9 +1081,8 @@ other utility packages related to git.
            :inherit font-lock-comment-face)))))
 
   (use-package diff-hl
-    :hook
-    (prog-mode . r/diff-hl-mode-enable-maybe)
-    (org-mode . r/diff-hl-mode-enable-maybe)
+    :hook ((prog-mode . r/diff-hl-mode-enable-maybe)
+           (org-mode . r/diff-hl-mode-enable-maybe))
     :config
     (setq diff-hl-draw-borders nil)
 
@@ -1140,10 +1131,9 @@ technology. This is how I interact with it.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :hook
-    (js-ts-mode . eglot-ensure)
-    (tsx-ts-mode . eglot-ensure)
-    (typescript-ts-mode . eglot-ensure)
+    :hook ((js-ts-mode . eglot-ensure)
+           (tsx-ts-mode . eglot-ensure)
+           (typescript-ts-mode . eglot-ensure))
     :config
     (setq js-indent-level 2)
     :mode
@@ -1301,9 +1291,8 @@ baseline for Org Mode. Subsections implement the actual workflow configuration.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org
-    :hook
-    (org-mode . auto-fill-mode)
-    (auto-save . org-save-all-org-buffers)
+    :hook ((org-mode . auto-fill-mode)
+           (auto-save . org-save-all-org-buffers))
     :bind (:map org-src-mode-map
                 ("C-c C-c" . org-edit-src-exit))
     :config
@@ -1540,10 +1529,9 @@ Project browser with multiple-root functionality.
               (treemacs-load-theme "all-the-icons")))
 
   (use-package treemacs
-    :hook
-    (treemacs-mode . r/treemacs-all-the-icons)
-    (treemacs-mode
-     . (lambda () (setq-local truncate-lines t))))
+    :hook ((treemacs-mode . r/treemacs-all-the-icons)
+           (treemacs-mode . (lambda ()
+                              (setq-local truncate-lines t)))))
 #+END_SRC
 
 ** Faces
