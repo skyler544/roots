@@ -1439,6 +1439,10 @@ org-mode functionality lands.
       (set-face-attribute 'org-code nil
                           :inherit 'unspecified
                           :inherit 'font-lock-function-call-face)))
+
+  ;; Even more DWIM Behavior
+  (use-package org-autolist
+    :hook (org-mode . org-autolist-mode))
 #+END_SRC
 
 ** Eye Candy
