@@ -330,13 +330,14 @@ everything else dired is capable of, and there's just no contest.
   (use-package dired-hacks
     :after dired
     :vc (:url "https://github.com/Fuco1/dired-hacks")
-    :commands r/dired-subtree-face-override
+    :hook (dired-mode . r/dired-subtree-face-override)
     :bind (:map dired-mode-map
                 ("TAB" . dired-subtree-cycle))
     :config
     (defun r/dired-subtree-face-override ()
+      (unless (featurep 'dired-subtree) (require 'dired-subtree))
       (dolist (face (r/face-filter "^dired-subtree-"))
-        (set-face-attribute face nil :extend t :background 'unspecified))))
+        (set-face-attribute face nil :background 'unspecified))))
 #+END_SRC
 
 ** Calendar
