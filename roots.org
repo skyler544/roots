@@ -486,7 +486,7 @@ already working in.
     "Set the buffer pattern specified by `regex-or-predicate' to be opened in
   the active window."
     (add-to-list 'display-buffer-alist
-                 `(,regex-or-predicate (display-buffer-same-window))))
+                 `(,regex-or-predicate display-buffer-same-window)))
 
   (dolist (regex r/buffer-regexes)
     (r/display-buffer-same-window regex))
