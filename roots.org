@@ -1281,6 +1281,15 @@ Add syntax highlighting for Lua.
   (use-package lua-mode)
 #+END_SRC
 
+** Docker
+Dockerfiles need syntax highlighting too.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :mode ("Dockerfile$" . dockerfile-ts-mode))
+#+END_SRC
+
+
 * Org Mode
 The swiss-army outline tool. This section defines what I consider to be a solid
 baseline for Org Mode. Subsections implement the actual workflow configuration.
