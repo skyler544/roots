@@ -426,11 +426,6 @@ great functions that you might otherwise end up writing yourself.
     :hook (after-init . global-devil-mode)
     :config (setq devil-all-keys-repeatable t))
 
-  (use-package composable
-    :hook ((after-init . composable-mode)
-           (after-init . composable-mark-mode))
-    :config (setq composable-mode-line-color nil))
-
   (use-package crux
     :bind (("C-M-j" . crux-top-join-line)
            ("C-M-k" . crux-kill-whole-line)
