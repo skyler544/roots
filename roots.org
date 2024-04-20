@@ -95,6 +95,11 @@ init file.
     "Call `function' if it is not void, else return nil."
     (when (fboundp function)
       (funcall function)))
+
+  (defun r/sudo (command)
+    "Run `command' as root."
+    (let ((default-directory "/sudo::"))
+      (shell-command command)))
 #+END_SRC
 
 ** Editing Functions
@@ -1286,7 +1291,17 @@ Dockerfiles need syntax highlighting too.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :mode ("Dockerfile$" . dockerfile-ts-mode))
+    :mode ("Dockerfile$" . dockerfile-ts-mode)
+    :config
+    (defun r/docker-up ()
+      "Start docker"
+      (interactive)
+      (r/sudo "sv up docker"))
+
+    (defun r/docker-down ()
+      "Stop docker"
+      (interactive)
+      (r/sudo "sv down docker")))
 #+END_SRC
 
 
