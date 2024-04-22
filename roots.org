@@ -1663,7 +1663,6 @@ section is tightly connected with the [[*Faces][Faces]] section.
     (defun r/light-mode ()
       "Switch to light mode, featuring `modus-operandi' theme."
       (interactive)
-      (setq modus-themes-deuteranopia t)
       (setq modus-themes-hl-line nil)
       (setq modus-themes-org-blocks 'gray-background)
       (setq modus-themes-org-agenda (quote ((header-block . (no-scale)))))
