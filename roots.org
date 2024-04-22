@@ -1305,7 +1305,6 @@ Dockerfiles need syntax highlighting too.
       (r/sudo "sv down docker")))
 #+END_SRC
 
-
 * Org Mode
 The swiss-army outline tool. This section defines what I consider to be a solid
 baseline for Org Mode. Subsections implement the actual workflow configuration.
