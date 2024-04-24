@@ -176,8 +176,7 @@ These settings are essentially subjective, but serve to disable some annoyances
       (setq Man-notify-method 'pushy)
       (setq ring-bell-function 'ignore)
       (setq frame-resize-pixelwise t)
-      (setq line-spacing 0.1)
-      (setq icon-preference '(text))))
+      (setq line-spacing 0.1)))
 
   ;; The default UX when using `visual-line-mode' without line numbers
   ;; isn't great; this feature indents wrapped lines to make it clearer
