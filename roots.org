@@ -1534,7 +1534,7 @@ This stuff isn't really necessary, but it looks cool.
     :hook (prog-mode . hl-todo-mode))
 
   (use-package page-break-lines
-    :hook (help-mode . page-break-lines-mode))
+    :hook (after-init . global-page-break-lines-mode))
 #+END_SRC
 
 ** Icons
