@@ -360,7 +360,7 @@ numbers. This thing does that beautifully, and it's right here.
     :config
     (add-to-list 'display-buffer-alist
                  '("\\*Calendar*"
-                   (display-buffer-at-bottom)))
+                   display-buffer-at-bottom))
     (setq calendar-week-start-day 1)
     ;; Show week numbers
     (setq calendar-intermonth-text
