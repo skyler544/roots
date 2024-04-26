@@ -176,11 +176,7 @@ These settings are essentially subjective, but serve to disable some annoyances
       (setq Man-notify-method 'pushy)
       (setq ring-bell-function 'ignore)
       (setq frame-resize-pixelwise t)
-      (setq line-spacing 0.1)
-      (setq icon-preference '(text))
-
-      ;; authentication and pinentry
-      (setq epg-pinentry-mode 'loopback)))
+      (setq line-spacing 0.1)))
 
   ;; The default UX when using `visual-line-mode' without line numbers
   ;; isn't great; this feature indents wrapped lines to make it clearer
@@ -407,6 +403,9 @@ This section provides informational improvements to the default user experience.
     :bind (("C-h f" . helpful-callable)
            ("C-h v" . helpful-variable)
            ("C-h k" . helpful-key)))
+
+  (use-package emacs
+    :bind ("C-h '" . describe-char))
 
   ;; Make ibuffer a little more user-friendly by categorizing buffers into projects
   (use-package ibuffer-project
@@ -1667,9 +1666,6 @@ section is tightly connected with the [[*Faces][Faces]] section.
     (defun r/light-mode ()
       "Switch to light mode, featuring `modus-operandi' theme."
       (interactive)
-      (setq modus-themes-hl-line nil)
-      (setq modus-themes-org-blocks 'gray-background)
-      (setq modus-themes-org-agenda (quote ((header-block . (no-scale)))))
       (r/load-theme 'modus-operandi))
 
     (defun r/theme-setup ()
