@@ -79,27 +79,29 @@ This is where I define any functions that I want available from the start of the
 init file.
 
 #+BEGIN_SRC emacs-lisp
-  ;; Places where this would be useful were identified with `esup'.
-  (defun r/run-idly (function seconds)
-    "Run the no-arg `function' after `seconds' of idle time."
-    (run-with-idle-timer
-     seconds nil function))
+  (use-package emacs
+    :config
+    ;; Places where this would be useful were identified with `esup'.
+    (defun r/run-idly (function seconds)
+      "Run the no-arg `function' after `seconds' of idle time."
+      (run-with-idle-timer
+       seconds nil function))
 
-  (defun r/face-filter (regex)
-    "Return a list of faces matching `regex'."
-    (cl-remove-if-not
-     (lambda (s) (string-match-p regex (symbol-name s)))
-     (face-list)))
+    (defun r/face-filter (regex)
+      "Return a list of faces matching `regex'."
+      (cl-remove-if-not
+       (lambda (s) (string-match-p regex (symbol-name s)))
+       (face-list)))
 
-  (defun r/funcall-or-nil (function)
-    "Call `function' if it is not void, else return nil."
-    (when (fboundp function)
-      (funcall function)))
+    (defun r/funcall-or-nil (function)
+      "Call `function' if it is not void, else return nil."
+      (when (fboundp function)
+        (funcall function)))
 
-  (defun r/sudo (command)
-    "Run `command' as root."
-    (let ((default-directory "/sudo::"))
-      (shell-command command)))
+    (defun r/sudo (command)
+      "Run `command' as root."
+      (let ((default-directory "/sudo::"))
+        (shell-command command))))
 #+END_SRC
 
 ** Editing Functions
