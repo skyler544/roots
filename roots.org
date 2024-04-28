@@ -162,6 +162,7 @@ These settings are essentially subjective, but serve to disable some annoyances
 
       ;; Line style and indentation
       (setq-default indent-tabs-mode nil)
+      (setq-default tab-width 4)
       (setq-default truncate-lines t)
       (setq-default fill-column 80)
       (setq require-final-newline t)
