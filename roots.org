@@ -578,8 +578,8 @@ text.
 
   ;; Reformat buffers when needed
   (use-package apheleia
-    :hook (after-init . apheleia-global-mode)
-    :config (add-to-list 'apheleia-mode-alist '(nxml-mode . yq-xml)))
+    :hook (prog-mode . apheleia-mode)
+    :config (add-to-list 'apheleia-mode-alist '(nxml-mode . xmllint)))
 
   ;; Conform to .editorconfig rules
   (use-package editorconfig
