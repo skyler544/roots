@@ -1031,12 +1031,7 @@ terminal applications, but that person isn't me.
                 ("," . nil)
                 ("C-z" . nil))
     :commands eat-compile-terminfo
-    :config
-    (setq eat-enable-auto-line-mode t)
-    (defun r/eat-buffer-p (buffer &optional arg)
-      (with-current-buffer buffer
-        (eq major-mode 'eat-mode)))
-    (r/display-buffer-same-window #'r/eat-buffer-p))
+    :config (setq eat-enable-auto-line-mode t))
 
   ;; Configurable command recipes
   (use-package run-command
