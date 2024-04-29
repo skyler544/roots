@@ -961,14 +961,7 @@ difficult time learning Common Lisp without it.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :hook ((java-ts-mode . eglot-ensure)
-           (java-ts-mode . #'r/eglot-java-hack))
-    :config
-    (defun r/eglot-java-hack ()
-      (cl-defmethod eglot-execute-command
-        (_server (_cmd (eql java.apply.workspaceEdit)) arguments)
-        "Eclipse JDT breaks spec and replies with edits as arguments."
-        (mapc #'eglot--apply-workspace-edit arguments))))
+    :hook (java-ts-mode . eglot-ensure))
 #+END_SRC
 
 ** Structured Text
