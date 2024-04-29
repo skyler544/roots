@@ -325,6 +325,8 @@ everything else dired is capable of, and there's just no contest.
     :config
     (defun r/set-file-associations ()
       (add-to-list 'dired-guess-shell-alist-user '("\\.pdf\\'" "zathura"))
+      (add-to-list 'dired-guess-shell-alist-user '("\\.jpg\\'" "feh"))
+      (add-to-list 'dired-guess-shell-alist-user '("\\.png\\'" "feh"))
       (add-to-list 'dired-guess-shell-alist-user '("\\.mp4\\'" "mpv"))
       (add-to-list 'dired-guess-shell-alist-user '("\\.mkv\\'" "mpv")))
     (setq dired-listing-switches "-alh --group-directories-first")
