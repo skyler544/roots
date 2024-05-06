@@ -571,7 +571,9 @@ text.
   ;; Faster/more interactive way of doing
   ;; `query-replace-regex'
   (use-package iedit
-    :bind ("C-." . iedit-mode))
+    :bind (("C-." . iedit-mode)
+           :map iedit-lib-keymap
+           ("TAB" . nil)))
 
   (use-package string-inflection)
 
