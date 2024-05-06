@@ -965,7 +965,8 @@ difficult time learning Common Lisp without it.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :hook (java-ts-mode . eglot-ensure))
+    :hook ((java-ts-mode . eglot-ensure)
+           (java-ts-mode . visual-line-mode)))
 #+END_SRC
 
 ** Structured Text
