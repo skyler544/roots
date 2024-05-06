@@ -351,6 +351,9 @@ everything else dired is capable of, and there's just no contest.
       (unless (featurep 'dired-subtree) (require 'dired-subtree))
       (dolist (face (r/face-filter "^dired-subtree-"))
         (set-face-attribute face nil :background 'unspecified))))
+
+  ;; "Project drawer"
+  (use-package dired-sidebar)
 #+END_SRC
 
 ** Calendar
