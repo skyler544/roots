@@ -953,7 +953,7 @@ difficult time learning Common Lisp without it.
            (lisp-mode . lispy-mode)
            (sly-mrepl-mode . lispy-mode))
     :config
-    (let ((keylist '(")" ":" "M-j" "M-k" "DEL")))
+    (let ((keylist '(")" ":" "M-j" "M-k" "DEL" "[" "]")))
       (dolist (key keylist)
         (keymap-unset lispy-mode-map-lispy key))))
 
