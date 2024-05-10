@@ -958,7 +958,11 @@ difficult time learning Common Lisp without it.
         (keymap-unset lispy-mode-map-lispy key))))
 
   (use-package sly
-    :config (setq inferior-lisp-program "sbcl"))
+    :config
+    (setq sly-description-autofocus t)
+    (setq sly-lisp-implementations
+          '((sbcl ("sbcl") :coding-system utf-8-unix)
+            (qlot ("qlot" "exec" "sbcl") :coding-system utf-8-unix))))
 #+END_SRC
 
 ** Java
