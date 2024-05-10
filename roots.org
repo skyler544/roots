@@ -1619,6 +1619,7 @@ The rules I try to enforce are pretty simple:
                           :inherit 'unspecified
                           :inherit 'font-lock-function-name-face)
       (set-face-attribute 'info-menu-star nil
+                          :inherit 'unspecified
                           :foreground 'unspecified)
       (set-face-attribute 'info-node nil
                           :foreground 'unspecified)))
