@@ -1040,7 +1040,8 @@ terminal applications, but that person isn't me.
                  ("," . nil)
                  ("C-z" . nil))
            (:map eat-eshell-semi-char-mode-map
-                 ("," . nil)))
+                 ("," . nil)
+                 ("C-z" . nil)))
     :commands eat-compile-terminfo
     :config (setq eat-enable-auto-line-mode t))
 
