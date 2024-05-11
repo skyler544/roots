@@ -1036,9 +1036,11 @@ terminal applications, but that person isn't me.
   ;; Emulate A Terminal -> eat
   (use-package eat
     :hook (eshell-load . eat-eshell-mode)
-    :bind (:map eat-semi-char-mode-map
-                ("," . nil)
-                ("C-z" . nil))
+    :bind ((:map eat-semi-char-mode-map
+                 ("," . nil)
+                 ("C-z" . nil))
+           (:map eat-eshell-semi-char-mode-map
+                 ("," . nil)))
     :commands eat-compile-terminfo
     :config (setq eat-enable-auto-line-mode t))
 
