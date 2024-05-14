@@ -1011,7 +1011,12 @@ Syntax highlighting and build tools for LaTeX.
     :hook ((tex-mode . eglot-ensure)
            (tex-mode . display-line-numbers-mode)
            (tex-mode . visual-line-mode))
-    :config (setq bibtex-entry-format t))
+    :config
+    (setq bibtex-entry-format t)
+
+    (defun r/latex-word-count ()
+      (interactive)
+      (shell-command (concat "detex " (buffer-file-name) " | wc"))))
 #+END_SRC
 
 ** Shell
