@@ -1079,7 +1079,9 @@ other utility packages related to git.
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :config (setq magit-display-buffer-function 'display-buffer))
+    :config
+    (setq magit-diff-refine-hunk 'all)
+    (setq magit-display-buffer-function 'display-buffer))
 
   (when (string-equal system-type "darwin")
     (use-package magit
