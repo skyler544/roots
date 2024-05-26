@@ -268,12 +268,7 @@ time saver.
         (setq recentf-max-saved-items 200)
         (add-to-list 'recentf-exclude '("\\/sudo:root@localhost.*"))
         (add-to-list 'recentf-exclude '("\\.org_archive$"))
-        (run-at-time nil (* 5 60) 'recentf-save-list))
-      (setq savehist-additional-variables
-            '(file-name-history
-              search-ring
-              command-history
-              regexp-search-ring))))
+        (run-at-time nil (* 5 60) 'recentf-save-list))))
 #+END_SRC
 
 ** Modeline
@@ -723,7 +718,6 @@ normally want this, especially in large projects.
            ("C-c cr" . r/consult-rg-current-directory)
            ("C-c cf" . r/consult-fd-current-directory)
            ("C-c cl" . consult-line)
-           ("C-\\" . consult-line)
            ("M-g i" . consult-imenu))
     :config
     (setq xref-show-xrefs-function 'consult-xref)
