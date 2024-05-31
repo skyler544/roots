@@ -82,16 +82,20 @@ init file.
   (use-package emacs
     :config
     ;; Places where this would be useful were identified with `esup'.
-    (defun r/run-idly (function seconds)
-      "Run the no-arg `function' after `seconds' of idle time."
+    (defun r/run-idly (func seconds)
+      "Run the no-arg `func' after `seconds' of idle time."
       (run-with-idle-timer
-       seconds nil function))
+       seconds nil func))
 
     (defun r/face-filter (regex)
       "Return a list of faces matching `regex'."
       (cl-remove-if-not
        (lambda (s) (string-match-p regex (symbol-name s)))
        (face-list)))
+
+    (defun r/remove-background (face)
+      "Set the `:background' attribute of `face' to `unspecified'."
+      (set-face-attribute face nil :background 'unspecified))
 
     (defun r/funcall-or-nil (function)
       "Call `function' if it is not void, else return nil."
@@ -330,7 +334,12 @@ everything else dired is capable of, and there's just no contest.
 
   ;; Add some color to dired
   (use-package diredfl
-    :hook (after-init . diredfl-global-mode))
+    :hook ((after-init . diredfl-global-mode)
+           (dired-mode . r/diredfl-face-override))
+    :config
+    (defun r/diredfl-face-override ()
+      (dolist (face (r/face-filter "^diredfl-"))
+        (r/remove-background face))))
 
   ;; This package lets you show subfolders in a tree view instead of
   ;; inserting them below. It's very slow on deeply nested directories,
@@ -345,7 +354,7 @@ everything else dired is capable of, and there's just no contest.
     (defun r/dired-subtree-face-override ()
       (unless (featurep 'dired-subtree) (require 'dired-subtree))
       (dolist (face (r/face-filter "^dired-subtree-"))
-        (set-face-attribute face nil :background 'unspecified))))
+        (r/remove-background face))))
 
   ;; "Project drawer"
   (use-package dired-sidebar)
