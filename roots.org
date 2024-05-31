@@ -966,6 +966,10 @@ difficult time learning Common Lisp without it.
     (setq sly-lisp-implementations
           '((sbcl ("sbcl") :coding-system utf-8-unix)
             (qlot ("qlot" "exec" "sbcl") :coding-system utf-8-unix))))
+
+  (use-package sly-asdf
+    :after sly
+    :config (add-to-list 'sly-contribs 'sly-asdf 'append))
 #+END_SRC
 
 ** Java
