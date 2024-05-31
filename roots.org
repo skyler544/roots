@@ -568,6 +568,14 @@ This section enables some tools which are generally useful for manipulating
 text.
 
 #+BEGIN_SRC emacs-lisp
+  ;; external programs
+  (use-package openwith
+    :hook (after-init . openwith-mode)
+    :custom (openwith-associations
+             '(("\\.pdf\\'" "zathura" (file))
+               ("\\.\\(?:mpe?g\\|avi\\|wmv\\|mp4\\)\\'" "mpv" (file))
+               ("\\.\\(?:jp?g\\|png\\)\\'" "feh" (file)))))
+
   ;; Enclose regions with (), [], {}, etc.
   (use-package wrap-region
     :hook (after-init . wrap-region-mode))
