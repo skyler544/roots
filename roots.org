@@ -1219,7 +1219,7 @@ collection of face settings, often with intricate logic for enabling them, this
 section is tightly connected with the [[*Faces][Faces]] section.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package gruvbox-theme
+  (use-package gruvbox-theme :pin melpa
     :init (setq gruvbox-bold-constructs t))
 
   (use-package emacs
