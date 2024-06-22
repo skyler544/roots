@@ -77,11 +77,34 @@ These settings are essentially subjective, but serve to disable some annoyances
            ("C-c wu" . winner-undo))
 
     :custom
+    ;; Startup
+    (inhibit-startup-screen t)
+    (inhibit-x-resources t)
+    (initial-major-mode 'fundamental-mode)
+    (initial-scratch-message nil)
+
+    ;; Tabs
+    (indent-tabs-mode nil)
+    (tab-always-indent 'complete)
+    (tab-width 4)
+
+    ;; Line numbers
+    (display-line-numbers-grow-only t)
+    (display-line-numbers-widen t)
+    (display-line-numbers-width 3)
+
+    ;; Mode line
+    (mode-line-format
+     (delete '(vc-mode vc-mode)
+             mode-line-format))
+
+    ;; Miscellaneous
     (Man-notify-method 'pushy)
     (disabled-command-function nil)
     (enable-recursive-minibuffers t)
     (epg-pinentry-mode 'loopback)
     (fill-column 80)
+    (load-prefer-newer noninteractive)
     (make-backup-files nil)
     (native-comp-async-report-warnings-errors nil)
     (require-final-newline t)
@@ -89,18 +112,6 @@ These settings are essentially subjective, but serve to disable some annoyances
     (tooltip-mode nil)
     (uniquify-buffer-name-style 'forward)
     (use-dialog-box nil)
-
-    (tab-width 4)
-    (indent-tabs-mode nil)
-    (tab-always-indent 'complete)
-
-    (display-line-numbers-grow-only t)
-    (display-line-numbers-widen t)
-    (display-line-numbers-width 3)
-
-    (mode-line-format
-     (delete '(vc-mode vc-mode)
-             mode-line-format))
 
     :config
     (defalias 'yes-or-no-p 'y-or-n-p)
@@ -1099,20 +1110,6 @@ This section enables themes, tweaks font faces, adds icons, etc. This section is
 not as important as the actual functionality and should be considered a layer of
 "nice to have" stuff that could be easily disabled all at once for a
 hypothetical terminal-only workflow.
-
-** Frames
-
-#+BEGIN_SRC emacs-lisp
-  (use-package emacs
-    :hook ((after-init . r/frame-cleanup)
-           (server-after-make-frame . r/frame-cleanup))
-    :config
-    (defun r/frame-cleanup ()
-      (menu-bar-mode -1)
-      (when (display-graphic-p)
-        (tool-bar-mode -1)
-        (scroll-bar-mode -1))))
-#+END_SRC
 
 ** Eye Candy
 This stuff isn't really necessary, but it looks cool.

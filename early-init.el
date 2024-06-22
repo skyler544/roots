@@ -15,12 +15,6 @@
 (startup-redirect-eln-cache
  (concat user-emacs-directory "var/eln-cache"))
 
-(setq inhibit-startup-screen t)
-(setq inhibit-x-resources t)
-(setq initial-major-mode 'fundamental-mode)
-(setq initial-scratch-message nil)
-(setq load-prefer-newer noninteractive)
-
 (setq custom-file (expand-file-name "var/custom.el" user-emacs-directory))
 
 (when (string-equal system-type "darwin")
@@ -52,6 +46,12 @@
 (use-package minions
   :hook (after-init . minions-mode)
   :custom (minions-mode-line-lighter "--"))
+
+;; UI Tweaks
+;; ----------------------------------------------------
+(push '(menu-bar-lines . 0) default-frame-alist)
+(push '(tool-bar-lines . 0) default-frame-alist)
+(push '(vertical-scroll-bars) default-frame-alist)
 
 ;; Garbage collection
 ;; ----------------------------------------------------
