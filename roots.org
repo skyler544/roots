@@ -1220,7 +1220,7 @@ section is tightly connected with the [[*Faces][Faces]] section.
 
 #+BEGIN_SRC emacs-lisp
   (use-package gruvbox-theme
-    :config (setq gruvbox-bold-constructs t))
+    :init (setq gruvbox-bold-constructs t))
 
   (use-package emacs
     :hook (after-init . r/theme-setup)
