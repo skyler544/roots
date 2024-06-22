@@ -231,9 +231,13 @@ specific package.
       "Return the path to the current file relative to the project root."
       (file-relative-name buffer-file-name (r/project-root)))
 
-    (defun r/sudo-async-shell-command ()
+    (defun r/sudo-async-shell-command (&optional command)
       (interactive)
-      (r/sudo #'async-shell-command))
+      (if command
+          (r/sudo (lambda ()
+                    (interactive)
+                    (async-shell-command command)))
+        (r/sudo #'async-shell-command)))
 
     (defun r/sudo-find-file ()
       (interactive)
@@ -1098,12 +1102,12 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
     (defun r/docker-up ()
       "Start docker"
       (interactive)
-      (r/sudo "sv up docker"))
+      (r/sudo-async-shell-command "sv up docker"))
 
     (defun r/docker-down ()
       "Stop docker"
       (interactive)
-      (r/sudo "sv down docker")))
+      (r/sudo-async-shell-command "sv down docker")))
 #+END_SRC
 
 * UI
