@@ -17,8 +17,8 @@
 
 (setq inhibit-startup-screen t)
 (setq inhibit-x-resources t)
-(setq initial-scratch-message nil)
 (setq initial-major-mode 'fundamental-mode)
+(setq initial-scratch-message nil)
 (setq load-prefer-newer noninteractive)
 
 (setq custom-file (expand-file-name "var/custom.el" user-emacs-directory))
