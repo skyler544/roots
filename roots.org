@@ -569,7 +569,8 @@ of what its customization trivially offers.
 #+END_SRC
 
 ** Eye Candy
-This section enables spicing up the buffer with some unicode characters.
+This section enables spicing up the buffer with some unicode characters and sets
+any face settings that I don't want themes to override.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-superstar
@@ -577,6 +578,11 @@ This section enables spicing up the buffer with some unicode characters.
     :custom
     (org-ellipsis " ⯆")
     (org-superstar-headline-bullets-list '("●")))
+
+  (use-package org
+    :custom-face
+    (org-document-title
+     ((t (:bold t)))))
 #+END_SRC
 
 * Technologies
@@ -1203,7 +1209,7 @@ Project browser with multiple-root functionality.
      ((t ( :foreground unspecified
            :background unspecified
            :box unspecified
-           :weight bold))))
+           :bold t))))
 
     (Info-quoted
      ((t ( :inherit unspecified
