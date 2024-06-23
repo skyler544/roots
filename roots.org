@@ -1103,17 +1103,7 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :mode ("Dockerfile$" . dockerfile-ts-mode)
-    :config
-    (defun r/docker-up ()
-      "Start docker"
-      (interactive)
-      (r/sudo-async-shell-command "sv up docker"))
-
-    (defun r/docker-down ()
-      "Stop docker"
-      (interactive)
-      (r/sudo-async-shell-command "sv down docker")))
+    :mode ("Dockerfile$" . dockerfile-ts-mode))
 #+END_SRC
 
 * UI
@@ -1257,4 +1247,15 @@ section is tightly connected with the [[*Faces][Faces]] section.
 
 * Machine Specific Tweaks
 This section is reserved for whatever configuration that might occur that only
-applies to one specific machine.
+applies to one specific machine. Keeping this config in a separate repository
+and symlinking it into this directory seems like the cleanest approach.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :config
+    (let ((local-config (concat
+                         user-emacs-directory
+                         "local-config.el")))
+      (when (file-exists-p local-config)
+        (load local-config))))
+#+END_SRC
