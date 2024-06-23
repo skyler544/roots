@@ -49,9 +49,9 @@
 
 ;; UI Tweaks
 ;; ----------------------------------------------------
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
+(mapc (lambda (parameter)
+        (push `(,parameter . nil) default-frame-alist))
+      '(menu-bar-lines tool-bar-lines vertical-scroll-bars))
 
 ;; Garbage collection
 ;; ----------------------------------------------------
