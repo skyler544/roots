@@ -220,7 +220,7 @@ specific package.
            ("C-c mw" . r/mark-symbol-at-point))
     :config
     (defun r/sudo (command)
-      (let ((default-directory "/sudo::/"))
+      (let ((default-directory (concat "/sudo::" default-directory)))
         (call-interactively command)))
 
     (defun r/project-root ()
