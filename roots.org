@@ -110,6 +110,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     (native-comp-async-report-warnings-errors nil)
     (require-final-newline t)
     (ring-bell-function 'ignore)
+    (scroll-conservatively 101)
     (tooltip-mode nil)
     (uniquify-buffer-name-style 'forward)
     (use-dialog-box nil)
