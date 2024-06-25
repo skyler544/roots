@@ -1064,12 +1064,7 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
   (use-package php-ts-mode
     :mode ("\\.php$" . php-ts-mode)
     :hook (php-ts-mode . eglot-ensure)
-    :bind (:map php-ts-mode-map
-                ("C-c pr" . r/php-run-file))
     :config
-    (defun r/php-run-file ()
-      (interactive)
-      (async-shell-command (concat "php " buffer-file-name)))
     (with-eval-after-load 'apheleia
       (setf (alist-get 'phpcs apheleia-formatters)
             '("composer" "--no-interaction" (concat "--working-dir=" (r/project-root))
