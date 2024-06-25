@@ -893,16 +893,6 @@ other utility packages related to git.
       (defun r/macos-fringes ()
         (setq left-fringe-width 12))))
 
-  ;; Show previous versions of a file
-  (use-package git-timemachine)
-
-  ;; Display git blame for the current line
-  (use-package why-this
-    :custom-face
-    (why-this-face
-     ((t ( :foreground unspecified
-           :inherit font-lock-comment-face)))))
-
   (use-package diff-hl
     :hook ((prog-mode . r/diff-hl-mode-enable-maybe)
            (org-mode . r/diff-hl-mode-enable-maybe))
