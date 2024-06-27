@@ -381,17 +381,6 @@ scenarios in impressive ways.
         (corfu-mode 1))))
 #+END_SRC
 
-** Environment
-
-#+BEGIN_SRC emacs-lisp
-  (use-package inheritenv :demand
-    :config (inheritenv-add-advice #'async-shell-command))
-
-  (use-package buffer-env
-    :hook ((eat-mode . buffer-env-update)
-           (hack-local-variables . buffer-env-update)))
-#+END_SRC
-
 ** Tidying Buffers
 
 #+BEGIN_SRC emacs-lisp
