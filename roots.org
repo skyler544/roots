@@ -172,6 +172,7 @@ be created and the file should be put there.
 #+BEGIN_SRC emacs-lisp
   (use-package ibuffer-project
     :hook (ibuffer . r/ibuffer-project)
+    :bind ("C-x C-b" . ibuffer)
     :config
     (defun r/ibuffer-project ()
       (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
