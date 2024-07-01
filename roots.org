@@ -876,13 +876,6 @@ other utility packages related to git.
     (magit-diff-refine-hunk 'all)
     (magit-display-buffer-function 'display-buffer))
 
-  (when (string-equal system-type "darwin")
-    (use-package magit
-      :hook (magit-mode . r/macos-fringes)
-      :config
-      (defun r/macos-fringes ()
-        (setq left-fringe-width 12))))
-
   (use-package diff-hl
     :hook ((prog-mode . r/diff-hl-mode-enable-maybe)
            (org-mode . r/diff-hl-mode-enable-maybe))
