@@ -74,7 +74,8 @@ These settings are essentially subjective, but serve to disable some annoyances
            ("C-h '" . describe-char)
            ("C-c tw" . visual-line-mode)
            ("C-c wr" . winner-redo)
-           ("C-c wu" . winner-undo))
+           ("C-c wu" . winner-undo)
+           ("C-x m" . nil))
 
     :custom
     ;; Startup
