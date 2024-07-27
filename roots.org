@@ -1162,7 +1162,7 @@ Project browser with multiple-root functionality.
   (use-package emacs
     :custom-face
     (default
-     ((t (:height 120 :family "CommitMono"))))
+     ((t (:height 100 :family "CommitMono"))))
     (fringe
      ((t (:background unspecified))))
     (variable-pitch
