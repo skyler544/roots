@@ -1222,8 +1222,7 @@ and symlinking it into this directory seems like the cleanest approach.
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
     :config
-    (let ((local-config (concat
-                         user-emacs-directory
+    (let ((local-config (locate-user-emacs-file
                          "local-config.el")))
       (when (file-exists-p local-config)
         (load local-config))))

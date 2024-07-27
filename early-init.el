@@ -8,12 +8,12 @@
 ;; Basic initialization
 ;; ----------------------------------------------------
 (mapc (lambda (dir)
-        (let ((dir (concat user-emacs-directory dir)))
+        (let ((dir (locate-user-emacs-file dir)))
           (unless (file-directory-p dir) (make-directory dir))))
       '("var" "etc"))
 
 (startup-redirect-eln-cache
- (concat user-emacs-directory "var/eln-cache"))
+ (locate-user-emacs-file "var/eln-cache"))
 
 (setq custom-file (expand-file-name "var/custom.el" user-emacs-directory))
 
