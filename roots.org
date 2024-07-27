@@ -74,7 +74,8 @@ These settings are essentially subjective, but serve to disable some annoyances
            ("C-h '" . describe-char)
            ("C-c tw" . visual-line-mode)
            ("C-c wr" . winner-redo)
-           ("C-c wu" . winner-undo))
+           ("C-c wu" . winner-undo)
+           ("C-x m" . nil))
 
     :custom
     ;; Startup
@@ -464,6 +465,15 @@ This section defines my capture and agenda workflow.
     :hook (org-agenda-mode . hl-line-mode)
     :bind (("C-c oa" . org-agenda)
            ("C-c oc" . org-capture))
+    :config
+    ;; The `display-buffer-no-window' function behaves differently than other
+    ;; `display-buffer' actions, requiring a non-nil `allow-no-window' as an
+    ;; argument. This quasi-quoted construct is distilled from the construct in
+    ;; the stack exchange answer: https://emacs.stackexchange.com/a/72045
+    (add-to-list 'display-buffer-alist
+                 `(,org-babel-error-buffer-name
+                   display-buffer-no-window
+                   (allow-no-window . t)))
     :custom
     (org-agenda-files (list org-directory))
     (org-agenda-span 10)
@@ -638,7 +648,7 @@ useful for yaml files), so we disable it here.
       (setq treesit-auto-install t)
       (setq treesit-auto-langs
             '( bash c cpp css dockerfile html java javascript json
-               lua make python toml tsx typescript yaml))
+               php phpdoc jsdoc lua make python toml tsx typescript yaml))
       (treesit-auto-install-all)
       ;; This is necessary to prevent the broken builtin `yaml-ts-mode' from being
       ;; activated along with the working ones.
@@ -874,7 +884,8 @@ other utility packages related to git.
   (use-package magit
     :custom
     (magit-diff-refine-hunk 'all)
-    (magit-display-buffer-function 'display-buffer))
+    (magit-display-buffer-function 'display-buffer)
+    (magit-blame-styles '((headings (heading-format . "%-20a %C %s\n")))))
 
   (use-package diff-hl
     :hook ((prog-mode . r/diff-hl-mode-enable-maybe)
