@@ -1170,6 +1170,8 @@ Project browser with multiple-root functionality.
      ((t (:background unspecified))))
     (variable-pitch
      ((t (:family unspecified))))
+    (fixed-pitch
+     ((t (:family unspecified))))
 
     (header-line
      ((t (:box (:line-width 3 :style flat-button)))))
