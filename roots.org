@@ -198,7 +198,7 @@ everything else dired is capable of, and there's just no contest.
     :bind (:map dired-mode-map
                 ("C-c C-e" . wdired-change-to-wdired-mode))
     :custom
-    (dired-listing-switches "-alh --group-directories-first")
+    (dired-listing-switches "-alh --group-directories-first -v")
     (dired-dwim-target t)
     (dired-clean-up-buffers-too nil))
 
