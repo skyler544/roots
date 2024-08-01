@@ -21,7 +21,9 @@
   (string-equal system-type "darwin"))
 
 (when (r/macp)
-  (add-to-list 'default-frame-alist '(undecorated-round . t))
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (setq ns-use-proxy-icon nil)
+  (setq frame-title-format "\n")        ; hack for frame size in titlebar
   (setq insert-directory-program "gls")
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'meta)
