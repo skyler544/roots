@@ -17,7 +17,10 @@
 
 (setq custom-file (expand-file-name "var/custom.el" user-emacs-directory))
 
-(when (string-equal system-type "darwin")
+(defun r/macp ()
+  (string-equal system-type "darwin"))
+
+(when (r/macp)
   (add-to-list 'default-frame-alist '(undecorated-round . t))
   (setq insert-directory-program "gls")
   (setq mac-command-modifier 'meta)

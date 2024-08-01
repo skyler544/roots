@@ -1210,7 +1210,7 @@ section is tightly connected with the [[*Faces][Faces]] section.
     :init (setq gruvbox-bold-constructs t))
 
   (use-package auto-dark
-    :when (not (string-equal system-type "darwin"))
+    :when (not (r/macp))
     :hook (after-init . auto-dark-mode)
     :custom
     (auto-dark-dark-theme 'gruvbox-dark-hard)
