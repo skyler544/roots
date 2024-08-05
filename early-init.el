@@ -46,7 +46,7 @@
 
 ;; Organization
 ;; ----------------------------------------------------
-(use-package no-littering :demand t)
+(use-package no-littering :demand)
 (use-package minions
   :hook (after-init . minions-mode)
   :custom (minions-mode-line-lighter "--"))
