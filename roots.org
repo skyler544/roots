@@ -652,7 +652,7 @@ useful for yaml files), so we disable it here.
       (interactive)
       (setq treesit-auto-install t)
       (setq treesit-auto-langs
-            '( bash c cpp css dockerfile html java javascript json
+            '( bash c cpp css dockerfile html java javascript json vue
                php phpdoc jsdoc lua make python toml tsx typescript yaml))
       (treesit-auto-install-all)
       ;; This is necessary to prevent the broken builtin `yaml-ts-mode' from being
@@ -950,18 +950,16 @@ technology. This is how I interact with it.
     ("\\.ts$" . typescript-ts-mode)
     ("\\.tsx$" . tsx-ts-mode))
 
+  (use-package vue-ts-mode
+    :vc (:url "https://github.com/8uff3r/vue-ts-mode")
+    :after eglot
+    :mode ("\\.vue$" . vue-ts-mode)
+    :hook (vue-ts-mode . eglot-ensure)
+    :config (add-to-list 'eglot-server-programs
+                         '(vue-ts-mode "vls")))
+
   (use-package web-mode
-    :hook (r/vue-mode . eglot-ensure)
-    :mode
-    ("\\.vue$" . r/vue-mode)
-    ("\\.twig$" . web-mode)
-    :config
-    (define-derived-mode r/vue-mode web-mode "r/vue"
-      "Wrapper for web-mode to make setting the appropriate language
-  server simpler.")
-    (with-eval-after-load 'eglot
-      (add-to-list 'eglot-server-programs
-                   '(r/vue-mode "vls"))))
+    :mode ("\\.twig$" . web-mode))
 
   (use-package flymake-eslint
     :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
