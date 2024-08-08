@@ -101,24 +101,38 @@ These settings are essentially subjective, but serve to disable some annoyances
      (delete '(vc-mode vc-mode)
              mode-line-format))
 
+    ;; Files
+    (create-lockfiles nil)
+    (large-file-warning-threshold (* 100 1024 1024))
+    (make-backup-files nil)
+    (require-final-newline t)
+
+    ;; Interaction
+    (enable-recursive-minibuffers t)
+    (epg-pinentry-mode 'loopback)
+    (tooltip-mode nil)
+    (use-dialog-box nil)
+    (use-file-dialog nil)
+    (use-short-answers t)
+    (vc-follow-symlinks t)
+
+    ;; show-paren
+    (show-paren-when-point-in-periphery t)
+    (show-paren-when-point-inside-paren t)
+
+    ;; Scrolling
+    (fast-but-imprecise-scrolling t)
+    (scroll-conservatively 101)
+
     ;; Miscellaneous
     (Man-notify-method 'pushy)
     (disabled-command-function nil)
-    (enable-recursive-minibuffers t)
-    (epg-pinentry-mode 'loopback)
     (fill-column 80)
-    (large-file-warning-threshold (* 100 1024 1024))
+    (kill-do-not-save-duplicates t)
     (load-prefer-newer noninteractive)
-    (make-backup-files nil)
     (native-comp-async-report-warnings-errors nil)
-    (require-final-newline t)
     (ring-bell-function 'ignore)
-    (scroll-conservatively 101)
-    (tooltip-mode nil)
     (uniquify-buffer-name-style 'forward)
-    (use-dialog-box nil)
-    (use-short-answers t)
-    (vc-follow-symlinks t)
 
     :config
     (add-to-list 'display-buffer-alist
