@@ -17,18 +17,6 @@
 
 (setq custom-file (expand-file-name "var/custom.el" user-emacs-directory))
 
-(defun r/macp ()
-  (string-equal system-type "darwin"))
-
-(when (r/macp)
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-  (setq ns-use-proxy-icon nil)
-  (setq frame-title-format "\n")        ; hack for frame size in titlebar
-  (setq insert-directory-program "gls")
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'meta)
-  (setq manual-program "gman"))
-
 ;; Package management
 ;; ----------------------------------------------------
 (package-initialize)
