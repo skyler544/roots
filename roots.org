@@ -820,7 +820,6 @@ yaml, markdown, and html.
 
   ;; html and css
   (use-package emacs
-    :custom (css-indent-offset 2)
     :hook ((css-ts-mode . display-line-numbers-mode)
            (mhtml-mode . display-line-numbers-mode)
            (mhtml-mode . #'r/capf-comint))
