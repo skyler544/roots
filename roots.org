@@ -1219,8 +1219,13 @@ section is tightly connected with the [[*Faces][Faces]] section.
   (use-package gruvbox-theme :pin melpa
     :init (setq gruvbox-bold-constructs t))
 
+  (use-package auto-dark
+    :hook (after-init . auto-dark-mode)
+    :custom
+    (auto-dark-dark-theme 'gruvbox-dark-hard)
+    (auto-dark-light-theme 'modus-operandi))
+
   (use-package emacs
-    :hook (after-init . r/theme-setup)
     :config
     (defun r/load-theme (theme)
       "Wrapper for loading themes."
@@ -1235,11 +1240,7 @@ section is tightly connected with the [[*Faces][Faces]] section.
     (defun r/light-mode ()
       "Switch to light mode, featuring `modus-operandi' theme."
       (interactive)
-      (r/load-theme 'modus-operandi))
-
-    (defvar *r/theme-mode* 'light)
-    (defun r/theme-setup ()
-      (if (equal *r/theme-mode* 'light) (r/light-mode) (r/dark-mode))))
+      (r/load-theme 'modus-operandi)))
 #+END_SRC
 
 * Machine Specific Tweaks
