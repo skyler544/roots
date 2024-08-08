@@ -37,7 +37,6 @@ necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the
   ;; This file is generated with `org-babel'. See the accompanying file
   ;; `roots.org' for the rationale behind the code.
 #+END_SRC
-
 ** Profiling
 This section enables ~esup~, the Emacs Start Up Profiler.
 
@@ -45,7 +44,6 @@ This section enables ~esup~, the Emacs Start Up Profiler.
   (use-package esup
     :config (setq esup-depth 0))
 #+END_SRC
-
 * Core Platform
 This section defines what I consider "sane defaults;" there are so many
 variations of that idea out there that I doubt my opinions here are needed; just
@@ -139,7 +137,6 @@ These settings are essentially subjective, but serve to disable some annoyances
                  '("magit:\\|*help\\|*shell"
                    display-buffer-same-window)))
 #+END_SRC
-
 ** Recent Files
 
 #+BEGIN_SRC emacs-lisp
@@ -151,7 +148,6 @@ These settings are essentially subjective, but serve to disable some annoyances
                                  "\\.pdf$\\|\\.mp4$\\|.png$\\|\\.jpg$"))
               (add-to-list 'recentf-exclude exclusion)))
 #+END_SRC
-
 ** Directories
 Emacs normally fails to perform a file operation when trying to write or copy
 files into directories which do not yet exist. This behavior is almost never
@@ -175,7 +171,6 @@ be created and the file should be put there.
                     (lambda (&rest r)
                       (apply #'r/make-directory-if-not-exists r))))))
 #+END_SRC
-
 ** Helpful
 
 #+BEGIN_SRC emacs-lisp
@@ -184,7 +179,6 @@ be created and the file should be put there.
            ("C-h v" . helpful-variable)
            ("C-h k" . helpful-key)))
 #+END_SRC
-
 ** Ibuffer
 
 #+BEGIN_SRC emacs-lisp
@@ -197,7 +191,6 @@ be created and the file should be put there.
       (unless (eq ibuffer-sorting-mode 'project-file-relative)
         (ibuffer-do-sort-by-project-file-relative))))
 #+END_SRC
-
 ** Dired
 Dired is the greatest file manager ever created. The existence of ~wdired~ alone
 makes it superior to any graphical file manager I've ever seen; add on
@@ -228,7 +221,6 @@ everything else dired is capable of, and there's just no contest.
 
   (use-package dired-sidebar)
 #+END_SRC
-
 ** Custom Code
 This section is for generally useful functions and keybindings without a
 specific package.
@@ -280,7 +272,6 @@ specific package.
       (interactive)
       (kill-new (r/project-relative-path))))
 #+END_SRC
-
 * Core Extensions
 This section sets up a general layer of useful features; the focus
 is on power and ergonomics.
@@ -307,7 +298,6 @@ is on power and ergonomics.
   (use-package wgrep
     :custom (wgrep-auto-save-buffer t))
 #+END_SRC
-
 ** Interaction and Completion
 These packages work together as building blocks to extend default Emacs input
 scenarios in impressive ways.
@@ -318,14 +308,12 @@ scenarios in impressive ways.
   (use-package marginalia
     :hook (after-init . marginalia-mode))
 #+END_SRC
-
 *** Orderless
 
 #+BEGIN_SRC emacs-lisp
 (use-package orderless
   :custom (completion-styles '(orderless basic)))
 #+END_SRC
-
 *** Vertico
 
 #+BEGIN_SRC emacs-lisp
@@ -340,7 +328,6 @@ scenarios in impressive ways.
     (vertico-count 12)
     (vertico-resize nil))
 #+END_SRC
-
 *** Consult
 
 #+BEGIN_SRC emacs-lisp
@@ -366,7 +353,6 @@ scenarios in impressive ways.
     :bind (:map minibuffer-mode-map
                 ("C-M-d" . consult-dir)))
 #+END_SRC
-
 *** Embark
 
 #+BEGIN_SRC emacs-lisp
@@ -381,7 +367,6 @@ scenarios in impressive ways.
 
   (use-package embark-consult)
 #+END_SRC
-
 *** Corfu
 
 #+BEGIN_SRC emacs-lisp
@@ -401,7 +386,6 @@ scenarios in impressive ways.
         (setq-local corfu-echo-delay nil)
         (corfu-mode 1))))
 #+END_SRC
-
 ** Tidying Buffers
 
 #+BEGIN_SRC emacs-lisp
@@ -414,7 +398,6 @@ scenarios in impressive ways.
   (use-package editorconfig
     :hook (after-init . editorconfig-mode))
 #+END_SRC
-
 ** External Files
 
 #+BEGIN_SRC emacs-lisp
@@ -425,7 +408,6 @@ scenarios in impressive ways.
                ("\\.\\(?:mpe?g\\|avi\\|wmv\\|mp4\\|mp3\\)\\'" "mpv" (file))
                ("\\.\\(?:jp?g\\|png\\)\\'" "feh" (file)))))
 #+END_SRC
-
 * Org Mode
 The swiss-army outline tool.
 
@@ -452,7 +434,6 @@ This section sets up a baseline for Org Mode as an outlining tool.
     (org-list-demote-modify-bullet
      '(("+" . "-") ("-" . "+"))))
 #+END_SRC
-
 ** Calendar
 All I really want in a calendar is to see the days of the month and the week
 numbers. This thing does that beautifully, and it's right here.
@@ -475,7 +456,6 @@ numbers. This thing does that beautifully, and it's right here.
                  '("\\*Calendar*"
                    display-buffer-at-bottom)))
 #+END_SRC
-
 ** Workflow Setup
 This section defines my capture and agenda workflow.
 
@@ -528,7 +508,6 @@ This section defines my capture and agenda workflow.
        ("i" "Idea" plain (file+headline "backlog.org" "Ideas")
         "+ %U\n  %?"))))
 #+END_SRC
-
 ** Tweaks
 This section contains custom code and packages for tweaking Org outside
 of what its customization trivially offers.
@@ -587,7 +566,6 @@ of what its customization trivially offers.
           (org-update-checkbox-count)
           (org-update-parent-todo-statistics)))))
 #+END_SRC
-
 ** Eye Candy
 This section enables spicing up the buffer with some unicode characters and sets
 any face settings that I don't want themes to override.
@@ -604,7 +582,6 @@ any face settings that I don't want themes to override.
     (org-document-title
      ((t (:bold t)))))
 #+END_SRC
-
 * Technologies
 This section provides configuration for specific technologies such as
 programming languages and corresponding language servers.
@@ -631,7 +608,6 @@ easy enough to set up. All-in-all it's a decent experience.
 
   (use-package consult-eglot)
 #+END_SRC
-
 ** Flymake
 This built-in tool displays error messages via configurable sources. For me, the
 sources are language servers.
@@ -643,7 +619,6 @@ sources are language servers.
                 ([remap previous-error] . flymake-goto-prev-error))
     :custom (flymake-fringe-indicator-position 'right-fringe))
 #+END_SRC
-
 ** TreeSitter
 Abstract syntax tree based language parsing and syntax highlighting. This works
 quite nicely, other than occasional breakage of the grammars. The package
@@ -675,7 +650,6 @@ useful for yaml files), so we disable it here.
             (delq 'yaml treesit-auto-langs))
       (global-treesit-auto-mode)))
 #+END_SRC
-
 ** Hideshow
 Hideshow is built-in, but does not provide any straightforward way of folding
 the (sometimes huge) list of imports that you find at the top of files for many
@@ -714,7 +688,6 @@ secondary feature here; it does work, but I never use it.
        (when (boundp 'r/hs-fold-imports-alist)
          (alist-get major-mode r/hs-fold-imports-alist)))))
 #+END_SRC
-
 ** ElDoc
 ElDoc is another nice built-in package that shows the user different kinds of
 information in the echo area.
@@ -731,7 +704,6 @@ information in the echo area.
                 ("M-h" . eldoc-box-help-at-point))
     :config (add-to-list 'eldoc-box-self-insert-command-list 'scroll-other-window))
 #+END_SRC
-
 ** Lisp
 This section provides tools for interacting with Lisp interpreters and editing
 Lisp code. The main difference between the Lisp editing experience and editing
@@ -749,7 +721,6 @@ caveats.
            (sly-mrepl-mode . lispy-mode)
            (emacs-lisp-mode . lispy-mode)))
 #+END_SRC
-
 *** Common Lisp
 
 #+BEGIN_SRC emacs-lisp
@@ -764,7 +735,6 @@ caveats.
     :after sly
     :config (add-to-list 'sly-contribs 'sly-asdf 'append))
 #+END_SRC
-
 *** Scheme
 
 #+BEGIN_SRC emacs-lisp
@@ -781,7 +751,6 @@ caveats.
       (interactive)
       (info "~/build/sicp-info/sicp.info.gz")))
 #+END_SRC
-
 *** Emacs Lisp
 
 #+BEGIN_SRC emacs-lisp
@@ -791,7 +760,6 @@ caveats.
   (use-package highlight-quoted
     :hook (emacs-lisp-mode . highlight-quoted-mode))
 #+END_SRC
-
 ** Java
 
 #+BEGIN_SRC emacs-lisp
@@ -799,7 +767,6 @@ caveats.
     :hook ((java-ts-mode . eglot-ensure)
            (java-ts-mode . visual-line-mode)))
 #+END_SRC
-
 ** Structured Text
 Syntax highlighting for (non-org-mode) structured text. In practice, this means
 yaml, markdown, and html.
@@ -828,7 +795,6 @@ yaml, markdown, and html.
       (add-to-list 'completion-at-point-functions
                    'comint-completion-at-point)))
 #+END_SRC
-
 ** LaTeX
 Syntax highlighting and build tools for LaTeX.
 
@@ -843,7 +809,6 @@ Syntax highlighting and build tools for LaTeX.
       (interactive)
       (shell-command (concat "detex " (buffer-file-name) " | wc"))))
 #+END_SRC
-
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
@@ -892,7 +857,6 @@ terminal applications, but that person isn't me.
            (buffer-substring (region-beginning) (region-end))
          (thing-at-point 'line t)))))
 #+END_SRC
-
 ** Git
 Although Emacs does come with a built-in interface to version control, it's
 cumbersome and inelegant compared to Magit. This section sets up Magit and a few
@@ -917,7 +881,6 @@ other utility packages related to git.
       (when (and (display-graphic-p) (r/vc-buffer-p))
         (turn-on-diff-hl-mode))))
 #+END_SRC
-
 ** Make
 So far the only configuration I need for ~make~ is a ~run-command~ recipe. Emacs
 otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
@@ -948,7 +911,6 @@ otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
 
       (add-to-list 'run-command-recipes 'run-command-recipe-make))
 #+END_SRC
-
 ** JS/TS
 The Javascript/Typescript landscape is a huge maze of both awesome and terrible
 technology. This is how I interact with it.
@@ -1003,7 +965,6 @@ technology. This is how I interact with it.
       (let ((default-directory (project-root (project-current t))))
         (async-shell-command (format "yarn test %s" (r/project-relative-path))))))
 #+END_SRC
-
 *** Scripts
 This ~run-command~ recipe lets me run scripts from ~package.json~. This recipe is
 stolen directly from their project readme.
@@ -1036,7 +997,6 @@ stolen directly from their project readme.
 
     (add-to-list 'run-command-recipes 'run-command-recipe-package-json))
 #+END_SRC
-
 *** Environment
 JS/TS projects sometimes need special fiddling with the shell environment; this
 section attempts to make sure that those cases are handled, as well as enabling
@@ -1065,7 +1025,6 @@ syntax highlighting for dotenv files.
         (r/load-nvm))
       (nvm-use-for)))
 #+END_SRC
-
 ** PHP
 The new =php-ts-mode= seems to be a work in progress, but it does the job for now.
 
@@ -1079,7 +1038,6 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
             '("composer" "--no-interaction" (concat "--working-dir=" (r/project-root))
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name)))))
 #+END_SRC
-
 ** Web Requests
 
 #+BEGIN_SRC emacs-lisp
@@ -1087,13 +1045,11 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
   (use-package restclient
     :mode ("\\.rcl$" . restclient-mode))
 #+END_SRC
-
 ** Lua
 
 #+BEGIN_SRC emacs-lisp
   (use-package lua-mode)
 #+END_SRC
-
 ** Docker
 
 #+BEGIN_SRC emacs-lisp
@@ -1144,7 +1100,6 @@ This stuff isn't really necessary, but it looks cool.
   (use-package page-break-lines
     :hook (after-init . global-page-break-lines-mode))
 #+END_SRC
-
 ** Icons
 Shows icons via some special icon fonts.
 
@@ -1155,7 +1110,6 @@ Shows icons via some special icon fonts.
   (use-package all-the-icons-dired
     :hook (dired-mode . all-the-icons-dired-mode))
 #+END_SRC
-
 ** Project Drawer
 Project browser with multiple-root functionality.
 
@@ -1170,7 +1124,6 @@ Project browser with multiple-root functionality.
            (treemacs-mode . (lambda ()
                               (setq-local truncate-lines t)))))
 #+END_SRC
-
 ** Faces
 
 #+BEGIN_SRC emacs-lisp
@@ -1209,7 +1162,6 @@ Project browser with multiple-root functionality.
   (use-package default-text-scale
     :hook (after-init . default-text-scale-mode))
 #+END_SRC
-
 ** Themes
 A good theme can make editing even more fun. Since themes are essentially just a
 collection of face settings, often with intricate logic for enabling them, this
@@ -1242,7 +1194,6 @@ section is tightly connected with the [[*Faces][Faces]] section.
       (interactive)
       (r/load-theme 'modus-operandi)))
 #+END_SRC
-
 * Machine Specific Tweaks
 This section is reserved for whatever configuration that might occur that only
 applies to one specific machine. Keeping this config in a separate repository
