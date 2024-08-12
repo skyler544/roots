@@ -866,8 +866,13 @@ other utility packages related to git.
   (use-package magit
     :custom
     (magit-diff-refine-hunk 'all)
-    (magit-display-buffer-function 'display-buffer)
-    (magit-blame-styles '((headings (heading-format . "%-20a %C %s\n")))))
+    (magit-display-buffer-function 'display-buffer))
+
+  (use-package why-this
+    :custom (why-this-annotate-enable-heat-map nil)
+    :custom-face
+    (why-this-face
+     ((t ( :foreground unspecified :inherit font-lock-comment-face)))))
 
   (use-package diff-hl
     :hook ((prog-mode . r/diff-hl-mode-enable-maybe)
