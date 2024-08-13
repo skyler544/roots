@@ -698,11 +698,11 @@ information in the echo area.
     (eldoc-echo-area-use-multiline-p nil)
     (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 
-  (use-package eldoc-box
-    :after eglot
+  (use-package eldoc-box :after eglot
     :bind (:map eglot-mode-map
                 ("M-h" . eldoc-box-help-at-point))
-    :config (add-to-list 'eldoc-box-self-insert-command-list 'scroll-other-window))
+    :config (add-to-list 'eldoc-box-self-insert-command-list
+                         'scroll-other-window))
 #+END_SRC
 ** Lisp
 This section provides tools for interacting with Lisp interpreters and editing
