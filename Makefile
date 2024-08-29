@@ -1,6 +1,5 @@
 EMACS   := emacs --init-directory=.
 TANGLE  := "(progn (require 'ob-tangle) (org-babel-tangle-file \"roots.org\"))"
-INSTALL := "(progn (add-hook 'native-comp-async-all-done-hook 'kill-emacs) (eat-compile-terminfo))"
 
 all: run
 
@@ -15,6 +14,3 @@ clean:
 
 package-clean: clean
 	rm -rf elpa/
-
-clean-install: package-clean retangle
-	$(EMACS) --eval $(INSTALL)
