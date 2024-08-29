@@ -15,7 +15,7 @@
 (startup-redirect-eln-cache
  (locate-user-emacs-file "var/eln-cache"))
 
-(setq custom-file (expand-file-name "var/custom.el" user-emacs-directory))
+(setq custom-file (locate-user-emacs-file "var/custom.el"))
 
 ;; Package management
 ;; ----------------------------------------------------
