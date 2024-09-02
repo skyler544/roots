@@ -2,7 +2,7 @@
 #+DATE: 2024
 #+STARTUP: overview
 
-This is a literate Emacs (version 29+) config, if you're interested. The goals are neatness,
+This is a literate Emacs (version 30+) config, if you're interested. The goals are neatness,
 reliance on built-in features (as far as is feasible), easy extensibility, and
 compatibility between GNU/Linux and MacOS.
 
