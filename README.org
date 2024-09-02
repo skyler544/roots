@@ -2,13 +2,13 @@
 #+DATE: 2024
 #+STARTUP: overview
 
-This is a literate Emacs (version 30+) config, if you're interested. The goals are neatness,
-reliance on built-in features (as far as is feasible), easy extensibility, and
-compatibility between GNU/Linux and MacOS.
+This is a literate Emacs (version 30+) config, if you're interested. The goals
+are neatness, reliance on built-in features (as far as is feasible), easy
+extensibility, and compatibility between GNU/Linux and MacOS.
 
 The ~Makefile~ offers a few targets for administering (read: yak shaving) the
 config:
 + ~run~ :: Run Emacs, using this directory as the init directory.
 + ~retangle~ :: Tangle the code from ~roots.org~ to ~init.el~.
-+ ~clean~ :: Remove the tangled ~init.el~ and ~elpa~ directory.
-+ ~clean-install~ :: Clean, retangle, install packages, and native-compile elisp.
++ ~clean~ :: Remove the tangled ~init.el~ and ~eln-cache~ directory.
++ ~package-clean~ :: Remove the tangled ~init.el~ and ~elpa~ directory.
