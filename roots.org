@@ -876,16 +876,8 @@ other utility packages related to git.
      ((t ( :foreground unspecified :inherit font-lock-comment-face)))))
 
   (use-package diff-hl
-    :hook ((prog-mode . r/diff-hl-mode-enable-maybe)
-           (org-mode . r/diff-hl-mode-enable-maybe))
-    :custom (diff-hl-draw-borders nil)
-    :config
-    (defun r/vc-buffer-p ()
-      (vc-backend (buffer-file-name (current-buffer))))
-
-    (defun r/diff-hl-mode-enable-maybe ()
-      (when (and (display-graphic-p) (r/vc-buffer-p))
-        (turn-on-diff-hl-mode))))
+    :hook (after-init . global-diff-hl-mode)
+    :custom (diff-hl-draw-borders nil))
 #+END_SRC
 ** Make
 So far the only configuration I need for ~make~ is a ~run-command~ recipe. Emacs
