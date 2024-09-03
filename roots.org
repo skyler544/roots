@@ -75,6 +75,7 @@ These settings are essentially subjective, but serve to disable some annoyances
            ("C-c wr" . winner-redo)
            ("C-c wu" . winner-undo)
            ("C-x m" . nil)
+           ("C-x C-l" . nil)
            ("<pinch>" . nil))
 
     :custom
