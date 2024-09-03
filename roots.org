@@ -954,13 +954,6 @@ technology. This is how I interact with it.
                   (rc (locate-file ".eslintrc" (list root) '(".js" ".json"))))
         (flymake-eslint-enable))))
 
-  (use-package prisma-mode
-    :vc (:url "https://github.com/pimeys/emacs-prisma-mode")
-    :after eglot
-    :hook (prisma-mode . eglot-ensure)
-    :config (add-to-list 'eglot-server-programs
-                         '(prisma-mode "prisma-language-server" "--stdio")))
-
   (use-package typescript-ts-mode
     :bind (:map typescript-ts-mode-map
                 ("C-c ct" . r/jest-test-current-file))
