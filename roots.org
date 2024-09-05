@@ -429,7 +429,6 @@ This section sets up a baseline for Org Mode as an outlining tool.
      (org-fold-catch-invisible-edits 'show-and-error)
      (org-hide-emphasis-markers t)
      (org-hide-leading-stars t)
-     (org-pretty-entities t)
      (org-src-window-setup 'current-window)
      (org-startup-indented t)
      (org-use-tag-inheritance nil)
