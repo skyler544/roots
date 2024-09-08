@@ -200,20 +200,19 @@ everything else dired is capable of, and there's just no contest.
   (use-package dired
     :ensure nil
     :hook ((dired-mode . dired-hide-details-mode)
-           (dired-mode . auto-revert-mode)
-           (after-init . (lambda () (load "dired-x"))))
+           (dired-mode . auto-revert-mode))
     :bind (:map dired-mode-map
                 ("C-c C-e" . wdired-change-to-wdired-mode))
     :custom
     (dired-listing-switches "-alh --group-directories-first -v")
     (dired-dwim-target t)
-    (dired-clean-up-buffers-too nil))
+    (dired-clean-up-buffers-too nil)
+    :config (require 'dired-x))
 
   (use-package diredfl
     :hook (after-init . diredfl-global-mode))
 
-  (use-package dired-hacks
-    :after dired
+  (use-package dired-hacks :after dired
     :vc (:url "https://github.com/Fuco1/dired-hacks")
     :bind (:map dired-mode-map
                 ("TAB" . dired-subtree-cycle))
