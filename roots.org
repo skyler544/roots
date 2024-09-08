@@ -420,7 +420,8 @@ This section sets up a baseline for Org Mode as an outlining tool.
      :bind (:map org-src-mode-map
                  ("C-c C-c" . org-edit-src-exit))
      :bind (:map org-mode-map
-                 ("C-'" . nil))
+                 ("C-'" . nil)
+                 ("C-c &" . nil))
      :custom
      (org-M-RET-may-split-line nil)
      (org-adapt-indentation t)
