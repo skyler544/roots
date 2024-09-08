@@ -919,6 +919,10 @@ technology. This is how I interact with it.
     ("\\.ts$" . typescript-ts-mode)
     ("\\.tsx$" . tsx-ts-mode))
 
+  ;; Enable conf-mode for .env files
+  (use-package conf-mode
+    :mode ("\\.env\\.*.*$" . conf-mode))
+
   (use-package vue-ts-mode :after eglot
     :vc (:url "https://github.com/8uff3r/vue-ts-mode")
     :mode ("\\.vue$" . vue-ts-mode)
@@ -983,16 +987,6 @@ stolen directly from their project readme.
          scripts)))
 
     (add-to-list 'run-command-recipes 'run-command-recipe-package-json))
-#+END_SRC
-*** Environment
-JS/TS projects sometimes need special fiddling with the shell environment; this
-section attempts to make sure that those cases are handled, as well as enabling
-syntax highlighting for dotenv files.
-
-#+BEGIN_SRC emacs-lisp
-  ;; Enable conf-mode for .env files
-  (use-package conf-mode
-    :mode ("\\.env\\.*.*$" . conf-mode))
 #+END_SRC
 ** PHP
 The new =php-ts-mode= seems to be a work in progress, but it does the job for now.
