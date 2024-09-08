@@ -75,6 +75,7 @@ These settings are essentially subjective, but serve to disable some annoyances
            ("C-c wr" . winner-redo)
            ("C-c wu" . winner-undo)
            ("C-x m" . nil)
+           ("C-x C-l" . nil)
            ("<pinch>" . nil))
 
     :custom
@@ -429,7 +430,6 @@ This section sets up a baseline for Org Mode as an outlining tool.
      (org-fold-catch-invisible-edits 'show-and-error)
      (org-hide-emphasis-markers t)
      (org-hide-leading-stars t)
-     (org-pretty-entities t)
      (org-src-window-setup 'current-window)
      (org-startup-indented t)
      (org-use-tag-inheritance nil)
@@ -872,16 +872,8 @@ other utility packages related to git.
      ((t ( :foreground unspecified :inherit font-lock-comment-face)))))
 
   (use-package diff-hl
-    :hook ((prog-mode . r/diff-hl-mode-enable-maybe)
-           (org-mode . r/diff-hl-mode-enable-maybe))
-    :custom (diff-hl-draw-borders nil)
-    :config
-    (defun r/vc-buffer-p ()
-      (vc-backend (buffer-file-name (current-buffer))))
-
-    (defun r/diff-hl-mode-enable-maybe ()
-      (when (and (display-graphic-p) (r/vc-buffer-p))
-        (turn-on-diff-hl-mode))))
+    :hook (after-init . global-diff-hl-mode)
+    :custom (diff-hl-draw-borders nil))
 #+END_SRC
 ** Make
 So far the only configuration I need for ~make~ is a ~run-command~ recipe. Emacs
@@ -927,9 +919,8 @@ technology. This is how I interact with it.
     ("\\.ts$" . typescript-ts-mode)
     ("\\.tsx$" . tsx-ts-mode))
 
-  (use-package vue-ts-mode
+  (use-package vue-ts-mode :after eglot
     :vc (:url "https://github.com/8uff3r/vue-ts-mode")
-    :after eglot
     :mode ("\\.vue$" . vue-ts-mode)
     :hook ((vue-ts-mode . eglot-ensure)
            (vue-ts-mode . display-line-numbers-mode))
@@ -949,13 +940,6 @@ technology. This is how I interact with it.
       (when-let* ((root (locate-dominating-file (buffer-file-name) "package.json"))
                   (rc (locate-file ".eslintrc" (list root) '(".js" ".json"))))
         (flymake-eslint-enable))))
-
-  (use-package prisma-mode
-    :vc (:url "https://github.com/pimeys/emacs-prisma-mode")
-    :after eglot
-    :hook (prisma-mode . eglot-ensure)
-    :config (add-to-list 'eglot-server-programs
-                         '(prisma-mode "prisma-language-server" "--stdio")))
 
   (use-package typescript-ts-mode
     :bind (:map typescript-ts-mode-map
