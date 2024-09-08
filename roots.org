@@ -993,24 +993,6 @@ syntax highlighting for dotenv files.
   ;; Enable conf-mode for .env files
   (use-package conf-mode
     :mode ("\\.env\\.*.*$" . conf-mode))
-
-  ;; Dependency version switching
-  (use-package nvm
-    :vc (:url "https://github.com/rejeep/nvm.el")
-    :commands (r/nvm-use)
-    :config
-    (setq *r/nvm-enabled* nil)
-    (defun r/load-nvm ()
-      "Start nvm."
-      (interactive)
-      (setq *r/nvm-enabled* t)
-      (async-shell-command "source ~/.local/bin/load-nvm"))
-    (defun r/nvm-use ()
-      "Use the .nvmrc file."
-      (interactive)
-      (unless *r/nvm-enabled*
-        (r/load-nvm))
-      (nvm-use-for)))
 #+END_SRC
 ** PHP
 The new =php-ts-mode= seems to be a work in progress, but it does the job for now.
