@@ -422,6 +422,7 @@ This section sets up a baseline for Org Mode as an outlining tool.
      :bind (:map org-mode-map
                  ("C-'" . nil)
                  ("C-c &" . nil))
+     :bind ("C-c sl" . org-store-link)
      :custom
      (org-M-RET-may-split-line nil)
      (org-adapt-indentation t)
