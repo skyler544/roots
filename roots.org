@@ -203,20 +203,19 @@ everything else dired is capable of, and there's just no contest.
   (use-package dired
     :ensure nil
     :hook ((dired-mode . dired-hide-details-mode)
-           (dired-mode . auto-revert-mode)
-           (after-init . (lambda () (load "dired-x"))))
+           (dired-mode . auto-revert-mode))
     :bind (:map dired-mode-map
                 ("C-c C-e" . wdired-change-to-wdired-mode))
     :custom
     (dired-listing-switches "-alh --group-directories-first -v")
     (dired-dwim-target t)
-    (dired-clean-up-buffers-too nil))
+    (dired-clean-up-buffers-too nil)
+    :config (require 'dired-x))
 
   (use-package diredfl
     :hook (after-init . diredfl-global-mode))
 
-  (use-package dired-hacks
-    :after dired
+  (use-package dired-hacks :after dired
     :vc (:url "https://github.com/Fuco1/dired-hacks")
     :bind (:map dired-mode-map
                 ("TAB" . dired-subtree-cycle))
@@ -424,7 +423,9 @@ This section sets up a baseline for Org Mode as an outlining tool.
      :bind (:map org-src-mode-map
                  ("C-c C-c" . org-edit-src-exit))
      :bind (:map org-mode-map
-                 ("C-'" . nil))
+                 ("C-'" . nil)
+                 ("C-c &" . nil))
+     :bind ("C-c sl" . org-store-link)
      :custom
      (org-M-RET-may-split-line nil)
      (org-adapt-indentation t)
@@ -920,6 +921,10 @@ technology. This is how I interact with it.
     ("\\.ts$" . typescript-ts-mode)
     ("\\.tsx$" . tsx-ts-mode))
 
+  ;; Enable conf-mode for .env files
+  (use-package conf-mode
+    :mode ("\\.env\\.*.*$" . conf-mode))
+
   (use-package vue-ts-mode :after eglot
     :vc (:url "https://github.com/8uff3r/vue-ts-mode")
     :mode ("\\.vue$" . vue-ts-mode)
@@ -984,34 +989,6 @@ stolen directly from their project readme.
          scripts)))
 
     (add-to-list 'run-command-recipes 'run-command-recipe-package-json))
-#+END_SRC
-*** Environment
-JS/TS projects sometimes need special fiddling with the shell environment; this
-section attempts to make sure that those cases are handled, as well as enabling
-syntax highlighting for dotenv files.
-
-#+BEGIN_SRC emacs-lisp
-  ;; Enable conf-mode for .env files
-  (use-package conf-mode
-    :mode ("\\.env\\.*.*$" . conf-mode))
-
-  ;; Dependency version switching
-  (use-package nvm
-    :vc (:url "https://github.com/rejeep/nvm.el")
-    :commands (r/nvm-use)
-    :config
-    (setq *r/nvm-enabled* nil)
-    (defun r/load-nvm ()
-      "Start nvm."
-      (interactive)
-      (setq *r/nvm-enabled* t)
-      (async-shell-command "source ~/.local/bin/load-nvm"))
-    (defun r/nvm-use ()
-      "Use the .nvmrc file."
-      (interactive)
-      (unless *r/nvm-enabled*
-        (r/load-nvm))
-      (nvm-use-for)))
 #+END_SRC
 ** PHP
 The new =php-ts-mode= seems to be a work in progress, but it does the job for now.
