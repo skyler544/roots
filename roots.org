@@ -66,7 +66,9 @@ These settings are essentially subjective, but serve to disable some annoyances
            (after-init . global-visual-line-mode)
 
            (prog-mode . display-line-numbers-mode)
-           (display-line-numbers-mode . hl-line-mode))
+           (display-line-numbers-mode . hl-line-mode)
+
+           (prog-mode . subword-mode))
 
     :bind (("C-z" . bury-buffer)
            ("C-h '" . describe-char)
