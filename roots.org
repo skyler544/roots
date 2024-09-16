@@ -1147,9 +1147,9 @@ section is tightly connected with the [[*Faces][Faces]] section.
       (load-theme theme t))
 
     (defun r/dark-mode ()
-      "Switch to dark mode, featuring `gruvbox-dark-hard' theme."
+      "Switch to dark mode, featuring `modus-vivendi-tinted' theme."
       (interactive)
-      (r/load-theme 'gruvbox-dark-hard))
+      (r/load-theme 'modus-vivendi-tinted))
 
     (defun r/light-mode ()
       "Switch to light mode, featuring `modus-operandi' theme."
