@@ -477,6 +477,7 @@ This section defines my capture and agenda workflow.
                  `(,org-babel-error-buffer-name
                    display-buffer-no-window
                    (allow-no-window . t)))
+    (add-to-list 'org-export-backends 'md)
     :custom
     (org-agenda-files (list org-directory))
     (org-agenda-span 10)
@@ -1060,6 +1061,10 @@ This stuff isn't really necessary, but it looks cool.
 
   (use-package page-break-lines
     :hook (after-init . global-page-break-lines-mode))
+
+  (use-package olivetti
+    :bind ("C-c to" . olivetti-mode)
+    :custom (olivetti-style t))
 #+END_SRC
 ** Icons
 Shows icons via some special icon fonts.
