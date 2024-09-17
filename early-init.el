@@ -17,6 +17,15 @@
 
 (setq custom-file (locate-user-emacs-file "var/custom.el"))
 
+(use-package emacs :when (not (daemonp))
+  :hook (window-setup . r/redisplay-after-first-frame)
+  :custom ((inhibit-redisplay t)
+           (inhibit-message t))
+  :config (defun r/redisplay-after-first-frame ()
+            (setq-default inhibit-redisplay nil)
+            (setq-default inhibit-message nil)
+            (redisplay)))
+
 ;; Package management
 ;; ----------------------------------------------------
 (package-initialize)
