@@ -591,7 +591,7 @@ Use language servers in Emacs. Eglot is not quite "zero configuration," but it's
 easy enough to set up. All-in-all it's a decent experience.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package eglot :demand
+  (use-package eglot
     :bind (:map eglot-mode-map
                 ("C-c ef" . eglot-format-buffer)
                 ("C-c ea" . eglot-code-actions)
