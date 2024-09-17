@@ -1,12 +1,15 @@
 EMACS   := emacs --init-directory=.
-TANGLE  := "(progn (require 'ob-tangle) (org-babel-tangle-file \"roots.org\"))"
+TANGLE  := "(progn (require 'ob-tangle) \
+                   (org-babel-tangle-file \"roots.org\"))"
 
 all: run
 
 run: retangle
 	$(EMACS)
 
-retangle:
+retangle: init.el
+
+init.el: roots.org
 	$(EMACS) -q --batch --eval $(TANGLE)
 
 clean:
