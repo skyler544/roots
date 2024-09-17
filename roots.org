@@ -290,9 +290,13 @@ is on power and ergonomics.
     :custom (avy-all-windows t))
 
   (use-package iedit
-    :bind ("C-." . iedit-mode)
-    :bind (:map iedit-lib-keymap
-                ("TAB" . nil)))
+    :bind (("C-." . iedit-mode)
+           (:map iedit-mode-occurrence-keymap
+                 ("<tab>" . nil)
+                 ("TAB" . nil))
+           (:map iedit-mode-keymap
+                 ("<tab>" . nil)
+                 ("TAB" . nil))))
 
   (use-package wrap-region
     :hook (after-init . wrap-region-mode))
@@ -359,10 +363,10 @@ scenarios in impressive ways.
 
 #+BEGIN_SRC emacs-lisp
   (use-package embark
-    :bind ("C-;" . embark-act)
-    :bind (:map minibuffer-local-map
-                ("C-'" . embark-act-all)
-                ("C-c C-e" . embark-export))
+    :bind (("C-;" . embark-act)
+           (:map minibuffer-local-map
+                 ("C-'" . embark-act-all)
+                 ("C-c C-e" . embark-export)))
     :custom
     (embark-indicators '(embark-minimal-indicator))
     (embark-prompter 'embark-completing-read-prompter))
@@ -420,12 +424,12 @@ This section sets up a baseline for Org Mode as an outlining tool.
    (use-package org
      :hook ((org-mode . auto-fill-mode)
             (auto-save . org-save-all-org-buffers))
-     :bind (:map org-src-mode-map
-                 ("C-c C-c" . org-edit-src-exit))
-     :bind (:map org-mode-map
-                 ("C-'" . nil)
-                 ("C-c &" . nil))
-     :bind ("C-c sl" . org-store-link)
+     :bind (("C-c sl" . org-store-link)
+            (:map org-src-mode-map
+                  ("C-c C-c" . org-edit-src-exit))
+            (:map org-mode-map
+                  ("C-'" . nil)
+                  ("C-c &" . nil)))
      :custom
      (org-M-RET-may-split-line nil)
      (org-adapt-indentation t)
@@ -519,14 +523,14 @@ of what its customization trivially offers.
     :hook (org-mode . org-autolist-mode))
 
   (use-package org
-    :bind (:map org-mode-map
-                ([return] . r/org-dwim-at-point)
-                ("C-c T" . r/org-paste-todo-context))
-      :bind (:map org-read-date-minibuffer-local-map
-                  ("C-f" . r/org-calendar-forward-day)
-                  ("C-b" . r/org-calendar-backward-day)
-                  ("C-n" . r/org-calendar-forward-week)
-                  ("C-p" . r/org-calendar-backward-week))
+    :bind ((:map org-mode-map
+                 ([return] . r/org-dwim-at-point)
+                 ("C-c T" . r/org-paste-todo-context))
+           (:map org-read-date-minibuffer-local-map
+                 ("C-f" . r/org-calendar-forward-day)
+                 ("C-b" . r/org-calendar-backward-day)
+                 ("C-n" . r/org-calendar-forward-week)
+                 ("C-p" . r/org-calendar-backward-week)))
     :config
     (defun r/org-calendar-forward-day ()
       (interactive)
