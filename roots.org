@@ -1060,6 +1060,10 @@ This stuff isn't really necessary, but it looks cool.
 
   (use-package page-break-lines
     :hook (after-init . global-page-break-lines-mode))
+
+  (use-package olivetti
+    :bind ("C-c to" . olivetti-mode)
+    :custom (olivetti-style t))
 #+END_SRC
 ** Icons
 Shows icons via some special icon fonts.
