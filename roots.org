@@ -4,9 +4,8 @@
 #+STARTUP: overview
 
 * Rationale
-This is Roots. The name doesn't really mean anything, except perhaps that the
-palette of [[https://github.com/greduan/emacs-theme-gruvbox][gruvbox-emacs-theme]] reminds me of roots reggae for some reason. As
-you may have guessed, this file contains configuration for GNU Emacs.
+This is Roots. The name doesn't really mean anything. As you may have guessed,
+this file contains configuration for GNU Emacs.
 
 I've refrained from adding long comments to the code describing my configuration
 choices; these comments add visual noise that I don't want to scan over, and
