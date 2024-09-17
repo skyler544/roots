@@ -37,9 +37,8 @@
   (package-refresh-contents))
 
 (use-package use-package
-  :custom
-  (use-package-always-ensure t)
-  (use-package-always-defer t))
+  :custom ((use-package-always-ensure t)
+           (use-package-always-defer t)))
 
 ;; Organization
 ;; ----------------------------------------------------
