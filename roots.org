@@ -69,15 +69,18 @@ These settings are essentially subjective, but serve to disable some annoyances
 
            (prog-mode . subword-mode))
 
-    :bind (("C-z" . bury-buffer)
-           ("C-h '" . describe-char)
-           ("C-c D" . duplicate-dwim)
+    :bind (("C-c D" . duplicate-dwim)
            ("C-c tw" . visual-line-mode)
            ("C-c wr" . winner-redo)
            ("C-c wu" . winner-undo)
-           ("C-x m" . nil)
+           ("C-h '" . describe-char)
            ("C-x C-l" . nil)
-           ("<pinch>" . nil))
+           ("C-x m" . nil)
+           ("C-z" . bury-buffer)
+           ;; Touchpad
+           ("<pinch>" . nil)
+           ([wheel-left]. scroll-left)
+           ([wheel-right]. scroll-right))
 
     :custom
     ;; Startup
