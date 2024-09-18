@@ -128,6 +128,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     (Man-notify-method 'pushy)
     (disabled-command-function nil)
     (fill-column 80)
+    (icon-preference '(symbol text))
     (kill-do-not-save-duplicates t)
     (load-prefer-newer noninteractive)
     (native-comp-async-report-warnings-errors nil)
