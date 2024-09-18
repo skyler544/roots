@@ -1097,6 +1097,7 @@ Project browser with multiple-root functionality.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
+    :config (set-fontset-font t 'symbol "Noto Emoji" nil 'prepend)
     :custom-face
     (default
      ((t (:height 100 :family "CommitMono"))))
