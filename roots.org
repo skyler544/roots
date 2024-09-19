@@ -346,7 +346,9 @@ scenarios in impressive ways.
            ("C-x pr" . consult-ripgrep)
            ("C-c cl" . consult-line)
            ("C-c cr" . r/consult-rg-current-directory)
-           ("C-c cf" . r/consult-fd-current-directory))
+           ("C-c cf" . r/consult-fd-current-directory)
+           (:map minibuffer-local-map
+                 ("C-\\" . consult-history)))
     :custom
     (xref-show-xrefs-function 'consult-xref)
     (xref-show-definitions-function 'consult-xref)
