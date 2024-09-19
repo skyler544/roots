@@ -583,6 +583,9 @@ any face settings that I don't want themes to override.
   (use-package org-superstar
     :hook (org-mode . org-superstar-mode)
     :custom
+    ;; fixes bug with customized `org-ellipsis'
+    ;; https://emacs.stackexchange.com/a/50166
+    (org-cycle-separator-lines -1)
     (org-ellipsis " ⯆")
     (org-superstar-headline-bullets-list '("●")))
 #+END_SRC
