@@ -1016,9 +1016,11 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
 ** Web Requests
 
 #+BEGIN_SRC emacs-lisp
-  ;; Send REST requests
-  (use-package restclient
-    :mode ("\\.rcl$" . restclient-mode))
+  (use-package verb :after org
+    :custom (safe-local-variable-values
+             (cons '(verb-mode) safe-local-variable-values))
+    :config (define-key
+             org-mode-map (kbd "C-c C-r") verb-command-map))
 #+END_SRC
 ** Lua
 
