@@ -7,7 +7,7 @@ all: run
 
 install: eat run
 
-eat: retangle
+eat:
 	$(EMACS) -q --batch --eval $(TERM)
 
 run: retangle
