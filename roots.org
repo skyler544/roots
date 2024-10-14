@@ -651,7 +651,7 @@ useful for yaml files), so we disable it here.
       (setq treesit-auto-install t)
       (setq treesit-auto-langs
             '( bash c cpp css dockerfile html java javascript json vue
-               php phpdoc jsdoc lua make python toml tsx typescript yaml))
+               lua make python toml tsx typescript yaml))
       (treesit-auto-install-all)
       ;; This is necessary to prevent the broken builtin `yaml-ts-mode' from being
       ;; activated along with the working ones.
