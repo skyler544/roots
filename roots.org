@@ -724,8 +724,7 @@ caveats.
   (use-package lispy
     :bind (:map lispy-mode-map
                 ("C-<backspace>" . lispy-delete-backward))
-    :hook ((geiser-repl-mode . lispy-mode)
-           (lisp-mode . lispy-mode)
+    :hook ((lisp-mode . lispy-mode)
            (scheme-mode . lispy-mode)
            (sly-mrepl-mode . lispy-mode)
            (emacs-lisp-mode . lispy-mode)))
@@ -743,22 +742,6 @@ caveats.
   (use-package sly-asdf
     :after sly
     :config (add-to-list 'sly-contribs 'sly-asdf 'append))
-#+END_SRC
-*** Scheme
-
-#+BEGIN_SRC emacs-lisp
-  (use-package geiser-mit
-    :commands r/view-sicp-book
-    :init (with-eval-after-load 'geiser-mode
-            (bind-keys :map geiser-mode-map ("C-." . nil)))
-    :custom
-    (geiser-mit-source-directory
-     "~/build/mit-scheme-12.1/src/")
-    (geiser-repl-use-other-window nil)
-    :config
-    (defun r/view-sicp-book ()
-      (interactive)
-      (info "~/build/sicp-info/sicp.info.gz")))
 #+END_SRC
 *** Emacs Lisp
 
