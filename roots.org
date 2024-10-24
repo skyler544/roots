@@ -131,6 +131,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     (Man-notify-method 'pushy)
     (disabled-command-function nil)
     (fill-column 80)
+    (global-auto-revert-non-file-buffers t)
     (icon-preference '(symbol text))
     (kill-do-not-save-duplicates t)
     (load-prefer-newer noninteractive)
