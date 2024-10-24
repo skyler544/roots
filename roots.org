@@ -125,6 +125,7 @@ These settings are essentially subjective, but serve to disable some annoyances
 
     ;; Scrolling
     (fast-but-imprecise-scrolling t)
+    (pixel-scroll-precision-mode t)
     (scroll-conservatively 101)
 
     ;; Miscellaneous
