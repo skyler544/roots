@@ -79,8 +79,8 @@ These settings are essentially subjective, but serve to disable some annoyances
            ("C-z" . bury-buffer)
            ;; Touchpad
            ("<pinch>" . nil)
-           ([wheel-left]. scroll-left)
-           ([wheel-right]. scroll-right))
+           ([wheel-left] . (lambda () (interactive) (scroll-left 1)))
+           ([wheel-right] . (lambda () (interactive) (scroll-right 1))))
 
     :custom
     ;; Startup
@@ -125,12 +125,14 @@ These settings are essentially subjective, but serve to disable some annoyances
 
     ;; Scrolling
     (fast-but-imprecise-scrolling t)
+    (pixel-scroll-precision-mode t)
     (scroll-conservatively 101)
 
     ;; Miscellaneous
     (Man-notify-method 'pushy)
     (disabled-command-function nil)
     (fill-column 80)
+    (global-auto-revert-non-file-buffers t)
     (icon-preference '(symbol text))
     (kill-do-not-save-duplicates t)
     (load-prefer-newer noninteractive)
