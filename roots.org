@@ -89,8 +89,9 @@ These settings are essentially subjective, but serve to disable some annoyances
     (initial-major-mode 'fundamental-mode)
     (initial-scratch-message nil)
 
-    ;; Tabs
+    ;; Tabs and spaces
     (indent-tabs-mode nil)
+    (sentence-end-double-space nil)
     (tab-always-indent 'complete)
     (tab-width 4)
 
