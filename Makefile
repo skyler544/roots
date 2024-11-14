@@ -10,10 +10,10 @@ all: run
 install: eat php run
 
 eat:
-	$(EMACS) -q --batch --eval $(TERM)
+	$(EMACS) --batch --eval $(TERM)
 
 php:
-	$(EMACS) -q --batch --eval $(PHP)
+	$(EMACS) --batch --eval $(PHP)
 
 run: retangle
 	$(EMACS)
@@ -21,7 +21,7 @@ run: retangle
 retangle: init.el
 
 init.el: roots.org
-	$(EMACS) -q --batch --eval $(TANGLE)
+	$(EMACS) --batch --eval $(TANGLE)
 
 clean:
 	rm -rf init.el var/eln-cache/
