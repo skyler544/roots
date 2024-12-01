@@ -4,6 +4,7 @@
 ;; Emacs package manager, `use-package' (declarative macro for configuring
 ;; packages), and some organizational packages for init-directory housekeeping.
 ;;
+;; Requires Emacs 30+ with native compilation and treesitter.
 ;;
 ;; Basic initialization
 ;; ----------------------------------------------------
