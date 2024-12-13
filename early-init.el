@@ -18,7 +18,9 @@
 
 (setq custom-file (locate-user-emacs-file "var/custom.el"))
 
-(use-package emacs :when (not (daemonp))
+;; Hack redisplay for small speedup
+;; ----------------------------------------------------
+(use-package emacs
   :hook (window-setup . r/redisplay-after-first-frame)
   :custom ((inhibit-redisplay t)
            (inhibit-message t))
