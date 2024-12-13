@@ -825,6 +825,7 @@ terminal applications, but that person isn't me.
 
   ;; Emulate A Terminal -> eat
   (use-package eat
+    :hook (eshell-load . eat-eshell-mode)
     :bind (:map eat-semi-char-mode-map
                 ("," . nil)
                 ("C-z" . nil))
