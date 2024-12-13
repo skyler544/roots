@@ -790,6 +790,13 @@ yaml, markdown, and html.
       (add-to-list 'completion-at-point-functions
                    'comint-completion-at-point)))
 #+END_SRC
+** Diagrams
+#+BEGIN_SRC emacs-lisp
+  (use-package plantuml-mode
+    :custom (plantuml-indent-level 2))
+
+  (use-package mermaid-mode)
+#+END_SRC
 ** LaTeX
 Syntax highlighting and build tools for LaTeX.
 
