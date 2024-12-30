@@ -611,7 +611,6 @@ easy enough to set up. All-in-all it's a decent experience.
     :custom
     (jsonrpc-default-request-timeout 20)
     (eglot-confirm-server-initiated-edits nil)
-    (eglot-sync-connect nil)
     (eglot-autoshutdown t)
     (eglot-ignored-server-capabilities '(:inlayHintProvider)))
 
@@ -942,14 +941,10 @@ technology. This is how I interact with it.
 
   (use-package flymake-eslint
     :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
-    :config
-    (defun r/flymake-eslint-enable-maybe ()
-      "Enable `flymake-eslint' based on the project configuration.
-  Search for the project ESLint configuration to determine whether the buffer
-  should be checked."
-      (when-let* ((root (locate-dominating-file (buffer-file-name) "package.json"))
-                  (rc (locate-file ".eslintrc" (list root) '(".js" ".json"))))
-        (flymake-eslint-enable))))
+    :config (defun r/flymake-eslint-enable-maybe ()
+              (when (-any (lambda (mode) (eq major-mode mode))
+                          '(typescript-ts-mode js-ts-mode tsx-ts-mode))
+                (flymake-eslint-enable))))
 
   (use-package typescript-ts-mode
     :bind (:map typescript-ts-mode-map
