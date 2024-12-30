@@ -31,13 +31,13 @@
 
 ;; Package management
 ;; ----------------------------------------------------
-(package-initialize)
-
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/"))
-
-(unless package-archive-contents
-  (package-refresh-contents))
+(use-package package
+  :init
+  (package-initialize)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/"))
+  (unless package-archive-contents
+    (package-refresh-contents)))
 
 (use-package use-package
   :custom ((use-package-always-ensure t)
