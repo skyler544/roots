@@ -1054,13 +1054,13 @@ This stuff isn't really necessary, but it looks cool.
      ((t (:background unspecified :inherit region))))
     :config
     (setq pulsar-functions
-          '(iwindow-select
+          '(avy-goto-char-timer
             delete-window
             flymake-goto-next-error
             flymake-goto-prev-error
-            avy-goto-char-timer
+            isearch-repeat-backward
             isearch-repeat-forward
-            isearch-repeat-backward))
+            iwindow-select))
     (dolist (f pulsar-functions)
       (add-to-list 'pulsar-pulse-functions f)))
 
