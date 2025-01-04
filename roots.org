@@ -924,9 +924,8 @@ technology. This is how I interact with it.
     ("\\.ts$" . typescript-ts-mode)
     ("\\.tsx$" . tsx-ts-mode))
 
-  ;; Enable conf-mode for .env files
-  (use-package conf-mode
-    :mode ("\\.env\\.*.*$" . conf-mode))
+  (use-package dot-env)
+  (use-package dotenv-mode)
 
   (use-package vue-ts-mode :after eglot
     :vc (:url "https://github.com/8uff3r/vue-ts-mode")
