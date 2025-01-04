@@ -387,12 +387,9 @@ scenarios in impressive ways.
   (use-package corfu
     :hook ((after-init . global-corfu-mode)
            (minibuffer-setup . corfu-enable-in-minibuffer))
-    :custom
-    (corfu-cycle t)
-    (corfu-max-width 80)
-    (corfu-auto t)
-    (corfu-auto-delay 0.5)
-    (corfu-preselect 'prompt)
+    :custom ((corfu-auto t)
+             (corfu-auto-delay 0.5)
+             (corfu-cycle t))
     :config
     (defun corfu-enable-in-minibuffer ()
       "Enable Corfu in the minibuffer if `completion-at-point' is bound."
