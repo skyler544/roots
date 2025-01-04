@@ -1022,12 +1022,6 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
   (use-package emacs
     :mode ("Dockerfile$" . dockerfile-ts-mode))
 #+END_SRC
-** Other
-Packages which may be generally useful for various technologies.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode)
-#+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
 not as important as the actual functionality and should be considered a layer of
@@ -1075,6 +1069,8 @@ This stuff isn't really necessary, but it looks cool.
   (use-package olivetti
     :bind ("C-c to" . olivetti-mode)
     :custom (olivetti-style t))
+
+  (use-package rainbow-mode)
 #+END_SRC
 ** Icons
 Shows icons via some special icon fonts.
