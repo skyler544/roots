@@ -643,20 +643,9 @@ useful for yaml files), so we disable it here.
     :custom (treesit-font-lock-level 4))
 
   (use-package treesit-auto
-    :hook (after-init . r/treesit-auto-setup)
-    :config
-    (defun r/treesit-auto-setup ()
-      (interactive)
-      (setq treesit-auto-install t)
-      (setq treesit-auto-langs
-            '( bash c cpp css dockerfile html java javascript json vue
-               lua make python toml tsx typescript yaml))
-      (treesit-auto-install-all)
-      ;; This is necessary to prevent the broken builtin `yaml-ts-mode' from being
-      ;; activated along with the working ones.
-      (setq treesit-auto-langs
-            (delq 'yaml treesit-auto-langs))
-      (global-treesit-auto-mode)))
+    :hook (after-init . global-treesit-auto-mode)
+    :config (setq treesit-auto-langs
+                  (delq 'yaml treesit-auto-langs)))
 #+END_SRC
 ** Hideshow
 Hideshow is built-in, but does not provide any straightforward way of folding
