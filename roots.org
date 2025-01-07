@@ -756,8 +756,7 @@ yaml, markdown, and html.
     :hook (markdown-mode . visual-line-mode))
 
   (use-package yaml-mode
-    :hook (yaml-mode . display-line-numbers-mode)
-    :mode ("\\.ya*ml\\.*.*" . yaml-mode))
+    :hook (yaml-mode . display-line-numbers-mode))
 
   (use-package yaml-pro
     :hook (yaml-mode . yaml-pro-ts-mode))
