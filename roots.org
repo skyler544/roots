@@ -939,7 +939,7 @@ technology. This is how I interact with it.
   a test script, run just that test."
       (interactive)
       (let ((default-directory (project-root (project-current t))))
-        (async-shell-command (format "yarn test %s" (r/project-relative-path))))))
+        (async-shell-command (format "npm test %s" (r/project-relative-path))))))
 #+END_SRC
 *** Scripts
 This ~run-command~ recipe lets me run scripts from ~package.json~. This recipe is
