@@ -932,13 +932,13 @@ technology. This is how I interact with it.
 
   (use-package typescript-ts-mode
     :bind (:map typescript-ts-mode-map
-                ("C-c ct" . r/jest-test-current-file))
+                ("C-c ct" . r/test-current-file))
     :config
-    (defun r/jest-test-current-file ()
+    (defun r/test-current-file ()
       "If the current visited file is a jest test spec in a project with
   a test script, run just that test."
       (interactive)
-      (let ((default-directory (project-root (project-current t))))
+      (let ((default-directory (r/project-root)))
         (async-shell-command (format "npm test %s" (r/project-relative-path))))))
 #+END_SRC
 *** Scripts
