@@ -1006,6 +1006,15 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
   (use-package emacs
     :mode ("Dockerfile$" . dockerfile-ts-mode))
 #+END_SRC
+** AI Assistant
+#+BEGIN_SRC emacs-lisp
+  (use-package copilot
+    :vc (:url "https://github.com/copilot-emacs/copilot.el")
+    :hook ((php-ts-mode . copilot-mode)
+           (typescript-ts-mode . copilot-mode))
+    :bind (:map copilot-completion-map
+                ("C-<tab>" . copilot-accept-completion)))
+#+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
 not as important as the actual functionality and should be considered a layer of
