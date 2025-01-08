@@ -910,7 +910,8 @@ technology. This is how I interact with it.
     ("\\.tsx$" . tsx-ts-mode))
 
   (use-package dot-env)
-  (use-package dotenv-mode)
+  (use-package dotenv-mode
+    :mode ("\\.env\\.testing" . dotenv-mode))
 
   (use-package vue-ts-mode :after eglot
     :vc (:url "https://github.com/8uff3r/vue-ts-mode")
