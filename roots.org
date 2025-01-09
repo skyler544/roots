@@ -237,7 +237,8 @@ specific package.
   (use-package emacs
     :bind (("C-M-j" . r/top-join-line)
            ("C-c cu" . r/sudo-find-file)
-           ("C-c mw" . r/mark-symbol-at-point))
+           ("C-c mw" . r/mark-symbol-at-point)
+           ("C-g" . r/keyboard-quit))
     :config
     (defun r/sudo (command)
       (let ((default-directory
@@ -278,7 +279,13 @@ specific package.
     (defun r/kill-relative-path ()
       "Kill the path to the current file relative to the project root."
       (interactive)
-      (kill-new (r/project-relative-path))))
+      (kill-new (r/project-relative-path)))
+
+    (defun r/keyboard-quit ()
+      (interactive)
+      (if (> (minibuffer-depth) 0)
+          (abort-recursive-edit)
+        (keyboard-quit))))
 #+END_SRC
 * Core Extensions
 This section sets up a general layer of useful features; the focus
