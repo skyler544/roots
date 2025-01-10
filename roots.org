@@ -991,7 +991,8 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
     :config
     (with-eval-after-load 'apheleia
       (setf (alist-get 'phpcs apheleia-formatters)
-            '("composer" "--no-interaction" (concat "--working-dir=" (r/project-root))
+            '("composer" "--no-interaction"
+              (concat "--working-dir=" (r/project-root))
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name)))))
 #+END_SRC
 ** Web Requests
