@@ -724,6 +724,7 @@ caveats.
     :bind (:map lispy-mode-map
                 ("C-<backspace>" . lispy-delete-backward))
     :hook ((lisp-mode . lispy-mode)
+           (lisp-data-mode . lispy-mode)
            (scheme-mode . lispy-mode)
            (sly-mrepl-mode . lispy-mode)
            (emacs-lisp-mode . lispy-mode)))
