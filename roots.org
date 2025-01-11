@@ -1125,13 +1125,8 @@ Project browser with multiple-root functionality.
            :box unspecified
            :bold t))))
 
-    (Info-quoted
-     ((t ( :inherit unspecified
-           :inherit font-lock-function-name-face))))
     (info-menu-star
-     ((t (:inherit unspecified :foreground unspecified))))
-    (info-node
-     ((t (:foreground unspecified)))))
+     ((t (:inherit unspecified :foreground unspecified)))))
 
   (use-package default-text-scale
     :hook (after-init . default-text-scale-mode))
