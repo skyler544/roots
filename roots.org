@@ -562,6 +562,10 @@ of what its customization trivially offers.
       (save-excursion
         (org-paste-subtree 2 "* Estimate:\n* Actions [/]\n* Notes")))
 
+    ;; don't use `other-window' when opening file links
+    (assq-delete-all 'file org-link-frame-setup)
+    (add-to-list 'org-link-frame-setup '(file . find-file))
+
     (defun r/org-dwim-at-point ()
       "Toggle the todo state of a headline, toggle a checkbox, or follow
     a link."
