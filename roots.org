@@ -1045,24 +1045,18 @@ This stuff isn't really necessary, but it looks cool.
     (eros-result-overlay-face
      ((t ( :background unspecified :inherit region :box t)))))
 
-  ;; Briefly flash current line after a long movement.
+  ;; Briefly flash current line in certain situations
   (use-package pulsar
-    :init (setq pulsar-face 'pulsar-generic)
     :hook (after-init . pulsar-global-mode)
-    :custom-face
-    (pulsar-generic
-     ((t (:background unspecified :inherit region))))
-    :config
-    (setq pulsar-functions
-          '(avy-goto-char-timer
-            delete-window
-            flymake-goto-next-error
-            flymake-goto-prev-error
-            isearch-repeat-backward
-            isearch-repeat-forward
-            iwindow-select))
-    (dolist (f pulsar-functions)
-      (add-to-list 'pulsar-pulse-functions f)))
+    :config (setq pulsar-pulse-functions
+                  (append '(avy-goto-char-timer
+                            flymake-goto-next-error
+                            flymake-goto-prev-error
+                            isearch-repeat-backward
+                            isearch-repeat-forward)
+                          pulsar-pulse-functions))
+    :custom (pulsar-pulse-region-functions
+             pulsar-pulse-region-common-functions))
 
   ;; Highlight TODO items in buffers
   (use-package hl-todo
