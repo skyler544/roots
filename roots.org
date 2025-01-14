@@ -945,9 +945,9 @@ technology. This is how I interact with it.
 
   (use-package typescript-ts-mode
     :bind (:map typescript-ts-mode-map
-                ("C-c ct" . r/test-current-file))
+                ("C-c ct" . r/js-ts-test-current-file))
     :config
-    (defun r/test-current-file ()
+    (defun r/js-ts-test-current-file ()
       "If the current visited file is a jest test spec in a project with
   a test script, run just that test."
       (interactive)
