@@ -948,8 +948,7 @@ technology. This is how I interact with it.
                 ("C-c ct" . r/js-ts-test-current-file))
     :config
     (defun r/js-ts-test-current-file ()
-      "If the current visited file is a jest test spec in a project with
-  a test script, run just that test."
+      "If the current visited file is a test spec, run just that test."
       (interactive)
       (let ((default-directory (r/project-root)))
         (async-shell-command (format "npm test %s" (r/project-relative-path))))))
@@ -997,11 +996,12 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
                 ("C-c ct" . r/php-test-current-file))
     :config
     (defun r/php-test-current-file ()
-      "If the current visited file is a jest test spec in a project with
-  a test script, run just that test."
+      "If the current visited file is a test, run just that test."
       (interactive)
       (let ((default-directory (r/project-root)))
-        (async-shell-command (format "vendor/bin/phpunit %s" (r/project-relative-path)))))
+        (async-shell-command (format
+                              "vendor/bin/phpunit %s"
+                              (r/project-relative-path)))))
     (with-eval-after-load 'apheleia
       (setf (alist-get 'phpcs apheleia-formatters)
             '("composer" "--no-interaction"
