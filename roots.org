@@ -636,7 +636,9 @@ sources are language servers.
     :bind (:map flymake-mode-map
                 ([remap next-error] . flymake-goto-next-error)
                 ([remap previous-error] . flymake-goto-prev-error))
-    :custom (flymake-fringe-indicator-position 'right-fringe))
+    :custom
+    (flymake-no-changes-timeout 1)
+    (flymake-fringe-indicator-position 'right-fringe))
 #+END_SRC
 ** TreeSitter
 Abstract syntax tree based language parsing and syntax highlighting. This works
@@ -703,6 +705,7 @@ information in the echo area.
 #+BEGIN_SRC emacs-lisp
   (use-package eldoc
     :custom
+    (eldoc-idle-delay 1)
     (eldoc-echo-area-use-multiline-p nil)
     (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 
