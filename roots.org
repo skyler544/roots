@@ -226,8 +226,6 @@ everything else dired is capable of, and there's just no contest.
     :bind (:map dired-mode-map
                 ("TAB" . dired-subtree-cycle))
     :custom (dired-subtree-use-backgrounds nil))
-
-  (use-package dired-sidebar)
 #+END_SRC
 ** Custom Code
 This section is for generally useful functions and keybindings without a
