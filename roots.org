@@ -114,6 +114,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     ;; Interaction
     (enable-recursive-minibuffers t)
     (epg-pinentry-mode 'loopback)
+    (isearch-lazy-count t)
     (tooltip-mode nil)
     (use-dialog-box nil)
     (use-file-dialog nil)
