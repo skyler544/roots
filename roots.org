@@ -724,8 +724,10 @@ caveats.
 
 #+BEGIN_SRC emacs-lisp
   (use-package lispy
-    :bind (:map lispy-mode-map
-                ("C-<backspace>" . lispy-delete-backward))
+    :bind ((:map lispy-mode-map
+                 ("C-<backspace>" . lispy-delete-backward))
+           (:map lispy-mode-map-lispy
+                 (":" . nil)))
     :hook ((lisp-mode . lispy-mode)
            (lisp-data-mode . lispy-mode)
            (scheme-mode . lispy-mode)
