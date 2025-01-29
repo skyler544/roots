@@ -938,9 +938,6 @@ technology. This is how I interact with it.
     :config (add-to-list 'eglot-server-programs
                          '(vue-ts-mode "vls")))
 
-  (use-package web-mode
-    :mode ("\\.twig$" . web-mode))
-
   (use-package flymake-eslint
     :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
     :config (defun r/flymake-eslint-enable-maybe ()
@@ -1012,6 +1009,9 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
             '("composer" "--no-interaction"
               (concat "--working-dir=" (r/project-root))
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name)))))
+
+    (use-package web-mode
+      :mode ("\\.twig$" . web-mode))
 #+END_SRC
 ** Web Requests
 
