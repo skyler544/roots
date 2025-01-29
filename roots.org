@@ -1010,8 +1010,8 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
               (concat "--working-dir=" (r/project-root))
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name)))))
 
-    (use-package web-mode
-      :mode ("\\.twig$" . web-mode))
+  (use-package web-mode
+    :mode ("\\.twig$" "\\.blade\\.php$"))
 #+END_SRC
 ** Web Requests
 
