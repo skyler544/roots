@@ -928,11 +928,11 @@ technology. This is how I interact with it.
 
   (use-package dot-env)
   (use-package dotenv-mode
-    :mode ("\\.env\\.testing" . dotenv-mode))
+    :mode "\\.env\\.testing")
 
   (use-package vue-ts-mode :after eglot
     :vc (:url "https://github.com/8uff3r/vue-ts-mode")
-    :mode ("\\.vue$" . vue-ts-mode)
+    :mode "\\.vue$"
     :hook ((vue-ts-mode . eglot-ensure)
            (vue-ts-mode . display-line-numbers-mode))
     :config (add-to-list 'eglot-server-programs
@@ -992,7 +992,7 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
 
 #+BEGIN_SRC emacs-lisp
   (use-package php-ts-mode
-    :mode ("\\.php$" . php-ts-mode)
+    :mode "\\.php$"
     :hook (php-ts-mode . eglot-ensure)
     :bind (:map php-ts-mode-map
                 ("C-c ct" . r/php-test-current-file))
@@ -1030,8 +1030,8 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
 ** Docker
 
 #+BEGIN_SRC emacs-lisp
-  (use-package emacs
-    :mode ("Dockerfile$" . dockerfile-ts-mode))
+  (use-package dockerfile-ts-mode
+    :mode "Dockerfile$")
 #+END_SRC
 ** AI Assistant
 #+BEGIN_SRC emacs-lisp
