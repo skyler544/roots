@@ -992,7 +992,7 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
 
 #+BEGIN_SRC emacs-lisp
   (use-package php-ts-mode
-    :mode "\\.php$"
+    :mode "^[^.]+\\.php$"
     :hook (php-ts-mode . eglot-ensure)
     :bind (:map php-ts-mode-map
                 ("C-c ct" . r/php-test-current-file))
