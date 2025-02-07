@@ -615,7 +615,8 @@ easy enough to set up. All-in-all it's a decent experience.
     :bind (:map eglot-mode-map
                 ("C-c ef" . eglot-format-buffer)
                 ("C-c ea" . eglot-code-actions)
-                ("C-c ed" . flymake-show-project-diagnostics))
+                ("C-c ed" . flymake-show-project-diagnostics)
+                ("C-c er" . eglot-reconnect))
     :custom
     (jsonrpc-default-request-timeout 20)
     (eglot-confirm-server-initiated-edits nil)
