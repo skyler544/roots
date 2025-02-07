@@ -613,9 +613,9 @@ easy enough to set up. All-in-all it's a decent experience.
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
     :bind (:map eglot-mode-map
-                ("C-c ef" . eglot-format-buffer)
                 ("C-c ea" . eglot-code-actions)
                 ("C-c ed" . flymake-show-project-diagnostics)
+                ("C-c ef" . eglot-format-buffer)
                 ("C-c er" . eglot-reconnect))
     :custom
     (jsonrpc-default-request-timeout 20)
