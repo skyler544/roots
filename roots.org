@@ -202,6 +202,12 @@ be created and the file should be put there.
       (unless (eq ibuffer-sorting-mode 'project-file-relative)
         (ibuffer-do-sort-by-project-file-relative))))
 #+END_SRC
+** PATH
+
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :hook (after-init . exec-path-from-shell-initialize))
+#+END_SRC
 ** Dired
 Dired is the greatest file manager ever created. The existence of ~wdired~ alone
 makes it superior to any graphical file manager I've ever seen; add on
