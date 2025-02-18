@@ -244,6 +244,7 @@ specific package.
     :bind (("C-M-j" . r/top-join-line)
            ("C-c cu" . r/sudo-find-file)
            ("C-c mw" . r/mark-symbol-at-point)
+           ("C-c n" . r/system-filebrowser)
            ("C-g" . r/keyboard-quit))
     :config
     (defun r/sudo (command)
@@ -291,7 +292,12 @@ specific package.
       (interactive)
       (if (> (minibuffer-depth) 0)
           (abort-recursive-edit)
-        (keyboard-quit))))
+        (keyboard-quit)))
+
+    (defun r/system-filebrowser ()
+      (interactive)
+      (async-shell-command
+       (format "xdg-open %s" default-directory))))
 #+END_SRC
 * Core Extensions
 This section sets up a general layer of useful features; the focus
