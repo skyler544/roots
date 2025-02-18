@@ -132,8 +132,8 @@ These settings are essentially subjective, but serve to disable some annoyances
     (scroll-conservatively 101)
 
     ;; Miscellaneous
+    (process-connection-type nil)
     (Man-notify-method 'pushy)
-    (disabled-command-function nil)
     (fill-column 80)
     (global-auto-revert-non-file-buffers t)
     (icon-preference '(symbol text))
@@ -142,6 +142,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     (native-comp-async-report-warnings-errors nil)
     (ring-bell-function 'ignore)
     (uniquify-buffer-name-style 'forward)
+    (disabled-command-function nil)
 
     :config
     (add-to-list 'display-buffer-alist
