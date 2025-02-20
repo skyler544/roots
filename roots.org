@@ -134,6 +134,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     ;; Miscellaneous
     (process-connection-type nil)
     (Man-notify-method 'pushy)
+    (custom-safe-themes t)
     (fill-column 80)
     (global-auto-revert-non-file-buffers t)
     (icon-preference '(symbol text))
