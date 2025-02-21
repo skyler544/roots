@@ -114,7 +114,6 @@ These settings are essentially subjective, but serve to disable some annoyances
 
     ;; Interaction
     (enable-recursive-minibuffers t)
-    (epg-pinentry-mode 'loopback)
     (isearch-lazy-count t)
     (tooltip-mode nil)
     (use-dialog-box nil)
@@ -137,7 +136,6 @@ These settings are essentially subjective, but serve to disable some annoyances
     (disabled-command-function nil)
     (fill-column 80)
     (global-auto-revert-non-file-buffers t)
-    (icon-preference '(symbol text))
     (kill-do-not-save-duplicates t)
     (load-prefer-newer noninteractive)
     (native-comp-async-report-warnings-errors nil)
@@ -216,8 +214,7 @@ makes it superior to any graphical file manager I've ever seen; add on
 everything else dired is capable of, and there's just no contest.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package dired
-    :ensure nil
+  (use-package dired :ensure nil
     :hook ((dired-mode . dired-hide-details-mode)
            (dired-mode . auto-revert-mode))
     :bind (:map dired-mode-map
@@ -457,8 +454,7 @@ This section sets up a baseline for Org Mode as an outlining tool.
 
  #+BEGIN_SRC emacs-lisp
    (use-package org
-     :hook ((org-mode . auto-fill-mode)
-            (auto-save . org-save-all-org-buffers))
+     :hook (org-mode . auto-fill-mode)
      :bind (("C-c sl" . org-store-link)
             (:map org-mode-map
                   ("C-'" . nil)
@@ -468,6 +464,7 @@ This section sets up a baseline for Org Mode as an outlining tool.
      :custom
      (org-M-RET-may-split-line nil)
      (org-adapt-indentation t)
+     (org-enforce-todo-dependencies t)
      (org-fold-catch-invisible-edits 'show-and-error)
      (org-hide-emphasis-markers t)
      (org-hide-leading-stars t)
@@ -525,7 +522,6 @@ This section defines my capture and agenda workflow.
     (org-agenda-window-setup 'current-window)
 
     (org-clock-clocked-in-display 'frame-title)
-    (org-enforce-todo-dependencies t)
     (org-log-done 'time)
     (org-log-into-drawer t)
     (org-log-refile 'time)
@@ -831,10 +827,10 @@ Syntax highlighting and build tools for LaTeX.
            (tex-mode . display-line-numbers-mode)
            (tex-mode . visual-line-mode))
     :custom (bibtex-entry-format t)
-    :config
-    (defun r/latex-word-count ()
-      (interactive)
-      (shell-command (concat "detex " (buffer-file-name) " | wc"))))
+    :config (defun r/latex-word-count ()
+              (interactive)
+              (shell-command
+               (format "detex %s | wc" (buffer-file-name)))))
 #+END_SRC
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
@@ -858,11 +854,11 @@ terminal applications, but that person isn't me.
   ;; Emulate A Terminal -> eat
   (use-package eat
     :hook (eshell-load . eat-eshell-mode)
+    :commands eat-compile-terminfo
+    :custom (eat-enable-auto-line-mode t)
     :bind (:map eat-semi-char-mode-map
                 ("," . nil)
-                ("C-z" . nil))
-    :commands eat-compile-terminfo
-    :custom (eat-enable-auto-line-mode t))
+                ("C-z" . nil)))
 
   ;; Configurable command recipes
   (use-package run-command
@@ -1055,7 +1051,7 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
 
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-ts-mode
-    :mode "Dockerfile$")
+    :mode ("Dockerfile$" "Containerfile$"))
 #+END_SRC
 ** AI Assistant
 #+BEGIN_SRC emacs-lisp
