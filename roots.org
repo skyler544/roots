@@ -299,7 +299,9 @@ specific package.
     (defun r/system-filebrowser ()
       (interactive)
       (async-shell-command
-       (format "xdg-open %s" default-directory))))
+       (format "%sopen %s"
+               (if (eq system-type 'darwin) "" "xdg-")
+               default-directory))))
 #+END_SRC
 * Core Extensions
 This section sets up a general layer of useful features; the focus
