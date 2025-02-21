@@ -296,11 +296,16 @@ specific package.
           (abort-recursive-edit)
         (keyboard-quit)))
 
+    (defun r/system-open-command ()
+      (if (eq system-type 'darwin)
+          "open"
+        "xdg-open"))
+
     (defun r/system-filebrowser ()
       (interactive)
       (async-shell-command
-       (format "%sopen %s"
-               (if (eq system-type 'darwin) "" "xdg-")
+       (format "%s %s"
+               (r/system-open-command)
                default-directory))))
 #+END_SRC
 * Core Extensions
@@ -439,9 +444,10 @@ scenarios in impressive ways.
   (use-package openwith
     :hook (after-init . openwith-mode)
     :custom (openwith-associations
-             '(("\\.pdf$" "zathura" (file))
-               ("\\.\\(?:mpe?g\\|avi\\|wmv\\|mp4\\|gif\\|mp3\\)\\'" "mpv" (file))
-               ("\\.\\(?:jp?g\\|png\\)\\'" "feh" (file)))))
+             `(("\\.\\(?:mpe?g\\|avi\\|wmv\\|mp4\\|gif\\|mp3\\)\\'"
+                ,(r/system-open-command) (file))
+               ("\\.\\(?:jp?g\\|png\\|pdf\\)\\'"
+                ,(r/system-open-command) (file)))))
 #+END_SRC
 * Org Mode
 The swiss-army outline tool.
