@@ -329,6 +329,11 @@ is on power and ergonomics.
                  ("<tab>" . nil)
                  ("TAB" . nil))))
 
+  (use-package mini-ontop
+    :vc (:url "https://github.com/hkjels/mini-ontop.el")
+    :hook (after-init . mini-ontop-mode)
+    :custom (mini-ontop-lines 13))
+
   (use-package wrap-region
     :hook (after-init . wrap-region-mode))
 
