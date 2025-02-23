@@ -960,6 +960,13 @@ technology. This is how I interact with it.
                 (async-shell-command (format "npm test %s"
                                              (r/project-relative-path))))))
 
+  (use-package flymake-eslint
+    :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
+    :config (defun r/flymake-eslint-enable-maybe ()
+              (when (-any (lambda (mode) (eq major-mode mode))
+                          '(typescript-ts-mode js-ts-mode))
+                (flymake-eslint-enable))))
+
   (use-package vue-ts-mode :after eglot
     :vc (:url "https://github.com/8uff3r/vue-ts-mode")
     :mode "\\.vue$"
@@ -967,13 +974,6 @@ technology. This is how I interact with it.
            (vue-ts-mode . display-line-numbers-mode))
     :config (add-to-list 'eglot-server-programs
                          '(vue-ts-mode "vls")))
-
-  (use-package flymake-eslint
-    :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
-    :config (defun r/flymake-eslint-enable-maybe ()
-              (when (-any (lambda (mode) (eq major-mode mode))
-                          '(typescript-ts-mode js-ts-mode tsx-ts-mode))
-                (flymake-eslint-enable))))
 #+END_SRC
 *** Scripts
 This ~run-command~ recipe lets me run scripts from ~package.json~. This recipe is
