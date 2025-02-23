@@ -115,6 +115,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     ;; Interaction
     (enable-recursive-minibuffers t)
     (isearch-lazy-count t)
+    (lazy-count-prefix-format "(%s/%s) ")
     (tooltip-mode nil)
     (use-dialog-box nil)
     (use-file-dialog nil)
@@ -312,7 +313,7 @@ is on power and ergonomics.
 ** Editing and Navigation
 
 #+BEGIN_SRC emacs-lisp
-  (use-package devil
+  (use-package devil :pin melpa
     :hook (after-init . global-devil-mode)
     :custom (devil-all-keys-repeatable t))
 
@@ -1054,6 +1055,7 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
     :mode ("Dockerfile$" "Containerfile$"))
 #+END_SRC
 ** AI Assistant
+
 #+BEGIN_SRC emacs-lisp
   (use-package copilot
     :vc (:url "https://github.com/copilot-emacs/copilot.el")
@@ -1062,6 +1064,7 @@ The new =php-ts-mode= seems to be a work in progress, but it does the job for no
 #+END_SRC
 ** Natural language
 Arguably one of the most important technologies of all.
+
 #+BEGIN_SRC emacs-lisp
   (use-package dictcc)
 #+END_SRC
