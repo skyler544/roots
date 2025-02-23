@@ -942,18 +942,27 @@ The Javascript/Typescript landscape is a huge maze of both awesome and terrible
 technology. This is how I interact with it.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package emacs
-    :hook ((js-ts-mode . eglot-ensure)
-           (tsx-ts-mode . eglot-ensure)
-           (typescript-ts-mode . eglot-ensure))
-    :custom (js-indent-level 2)
-    :mode
-    ("\\.ts$" . typescript-ts-mode)
-    ("\\.tsx$" . tsx-ts-mode))
-
   (use-package dot-env)
   (use-package dotenv-mode
     :mode "\\.env\\.testing")
+
+  (use-package js
+    :custom (js-indent-level 2))
+
+  (use-package typescript-ts-mode
+    :mode "\\.ts$"
+    :hook (typescript-ts-mode . eglot-ensure)
+    :bind (:map typescript-ts-mode-map
+                ("C-c ct" . r/js-ts-test-current-file))
+    :config (defun r/js-ts-test-current-file ()
+              (interactive)
+              (let ((default-directory (r/project-root)))
+                (async-shell-command (format "npm test %s"
+                                             (r/project-relative-path))))))
+
+  (use-package typescript-ts-mode
+    :hook (tsx-ts-mode . eglot-ensure)
+    :mode ("\\.tsx$" . tsx-ts-mode))
 
   (use-package vue-ts-mode :after eglot
     :vc (:url "https://github.com/8uff3r/vue-ts-mode")
@@ -969,16 +978,6 @@ technology. This is how I interact with it.
               (when (-any (lambda (mode) (eq major-mode mode))
                           '(typescript-ts-mode js-ts-mode tsx-ts-mode))
                 (flymake-eslint-enable))))
-
-  (use-package typescript-ts-mode
-    :bind (:map typescript-ts-mode-map
-                ("C-c ct" . r/js-ts-test-current-file))
-    :config
-    (defun r/js-ts-test-current-file ()
-      "If the current visited file is a test spec, run just that test."
-      (interactive)
-      (let ((default-directory (r/project-root)))
-        (async-shell-command (format "npm test %s" (r/project-relative-path))))))
 #+END_SRC
 *** Scripts
 This ~run-command~ recipe lets me run scripts from ~package.json~. This recipe is
