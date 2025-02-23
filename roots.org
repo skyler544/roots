@@ -960,10 +960,6 @@ technology. This is how I interact with it.
                 (async-shell-command (format "npm test %s"
                                              (r/project-relative-path))))))
 
-  (use-package typescript-ts-mode
-    :hook (tsx-ts-mode . eglot-ensure)
-    :mode ("\\.tsx$" . tsx-ts-mode))
-
   (use-package vue-ts-mode :after eglot
     :vc (:url "https://github.com/8uff3r/vue-ts-mode")
     :mode "\\.vue$"
