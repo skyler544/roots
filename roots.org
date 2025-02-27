@@ -967,14 +967,6 @@ technology. This is how I interact with it.
               (when (-any (lambda (mode) (eq major-mode mode))
                           '(typescript-ts-mode js-ts-mode))
                 (flymake-eslint-enable))))
-
-  (use-package vue-ts-mode :after eglot
-    :vc (:url "https://github.com/8uff3r/vue-ts-mode")
-    :mode "\\.vue$"
-    :hook ((vue-ts-mode . eglot-ensure)
-           (vue-ts-mode . display-line-numbers-mode))
-    :config (add-to-list 'eglot-server-programs
-                         '(vue-ts-mode "vls")))
 #+END_SRC
 *** Scripts
 This ~run-command~ recipe lets me run scripts from ~package.json~. This recipe is
