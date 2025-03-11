@@ -157,7 +157,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     :custom (recentf-max-saved-items 200)
     :config (dolist (exclusion '("\\/sudo:root@localhost.*"
                                  "\\.org_archive$"
-                                 "\\.\\(?:pdf\\|\\mp4\\|gif\\|png\\|webp\\|\\jpe?g\\)\\'"))
+                                 "\\.\\(?:pdf\\|\\m4v\\|\\mp4\\|gif\\|png\\|webp\\|\\jpe?g\\)\\'"))
               (add-to-list 'recentf-exclude exclusion)))
 #+END_SRC
 ** Directories
@@ -447,7 +447,7 @@ scenarios in impressive ways.
   (use-package openwith
     :hook (after-init . openwith-mode)
     :custom (openwith-associations
-             `(("\\.\\(?:mpe?g\\|avi\\|wmv\\|mp4\\|gif\\|mp3\\)\\'"
+             `(("\\.\\(?:mpe?g\\|avi\\|wmv\\|m4v\\|mp4\\|gif\\|mp3\\)\\'"
                 ,(r/system-open-command) (file))
                ("\\.\\(?:jp?g\\|png\\|pdf\\|webp\\)\\'"
                 ,(r/system-open-command) (file)))))
