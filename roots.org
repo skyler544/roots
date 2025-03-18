@@ -995,6 +995,12 @@ stolen directly from their project readme.
 
     (add-to-list 'run-command-recipes 'run-command-recipe-package-json))
 #+END_SRC
+** C
+#+BEGIN_SRC emacs-lisp
+  (use-package c-ts-mode
+    :hook (c-ts-mode . eglot-ensure)
+    :custom (c-ts-mode-indent-offset 4))
+#+END_SRC
 ** PHP
 #+BEGIN_SRC emacs-lisp
   (use-package php-ts-mode
