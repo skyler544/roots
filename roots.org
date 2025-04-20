@@ -158,7 +158,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     :custom (recentf-max-saved-items 200)
     :config (dolist (exclusion '("\\/sudo:root@localhost.*"
                                  "\\.org_archive$"
-                                 "\\.\\(?:pdf\\|\\m4v\\|\\mp4\\|gif\\|png\\|webp\\|\\jpe?g\\)\\'"))
+                                 "\\.\\(?:pdf\\|\\m4v\\|\\mp4\\|gif\\|epub\\|png\\|webp\\|\\jpe?g\\)\\'"))
               (add-to-list 'recentf-exclude exclusion)))
 #+END_SRC
 ** Directories
