@@ -192,6 +192,12 @@ be created and the file should be put there.
            ("C-h v" . helpful-variable)
            ("C-h k" . helpful-key)))
 #+END_SRC
+** Minions
+#+BEGIN_SRC emacs-lisp
+  (use-package minions
+    :hook (after-init . minions-mode)
+    :custom (minions-mode-line-lighter "--"))
+#+END_SRC
 ** Ibuffer
 
 #+BEGIN_SRC emacs-lisp

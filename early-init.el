@@ -43,15 +43,10 @@
   :custom ((use-package-always-ensure t)
            (use-package-always-defer t)))
 
-;; Organization
+;; Preliminary Configuration
 ;; ----------------------------------------------------
 (use-package no-littering :demand)
-(use-package minions
-  :hook (after-init . minions-mode)
-  :custom (minions-mode-line-lighter "--"))
 
-;; UI Tweaks
-;; ----------------------------------------------------
 (mapc (lambda (parameter)
         (push `(,parameter . nil) default-frame-alist))
       '(menu-bar-lines tool-bar-lines vertical-scroll-bars))
