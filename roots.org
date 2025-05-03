@@ -721,7 +721,6 @@ information in the echo area.
 #+BEGIN_SRC emacs-lisp
   (use-package eldoc
     :custom
-    (eldoc-idle-delay 1)
     (eldoc-echo-area-use-multiline-p nil)
     (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 
