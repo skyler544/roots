@@ -557,8 +557,7 @@ of what its customization trivially offers.
 
   (use-package org
     :bind ((:map org-mode-map
-                 ([return] . r/org-dwim-at-point)
-                 ("C-c T" . r/org-paste-todo-context))
+                 ([return] . r/org-dwim-at-point))
            (:map org-read-date-minibuffer-local-map
                  ("C-f" . r/org-calendar-forward-day)
                  ("C-b" . r/org-calendar-backward-day)
@@ -577,11 +576,6 @@ of what its customization trivially offers.
     (defun r/org-calendar-backward-week ()
       (interactive)
       (org-eval-in-calendar '(calendar-backward-week 1)))
-
-    (defun r/org-paste-todo-context ()
-      (interactive)
-      (save-excursion
-        (org-paste-subtree 2 "* Estimate:\n* Actions [/]\n* Notes")))
 
     ;; don't use `other-window' when opening file links
     (assq-delete-all 'file org-link-frame-setup)
