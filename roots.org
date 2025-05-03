@@ -621,6 +621,27 @@ any face settings that I don't want themes to override.
 This section provides configuration for specific technologies such as
 programming languages and corresponding language servers.
 
+** Git
+Although Emacs does come with a built-in interface to version control, it's
+cumbersome and inelegant compared to Magit. This section sets up Magit and a few
+other utility packages related to git.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :custom
+    (magit-diff-refine-hunk 'all)
+    (magit-display-buffer-function 'display-buffer))
+
+  (use-package why-this
+    :custom (why-this-annotate-enable-heat-map nil)
+    :custom-face
+    (why-this-face
+     ((t ( :foreground unspecified :inherit font-lock-comment-face)))))
+
+  (use-package diff-hl
+    :hook (after-init . global-diff-hl-mode)
+    :custom (diff-hl-draw-borders nil))
+#+END_SRC
 ** Eglot
 Use language servers in Emacs. Eglot is not quite "zero configuration," but it's
 easy enough to set up. All-in-all it's a decent experience.
@@ -675,6 +696,55 @@ useful for yaml files), so we disable it here.
     :hook (after-init . global-treesit-auto-mode)
     :config (setq treesit-auto-langs
                   (delq 'yaml treesit-auto-langs)))
+#+END_SRC
+** Shell
+Interacting with the shell through Emacs is quite a bit nicer than via a
+terminal emulator. For instance, there's no need to mess around with pagers if
+you have all your Emacs facilities available. This workflow isn't really an
+appropriate replacement for someone who uses ncurses-style or other fullscreen
+terminal applications, but that person isn't me.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Configure built-in `shell' and friends
+  (use-package emacs
+    :custom
+    (comint-scroll-to-bottom-on-output t)
+    (async-shell-command-display-buffer nil)
+    (async-shell-command-buffer 'new-buffer))
+
+  ;; Improvements to `shell-command' and friends.
+  (use-package shell-command-x
+    :hook (after-init . shell-command-x-mode))
+
+  ;; Emulate A Terminal -> eat
+  (use-package eat
+    :hook (eshell-load . eat-eshell-mode)
+    :commands eat-compile-terminfo
+    :custom (eat-enable-auto-line-mode t)
+    :bind (:map eat-semi-char-mode-map
+                ("," . nil)
+                ("C-z" . nil)))
+
+  ;; Configurable command recipes
+  (use-package run-command
+    :bind ("C-c r" . run-command)
+    :custom (run-command-default-runner 'run-command-runner-eat))
+
+  ;; Automatically set shell scripts to executable when saving
+  (use-package emacs
+    :hook (after-save . executable-make-buffer-file-executable-if-script-p))
+
+  ;; Custom behaviors and tweaks
+  (use-package emacs
+    :bind ("C-c &" . r/sh-command-at-point)
+    :config
+    (defun r/sh-command-at-point ()
+      "Run the command at point or in the selected region in the shell."
+      (interactive)
+      (async-shell-command
+       (if (use-region-p)
+           (buffer-substring (region-beginning) (region-end))
+         (thing-at-point 'line t)))))
 #+END_SRC
 ** Hideshow
 Hideshow is built-in, but does not provide any straightforward way of folding
@@ -772,130 +842,29 @@ caveats.
   (use-package highlight-quoted
     :hook (emacs-lisp-mode . highlight-quoted-mode))
 #+END_SRC
-** Java
-
+** PHP
 #+BEGIN_SRC emacs-lisp
-  (use-package emacs
-    :hook ((java-ts-mode . eglot-ensure)
-           (java-ts-mode . visual-line-mode)))
-#+END_SRC
-** Structured Text
-Syntax highlighting for (non-org-mode) structured text. In practice, this means
-yaml, markdown, and html.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode
-    :hook (markdown-mode . visual-line-mode))
-
-  (use-package yaml-mode
-    :hook (yaml-mode . display-line-numbers-mode))
-
-  (use-package yaml-pro
-    :hook (yaml-mode . yaml-pro-ts-mode))
-
-  (use-package emmet-mode
-    :hook (mhtml-mode . emmet-mode))
-
-  ;; html and css
-  (use-package emacs
-    :hook ((css-ts-mode . display-line-numbers-mode)
-           (mhtml-mode . display-line-numbers-mode)
-           (mhtml-mode . #'r/capf-comint))
+  (use-package php-ts-mode
+    :mode "^[^.]+\\.php$"
+    :hook (php-ts-mode . eglot-ensure)
+    :bind (:map php-ts-mode-map
+                ("C-c ct" . r/php-test-current-file))
     :config
-    (defun r/capf-comint ()
-      (add-to-list 'completion-at-point-functions
-                   'comint-completion-at-point)))
-#+END_SRC
-** Diagrams
-#+BEGIN_SRC emacs-lisp
-  (use-package plantuml-mode
-    :custom (plantuml-indent-level 2))
-
-  (use-package mermaid-mode)
-#+END_SRC
-** LaTeX
-Syntax highlighting and build tools for LaTeX.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package emacs
-    :hook ((tex-mode . eglot-ensure)
-           (tex-mode . display-line-numbers-mode)
-           (tex-mode . visual-line-mode))
-    :custom (bibtex-entry-format t)
-    :config (defun r/latex-word-count ()
-              (interactive)
-              (shell-command
-               (format "detex %s | wc" (buffer-file-name)))))
-#+END_SRC
-** Shell
-Interacting with the shell through Emacs is quite a bit nicer than via a
-terminal emulator. For instance, there's no need to mess around with pagers if
-you have all your Emacs facilities available. This workflow isn't really an
-appropriate replacement for someone who uses ncurses-style or other fullscreen
-terminal applications, but that person isn't me.
-
-#+BEGIN_SRC emacs-lisp
-  ;; Configure built-in `shell' and friends
-  (use-package emacs
-    :custom
-    (comint-scroll-to-bottom-on-output t)
-    (async-shell-command-display-buffer nil)
-    (async-shell-command-buffer 'new-buffer))
-
-  ;; Improvements to `shell-command' and friends.
-  (use-package shell-command-x
-    :hook (after-init . shell-command-x-mode))
-
-  ;; Emulate A Terminal -> eat
-  (use-package eat
-    :hook (eshell-load . eat-eshell-mode)
-    :commands eat-compile-terminfo
-    :custom (eat-enable-auto-line-mode t)
-    :bind (:map eat-semi-char-mode-map
-                ("," . nil)
-                ("C-z" . nil)))
-
-  ;; Configurable command recipes
-  (use-package run-command
-    :bind ("C-c r" . run-command)
-    :custom (run-command-default-runner 'run-command-runner-eat))
-
-  ;; Automatically set shell scripts to executable when saving
-  (use-package emacs
-    :hook (after-save . executable-make-buffer-file-executable-if-script-p))
-
-  ;; Custom behaviors and tweaks
-  (use-package emacs
-    :bind ("C-c &" . r/sh-command-at-point)
-    :config
-    (defun r/sh-command-at-point ()
-      "Run the command at point or in the selected region in the shell."
+    (defun r/php-test-current-file ()
+      "If the current visited file is a test, run just that test."
       (interactive)
-      (async-shell-command
-       (if (use-region-p)
-           (buffer-substring (region-beginning) (region-end))
-         (thing-at-point 'line t)))))
-#+END_SRC
-** Git
-Although Emacs does come with a built-in interface to version control, it's
-cumbersome and inelegant compared to Magit. This section sets up Magit and a few
-other utility packages related to git.
+      (let ((default-directory (r/project-root)))
+        (async-shell-command (format
+                              "vendor/bin/phpunit %s"
+                              (r/project-relative-path)))))
+    (with-eval-after-load 'apheleia
+      (setf (alist-get 'phpcs apheleia-formatters)
+            '("composer" "--no-interaction"
+              (concat "--working-dir=" (r/project-root))
+              "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name)))))
 
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :custom
-    (magit-diff-refine-hunk 'all)
-    (magit-display-buffer-function 'display-buffer))
-
-  (use-package why-this
-    :custom (why-this-annotate-enable-heat-map nil)
-    :custom-face
-    (why-this-face
-     ((t ( :foreground unspecified :inherit font-lock-comment-face)))))
-
-  (use-package diff-hl
-    :hook (after-init . global-diff-hl-mode)
-    :custom (diff-hl-draw-borders nil))
+  (use-package web-mode
+    :mode ("\\.twig$" "\\.blade\\.php$"))
 #+END_SRC
 ** Make
 So far the only configuration I need for ~make~ is a ~run-command~ recipe. Emacs
@@ -926,6 +895,25 @@ otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
            targets)))
 
       (add-to-list 'run-command-recipes 'run-command-recipe-make))
+#+END_SRC
+** Docker
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-ts-mode
+    :mode ("Dockerfile$" "Containerfile$"))
+#+END_SRC
+** Java
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :hook ((java-ts-mode . eglot-ensure)
+           (java-ts-mode . visual-line-mode)))
+#+END_SRC
+** C
+#+BEGIN_SRC emacs-lisp
+  (use-package c-ts-mode
+    :hook (c-ts-mode . eglot-ensure)
+    :custom (c-ts-mode-indent-offset 4))
 #+END_SRC
 ** JS/TS
 The Javascript/Typescript landscape is a huge maze of both awesome and terrible
@@ -989,55 +977,53 @@ stolen directly from their project readme.
 
     (add-to-list 'run-command-recipes 'run-command-recipe-package-json))
 #+END_SRC
-** C
+** LaTeX
+Syntax highlighting and build tools for LaTeX.
+
 #+BEGIN_SRC emacs-lisp
-  (use-package c-ts-mode
-    :hook (c-ts-mode . eglot-ensure)
-    :custom (c-ts-mode-indent-offset 4))
+  (use-package emacs
+    :hook ((tex-mode . eglot-ensure)
+           (tex-mode . display-line-numbers-mode)
+           (tex-mode . visual-line-mode))
+    :custom (bibtex-entry-format t)
+    :config (defun r/latex-word-count ()
+              (interactive)
+              (shell-command
+               (format "detex %s | wc" (buffer-file-name)))))
 #+END_SRC
-** PHP
+** Structured Text
+Syntax highlighting for (non-org-mode) structured text. In practice, this means
+yaml, markdown, and html.
+
 #+BEGIN_SRC emacs-lisp
-  (use-package php-ts-mode
-    :mode "^[^.]+\\.php$"
-    :hook (php-ts-mode . eglot-ensure)
-    :bind (:map php-ts-mode-map
-                ("C-c ct" . r/php-test-current-file))
+  (use-package markdown-mode
+    :hook (markdown-mode . visual-line-mode))
+
+  (use-package yaml-mode
+    :hook (yaml-mode . display-line-numbers-mode))
+
+  (use-package yaml-pro
+    :hook (yaml-mode . yaml-pro-ts-mode))
+
+  (use-package emmet-mode
+    :hook (mhtml-mode . emmet-mode))
+
+  ;; html and css
+  (use-package emacs
+    :hook ((css-ts-mode . display-line-numbers-mode)
+           (mhtml-mode . display-line-numbers-mode)
+           (mhtml-mode . #'r/capf-comint))
     :config
-    (defun r/php-test-current-file ()
-      "If the current visited file is a test, run just that test."
-      (interactive)
-      (let ((default-directory (r/project-root)))
-        (async-shell-command (format
-                              "vendor/bin/phpunit %s"
-                              (r/project-relative-path)))))
-    (with-eval-after-load 'apheleia
-      (setf (alist-get 'phpcs apheleia-formatters)
-            '("composer" "--no-interaction"
-              (concat "--working-dir=" (r/project-root))
-              "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name)))))
-
-  (use-package web-mode
-    :mode ("\\.twig$" "\\.blade\\.php$"))
+    (defun r/capf-comint ()
+      (add-to-list 'completion-at-point-functions
+                   'comint-completion-at-point)))
 #+END_SRC
-** Web Requests
-
+** Diagrams
 #+BEGIN_SRC emacs-lisp
-  (use-package verb :after org
-    :custom (safe-local-variable-values
-             (cons '(verb-mode) safe-local-variable-values))
-    :config (define-key
-             org-mode-map (kbd "C-c C-r") verb-command-map))
-#+END_SRC
-** Lua
+  (use-package plantuml-mode
+    :custom (plantuml-indent-level 2))
 
-#+BEGIN_SRC emacs-lisp
-  (use-package lua-mode)
-#+END_SRC
-** Docker
-
-#+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-ts-mode
-    :mode ("Dockerfile$" "Containerfile$"))
+  (use-package mermaid-mode)
 #+END_SRC
 ** Natural language
 Arguably one of the most important technologies of all.
