@@ -915,6 +915,12 @@ otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
     :hook (c-ts-mode . eglot-ensure)
     :custom (c-ts-mode-indent-offset 4))
 #+END_SRC
+** Go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-ts-mode
+    :hook (go-ts-mode . eglot-ensure)
+    :mode "\\.go$")
+#+END_SRC
 ** JS/TS
 The Javascript/Typescript landscape is a huge maze of both awesome and terrible
 technology. This is how I interact with it.
