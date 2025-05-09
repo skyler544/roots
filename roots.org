@@ -1040,7 +1040,12 @@ yaml, markdown, and html.
 Arguably one of the most important technologies of all.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package dictcc)
+  ;; dictcc uses this function; generate autoload with use-package
+  (use-package thingatpt
+    :commands word-at-point)
+
+  (use-package dictcc
+    :custom (dictcc-completion-backend 'completing-read))
 #+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
