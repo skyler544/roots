@@ -1114,9 +1114,11 @@ Project browser with multiple-root functionality.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
+    :hook (after-init . r/fix-fontsets)
     :config
-    (set-fontset-font t 'symbol "Noto Emoji" nil 'prepend)
-    (set-fontset-font t 'unicode "JuliaMono" nil 'prepend)
+    (defun r/fix-fontsets ()
+      (set-fontset-font t 'symbol "Noto Emoji" nil 'prepend)
+      (set-fontset-font t 'unicode "JuliaMono" nil 'prepend))
     :custom-face
     (default
      ((t (:height 100))))
