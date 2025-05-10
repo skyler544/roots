@@ -1119,7 +1119,8 @@ Project browser with multiple-root functionality.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :hook (after-init . r/fix-fontsets)
+    :hook ((after-init . r/fix-fontsets)
+           (org-mode . r/fix-fontsets))
     :config
     (defun r/fix-fontsets ()
       (set-fontset-font t 'symbol "Noto Emoji" nil 'prepend)
