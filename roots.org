@@ -943,14 +943,11 @@ technology. This is how I interact with it.
     :hook (typescript-ts-mode . eglot-ensure)
     :bind (:map typescript-ts-mode-map
                 ("C-c ct" . r/js-ts-test-current-file))
-    :config
-    (defun r/js-ts-test-current-file ()
-      (interactive)
-      (let ((default-directory (r/project-root)))
-        (async-shell-command (format "npm test %s"
-                                     (r/project-relative-path)))))
-    (with-eval-after-load 'apheleia
-      (setq apheleia-formatters-respect-indent-level nil)))
+    :config (defun r/js-ts-test-current-file ()
+              (interactive)
+              (let ((default-directory (r/project-root)))
+                (async-shell-command (format "npm test %s"
+                                             (r/project-relative-path))))))
 
   (use-package flymake-eslint
     :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
