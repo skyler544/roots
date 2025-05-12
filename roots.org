@@ -460,7 +460,7 @@ The swiss-army outline tool.
 ** Base Layer
 This section sets up a baseline for Org Mode as an outlining tool.
 
- #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
    (use-package org
      :hook (org-mode . auto-fill-mode)
      :bind (("C-c sl" . org-store-link)
