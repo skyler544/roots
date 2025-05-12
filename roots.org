@@ -144,6 +144,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     (process-connection-type nil)
     (ring-bell-function 'ignore)
     (uniquify-buffer-name-style 'forward)
+    (warning-minimum-level :error)
 
     :config
     (add-to-list 'display-buffer-alist
