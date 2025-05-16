@@ -1048,6 +1048,12 @@ Arguably one of the most important technologies of all.
   (use-package dictcc
     :custom (dictcc-completion-backend 'completing-read))
 #+END_SRC
+** Systemd
+Syntax highlighting for unit files
+
+#+BEGIN_SRC emacs-lisp
+  (use-package systemd)
+#+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
 not as important as the actual functionality and should be considered a layer of
