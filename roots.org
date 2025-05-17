@@ -849,6 +849,7 @@ caveats.
     :hook (emacs-lisp-mode . highlight-quoted-mode))
 #+END_SRC
 ** PHP
+
 #+BEGIN_SRC emacs-lisp
   (use-package php-ts-mode
     :mode "^[^.]+\\.php$"
@@ -918,7 +919,8 @@ otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
 ** C
 #+BEGIN_SRC emacs-lisp
   (use-package c-ts-mode
-    :hook (c-ts-mode . eglot-ensure)
+    :hook ((c-ts-mode . eglot-ensure)
+           (c++-ts-mode . eglot-ensure))
     :custom (c-ts-mode-indent-offset 4))
 #+END_SRC
 ** Go
