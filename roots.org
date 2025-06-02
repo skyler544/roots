@@ -451,7 +451,7 @@ scenarios in impressive ways.
     :custom (openwith-associations
              `(("\\.\\(?:mpe?g\\|avi\\|wmv\\|m4v\\|mp4\\|gif\\|mp3\\)\\'"
                 ,(r/system-open-command) (file))
-               ("\\.\\(?:jp?g\\|png\\|pdf\\|webp\\)\\'"
+               ("\\.\\(?:jp?g\\|png\\|pdf\\|webp\\|tga\\)\\'"
                 ,(r/system-open-command) (file)))))
 #+END_SRC
 * Org Mode
