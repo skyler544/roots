@@ -45,8 +45,6 @@
 
 ;; Preliminary Configuration
 ;; ----------------------------------------------------
-(use-package no-littering :demand)
-
 (mapc (lambda (parameter)
         (push `(,parameter . nil) default-frame-alist))
       '(menu-bar-lines tool-bar-lines vertical-scroll-bars))
