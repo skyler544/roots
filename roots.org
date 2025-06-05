@@ -915,9 +915,17 @@ otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
 ** Java
 
 #+BEGIN_SRC emacs-lisp
-  (use-package emacs
+  (use-package eglot
     :hook ((java-ts-mode . eglot-ensure)
-           (java-ts-mode . visual-line-mode)))
+           (java-ts-mode . visual-line-mode))
+    :config
+    (let* ((lombok-path (string-trim
+                         (shell-command-to-string
+                          "find ~/.m2 -type f -name 'lombok*.jar' | head -n 1")))
+           (java-agent (concat "--jvm-arg=-javaagent:" lombok-path)))
+      (setcdr (assoc '(java-mode java-ts-mode) eglot-server-programs)
+              `("jdtls" ,java-agent))))
+
 #+END_SRC
 ** C
 #+BEGIN_SRC emacs-lisp
