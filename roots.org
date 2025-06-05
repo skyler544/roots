@@ -141,7 +141,6 @@ These settings are essentially subjective, but serve to disable some annoyances
     (kill-do-not-save-duplicates t)
     (load-prefer-newer noninteractive)
     (native-comp-async-report-warnings-errors nil)
-    (process-connection-type nil)
     (ring-bell-function 'ignore)
     (uniquify-buffer-name-style 'forward)
     (warning-minimum-level :error)
