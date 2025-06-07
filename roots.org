@@ -307,7 +307,7 @@ specific package.
     (defun r/system-open-command ()
       (if (eq system-type 'darwin)
           "open"
-        "xdg-open"))
+        "setsid -w xdg-open"))
 
     (defun r/system-filebrowser ()
       (interactive)
