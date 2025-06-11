@@ -924,7 +924,11 @@ otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
                           "find ~/.m2 -type f -name 'lombok*.jar' | head -n 1")))
            (java-agent (concat "--jvm-arg=-javaagent:" lombok-path)))
       (setcdr (assoc '(java-mode java-ts-mode) eglot-server-programs)
-              `("jdtls" ,java-agent))))
+              `("jdtls" ,java-agent)))
+    (with-eval-after-load 'apheleia
+      (setf (alist-get 'google-java-format apheleia-formatters)
+            `("clang-format" "-assume-filename"
+              ,(apheleia-formatters-local-buffer-file-name)))))
 
 #+END_SRC
 ** C
