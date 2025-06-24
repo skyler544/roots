@@ -345,6 +345,9 @@ is on power and ergonomics.
 
   (use-package wgrep
     :custom (wgrep-auto-save-buffer t))
+
+  (use-package hyperbole
+    :hook (after-init . hyperbole-mode))
 #+END_SRC
 ** Interaction and Completion
 These packages work together as building blocks to extend default Emacs input
