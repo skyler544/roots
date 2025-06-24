@@ -1,5 +1,6 @@
 EMACS  := emacs --init-directory=.
 EARLY  := --load 'early-init.el'
+INIT   := --load 'init.el'
 TANGLE := "(progn (require 'ob-tangle) \
 				  (org-babel-tangle-file \"roots.org\"))"
 TERM   := "(use-package eat :ensure :config (eat-compile-terminfo))"
@@ -13,7 +14,7 @@ all: run
 
 shave: package-clean clean treesit-clean install run
 
-install: eat treesit-install php run
+install: retangle eat treesit-install php install-all run
 
 eat:
 	$(EMACS) --batch --eval $(TERM)
@@ -23,6 +24,9 @@ treesit-install:
 
 php:
 	$(EMACS) --batch --eval $(PHP)
+
+install-all:
+	$(EMACS) --batch $(EARLY) $(INIT)
 
 run: retangle
 	$(EMACS)
