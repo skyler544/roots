@@ -63,7 +63,6 @@ These settings are essentially subjective, but serve to disable some annoyances
            (after-init . column-number-mode)
            (after-init . global-auto-revert-mode)
            (after-init . global-visual-line-mode)
-           (after-init . (lambda () (ffap-bindings)))
 
            (prog-mode . display-line-numbers-mode)
            (display-line-numbers-mode . hl-line-mode)
@@ -77,6 +76,7 @@ These settings are essentially subjective, but serve to disable some annoyances
            ("C-c wr" . winner-redo)
            ("C-c wu" . winner-undo)
            ("C-h '" . describe-char)
+           ("C-x C-f" . ffap)
            ("C-x C-l" . nil)
            ("C-x m" . nil)
            ("C-z" . bury-buffer)
@@ -231,7 +231,9 @@ everything else dired is capable of, and there's just no contest.
     :hook ((dired-mode . dired-hide-details-mode)
            (dired-mode . auto-revert-mode))
     :bind (:map dired-mode-map
-                ("C-c C-e" . wdired-change-to-wdired-mode))
+                ("C-c C-e" . wdired-change-to-wdired-mode)
+                ;; no ffap in dired
+                ("C-x C-f" . find-file))
     :custom
     (dired-listing-switches "-alh --group-directories-first -v")
     (dired-dwim-target t)
