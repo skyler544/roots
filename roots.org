@@ -1189,10 +1189,13 @@ section is tightly connected with the [[*Faces][Faces]] section.
 #+BEGIN_SRC emacs-lisp
   (use-package auto-dark
     :hook (after-init . auto-dark-mode)
-    :custom (auto-dark-themes '((modus-vivendi-tinted)
+    :custom (auto-dark-themes '((modus-vivendi)
                                 (modus-operandi))))
 
   (use-package emacs
+    :custom (modus-vivendi-palette-overrides
+             '((bg-main "#1D1D20")
+               (bg-dim "#191920")))
     :config
     (defun r/load-theme (theme)
       "Wrapper for loading themes."
@@ -1200,9 +1203,9 @@ section is tightly connected with the [[*Faces][Faces]] section.
       (load-theme theme t))
 
     (defun r/dark-mode ()
-      "Switch to dark mode, featuring `modus-vivendi-tinted' theme."
+      "Switch to dark mode, featuring `modus-vivendi' theme."
       (interactive)
-      (r/load-theme 'modus-vivendi-tinted))
+      (r/load-theme 'modus-vivendi))
 
     (defun r/light-mode ()
       "Switch to light mode, featuring `modus-operandi' theme."
