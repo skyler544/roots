@@ -870,6 +870,12 @@ caveats.
         (async-shell-command (format
                               "vendor/bin/phpunit %s"
                               (r/project-relative-path)))))
+    (defun r/sail-artisan-model-show ()
+      "If the currently visited buffer is an eloquent model, run sail artisan model:show on it."
+      (interactive)
+      (let ((default-directory (r/project-root))
+            (file-name (file-name-base (buffer-file-name))))
+        (async-shell-command (format "sail artisan model:show %s" file-name))))
     (with-eval-after-load 'apheleia
       (setf (alist-get 'phpcs apheleia-formatters)
             '("composer" "--no-interaction"
