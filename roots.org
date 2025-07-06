@@ -136,6 +136,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     ;; Miscellaneous
     (Man-notify-method 'pushy)
     (custom-safe-themes t)
+    (custom-unlispify-tag-names nil)
     (disabled-command-function nil)
     (fill-column 80)
     (global-auto-revert-non-file-buffers t)
