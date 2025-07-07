@@ -236,7 +236,7 @@ everything else dired is capable of, and there's just no contest.
                 ;; no ffap in dired
                 ("C-x C-f" . find-file))
     :custom
-    (dired-listing-switches "-alh --group-directories-first")
+    (dired-listing-switches "-alhv --group-directories-first")
     (dired-dwim-target t)
     (dired-clean-up-buffers-too nil)
     :config (require 'dired-x))
