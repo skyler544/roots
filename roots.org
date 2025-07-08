@@ -149,7 +149,7 @@ These settings are essentially subjective, but serve to disable some annoyances
 
     :config
     (add-to-list 'display-buffer-alist
-                 '("magit:\\|*help\\|*shell"
+                 '("magit:\\|*help\\|*shell\\|*Proced"
                    display-buffer-same-window)))
 #+END_SRC
 ** Recent Files
@@ -248,6 +248,19 @@ everything else dired is capable of, and there's just no contest.
     :bind (:map dired-mode-map
                 ("TAB" . dired-subtree-cycle))
     :custom (dired-subtree-use-backgrounds nil))
+#+END_SRC
+** Proced
+#+BEGIN_SRC emacs-lisp
+  (use-package proced
+    :hook (proced-mode . (lambda () (visual-line-mode -1) (toggle-truncate-lines 1)))
+    :custom
+    (proced-auto-update-flag t)
+    (proced-enable-color-flag t)
+    (proced-format 'custom)
+    :config
+    (add-to-list
+     'proced-format-alist
+     '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm))))
 #+END_SRC
 ** Custom Code
 This section is for generally useful functions and keybindings without a
