@@ -1049,9 +1049,11 @@ yaml, markdown, and html.
 
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
-    :bind (:map markdown-mode-map
-                ("C-c mv" . r/markdown-toggle-view-mode))
     :hook (markdown-mode . visual-line-mode)
+    :bind ((:map markdown-mode-map
+                 ("C-c mv" . r/markdown-toggle-view-mode))
+           (:map markdown-view-mode-map
+                 ("l" . recenter-top-bottom)))
     :custom ((markdown-hide-urls t)
              (markdown-hide-markup t)
              (markdown-fontify-code-blocks-natively t))
