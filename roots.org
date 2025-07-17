@@ -331,7 +331,20 @@ specific package.
       (async-shell-command
        (format "%s %s"
                (r/system-open-command)
-               default-directory))))
+               default-directory)))
+
+    (defun r/enable-mode-maybe (mode state)
+      "Enable a mode if we're looking at a real buffer, but not in a
+  minibuffer. Useful to prevent loading extra code in `consult-buffer'."
+      (when (not (minibufferp))
+        (run-with-idle-timer
+         0.1 nil (lambda (buf)
+                   (when (and (buffer-live-p buf)
+                              (with-current-buffer buf
+                                (get-buffer-window buf 'visible)))
+                     (with-current-buffer buf
+                       (funcall mode state))))
+         (current-buffer)))))
 #+END_SRC
 * Core Extensions
 This section sets up a general layer of useful features; the focus
@@ -839,11 +852,13 @@ caveats.
                  ("C-<backspace>" . lispy-delete-backward))
            (:map lispy-mode-map-lispy
                  (":" . nil)))
-    :hook ((lisp-mode . lispy-mode)
-           (lisp-data-mode . lispy-mode)
-           (scheme-mode . lispy-mode)
-           (sly-mrepl-mode . lispy-mode)
-           (emacs-lisp-mode . lispy-mode)))
+    :hook ((lisp-mode . r/lispy-mode-maybe)
+           (lisp-data-mode . r/lispy-mode-maybe)
+           (scheme-mode . r/lispy-mode-maybe)
+           (sly-mrepl-mode . r/lispy-mode-maybe)
+           (emacs-lisp-mode . r/lispy-mode-maybe))
+    :config (defun r/lispy-mode-maybe ()
+              (r/enable-mode-maybe 'lispy-mode 1)))
 #+END_SRC
 *** Common Lisp
 
