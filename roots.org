@@ -1142,11 +1142,11 @@ Syntax highlighting for unit files
     :hook (after-init . r/configure-gptel)
     :bind (:map gptel-mode-map
                 ("C-c C-c" . gptel-send))
+    :custom ((gptel-gh-github-token-file (expand-file-name "var/cache/github-token" user-emacs-directory))
+             (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory)))
     :config (defun r/configure-gptel ()
               (setq gptel-model 'gpt-4.1)
-              (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
-    :custom ((gptel-gh-github-token-file (expand-file-name "var/cache/github-token" user-emacs-directory))
-             (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory))))
+              (setq gptel-backend (gptel-make-gh-copilot "Copilot"))))
 #+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
@@ -1262,6 +1262,7 @@ section is tightly connected with the [[*Faces][Faces]] section.
 
 #+BEGIN_SRC emacs-lisp
   (use-package auto-dark
+    :vc (:url "https://github.com/LionyxML/auto-dark-emacs" :rev "1b6c184")
     :hook (after-init . auto-dark-mode)
     :custom (auto-dark-themes '((modus-vivendi)
                                 (modus-operandi))))
