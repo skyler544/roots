@@ -11,8 +11,11 @@
 (let ((file-name-handler-alist-old file-name-handler-alist))
   (add-hook 'emacs-startup-hook
             (lambda ()
+              (setq gc-cons-threshold (* 1024 1024 20))
               (setq file-name-handler-alist file-name-handler-alist-old)))
+  (setq gc-cons-threshold most-positive-fixnum)
   (setq file-name-handler-alist nil))
+(setq inhibit-default-init t)
 
 (add-hook 'window-setup-hook
           (lambda ()
@@ -49,7 +52,8 @@
 
 (use-package use-package
   :custom ((use-package-always-ensure t)
-           (use-package-always-defer t)))
+           (use-package-always-defer t)
+           (use-package-expand-minimally t)))
 
 ;; Garbage collection
 ;; ----------------------------------------------------

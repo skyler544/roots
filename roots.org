@@ -262,6 +262,20 @@ everything else dired is capable of, and there's just no contest.
      'proced-format-alist
      '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm))))
 #+END_SRC
+** Dubious hacks
+This is where I put any purported "performance" code, for which I have neither
+evidence supporting the supposed benefit, nor reason to doubt it.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :custom
+    (auto-mode-case-fold nil)
+    (pgtk-wait-for-event-timeout 0.001)
+
+    (bidi-display-reordering 'left-to-right)
+    (bidi-inhibit-bpa t)
+    (bidi-paragraph-direction 'left-to-right))
+#+END_SRC
 ** Custom Code
 This section is for generally useful functions and keybindings without a
 specific package.
