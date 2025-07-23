@@ -6,7 +6,26 @@
 ;;
 ;; Requires Emacs 30+ with native compilation and treesitter.
 ;;
-;; Basic initialization
+;; Hacks and optimizations
+;; ----------------------------------------------------
+(let ((file-name-handler-alist-old file-name-handler-alist))
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq file-name-handler-alist file-name-handler-alist-old)))
+  (setq file-name-handler-alist nil))
+
+(add-hook 'window-setup-hook
+          (lambda ()
+            (setq-default inhibit-redisplay nil)
+            (setq-default inhibit-message nil)))
+(setq inhibit-redisplay t)
+(setq inhibit-message t)
+
+(mapc (lambda (parameter)
+        (push `(,parameter . nil) default-frame-alist))
+      '(menu-bar-lines tool-bar-lines vertical-scroll-bars))
+
+;; Organization
 ;; ----------------------------------------------------
 (mapc (lambda (dir)
         (let ((dir (locate-user-emacs-file dir)))
@@ -17,17 +36,6 @@
  (locate-user-emacs-file "var/eln-cache"))
 
 (setq custom-file (locate-user-emacs-file "var/custom.el"))
-
-;; Hack redisplay for small speedup
-;; ----------------------------------------------------
-(use-package emacs
-  :hook (window-setup . r/redisplay-after-first-frame)
-  :custom ((inhibit-redisplay t)
-           (inhibit-message t))
-  :config (defun r/redisplay-after-first-frame ()
-            (setq-default inhibit-redisplay nil)
-            (setq-default inhibit-message nil)
-            (redisplay)))
 
 ;; Package management
 ;; ----------------------------------------------------
@@ -42,12 +50,6 @@
 (use-package use-package
   :custom ((use-package-always-ensure t)
            (use-package-always-defer t)))
-
-;; Preliminary Configuration
-;; ----------------------------------------------------
-(mapc (lambda (parameter)
-        (push `(,parameter . nil) default-frame-alist))
-      '(menu-bar-lines tool-bar-lines vertical-scroll-bars))
 
 ;; Garbage collection
 ;; ----------------------------------------------------
