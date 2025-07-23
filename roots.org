@@ -249,6 +249,7 @@ everything else dired is capable of, and there's just no contest.
     :custom (dired-subtree-use-backgrounds nil))
 #+END_SRC
 ** Proced
+
 #+BEGIN_SRC emacs-lisp
   (use-package proced
     :hook (proced-mode . (lambda () (visual-line-mode -1) (toggle-truncate-lines 1)))
