@@ -86,6 +86,7 @@ These settings are essentially subjective, but serve to disable some annoyances
 
     :custom
     ;; Startup
+    (inhibit-startup-echo-area-message t)
     (inhibit-startup-screen t)
     (inhibit-x-resources t)
     (initial-major-mode 'fundamental-mode)
@@ -263,12 +264,13 @@ everything else dired is capable of, and there's just no contest.
      '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm))))
 #+END_SRC
 ** Dubious hacks
-This is where I put any purported "performance" code, for which I have neither
-evidence supporting the supposed benefit, nor reason to doubt it.
+This is where I put any purported "performance" code and "fixes", for which I
+have neither evidence supporting the supposed benefit, nor reason to doubt it.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
     :custom
+    (gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
     (auto-mode-case-fold nil)
     (pgtk-wait-for-event-timeout 0.001)
 

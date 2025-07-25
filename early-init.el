@@ -8,13 +8,10 @@
 ;;
 ;; Hacks and optimizations
 ;; ----------------------------------------------------
-(let ((file-name-handler-alist-old file-name-handler-alist))
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (setq gc-cons-threshold (* 1024 1024 20))
-              (setq file-name-handler-alist file-name-handler-alist-old)))
-  (setq gc-cons-threshold most-positive-fixnum)
-  (setq file-name-handler-alist nil))
+(add-hook 'after-init-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 1024 1024 20))))
+(setq gc-cons-threshold most-positive-fixnum)
 (setq inhibit-default-init t)
 
 (add-hook 'window-setup-hook
