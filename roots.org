@@ -357,6 +357,7 @@ specific package.
         (run-with-idle-timer
          0.1 nil (lambda (buf)
                    (when (and (buffer-live-p buf)
+                              (emacs-init-time)
                               (with-current-buffer buf
                                 (get-buffer-window buf 'visible)))
                      (with-current-buffer buf
@@ -1166,8 +1167,8 @@ Syntax highlighting for unit files
               (setq gptel-backend (gptel-make-gh-copilot "Copilot"))))
 
   ;; WIP, but seems promising
-  (use-package macher
-    :vc (:url "https://github.com/kmontag/macher"))
+  ;; (use-package macher :after gptel
+  ;;   :vc (:url "https://github.com/kmontag/macher"))
 #+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
