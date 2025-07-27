@@ -149,7 +149,7 @@ These settings are essentially subjective, but serve to disable some annoyances
 
     :config
     (add-to-list 'display-buffer-alist
-                 '("magit:\\|*help\\|*shell\\|*Proced"
+                 '("magit:\\|*help\\|*shell\\|*Proced\\|*Copilot"
                    display-buffer-same-window)))
 #+END_SRC
 ** Recent Files
