@@ -1165,10 +1165,6 @@ Syntax highlighting for unit files
     :config (defun r/configure-gptel ()
               (setq gptel-model 'gpt-4.1)
               (setq gptel-backend (gptel-make-gh-copilot "Copilot"))))
-
-  ;; WIP, but seems promising
-  ;; (use-package macher :after gptel
-  ;;   :vc (:url "https://github.com/kmontag/macher"))
 #+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
