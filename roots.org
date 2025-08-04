@@ -63,6 +63,7 @@ These settings are essentially subjective, but serve to disable some annoyances
            (after-init . column-number-mode)
            (after-init . global-auto-revert-mode)
            (after-init . global-visual-line-mode)
+           (after-init . global-visual-wrap-prefix-mode)
 
            (prog-mode . subword-mode)
            (prog-mode . display-line-numbers-mode)
@@ -498,9 +499,6 @@ scenarios in impressive ways.
 
   (use-package editorconfig
     :hook (after-init . editorconfig-mode))
-
-  (use-package adaptive-wrap
-    :hook (visual-line-mode . adaptive-wrap-prefix-mode))
 #+END_SRC
 ** External Files
 
