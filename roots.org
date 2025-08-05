@@ -914,7 +914,8 @@ caveats.
     :mode "^[^.]+\\.php$"
     :hook (php-ts-mode . eglot-ensure)
     :bind (:map php-ts-mode-map
-                ("C-c ct" . r/php-test-current-file))
+                ("C-c ct" . r/php-test-current-file)
+                ("C-c ss" . r/search-php-manual))
     :config
     (defun r/php-test-current-file ()
       "If the current visited file is a test, run just that test."
@@ -933,7 +934,18 @@ caveats.
       (setf (alist-get 'phpcs apheleia-formatters)
             '("composer" "--no-interaction"
               (concat "--working-dir=" (r/project-root))
-              "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name)))))
+              "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
+    (defun r/search-php-manual (query)
+      "Search php.net for QUERY, defaulting to thing at point."
+      (interactive
+       (let ((thing (thing-at-point 'symbol t)))
+         (list (read-string
+                (if thing
+                    (format "Query (default %s): " thing)
+                  "Query: ")
+                nil nil thing))))
+      (browse-url
+       (format "https://www.php.net/search.php#gsc.q=%s" query))))
 
   (use-package web-mode
     :mode ("\\.twig$" "\\.blade\\.php$"))
