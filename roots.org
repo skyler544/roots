@@ -1162,12 +1162,24 @@ Syntax highlighting for unit files
 
 #+BEGIN_SRC emacs-lisp
   (use-package copilot
+    :unless (getenv "NO_COPILOT")
     :hook ((prog-mode . r/copilot-mode-maybe)
            (markdown-mode . r/copilot-mode-maybe))
     :bind ("C-<tab>" . copilot-accept-completion)
     :custom (copilot-idle-delay 0.5)
-    :config (defun r/copilot-mode-maybe ()
-              (r/enable-mode-maybe 'copilot-mode 1)))
+    :config
+    (defun r/copilot-mode-maybe ()
+      (when (executable-find "npm")
+        (make-process
+         :name "copilot-check"
+         :buffer nil
+         :command '("npm" "list" "-g" "@github/copilot-language-server")
+         :noquery t
+         :sentinel
+         (lambda (proc event)
+           (when (and (memq (process-status proc) '(exit signal))
+                      (= (process-exit-status proc) 0))
+             (r/enable-mode-maybe 'copilot-mode 1)))))))
 
   (use-package gptel
     :hook (after-init . r/configure-gptel)
