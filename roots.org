@@ -1194,6 +1194,15 @@ Syntax highlighting for unit files
     :config (defun r/configure-gptel ()
               (setq gptel-model 'gpt-4.1)
               (setq gptel-backend (gptel-make-gh-copilot "Copilot"))))
+
+  (use-package macher
+    :vc (:url "https://github.com/kmontag/macher")
+    :init (defvar r/macher-installed nil)
+    :hook (gptel-mode . r/macher-install)
+    :config (defun r/macher-install ()
+              (unless r/macher-installed
+                (macher-install)
+                (setq r/macher-installed t))))
 #+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
