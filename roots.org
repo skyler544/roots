@@ -1187,8 +1187,9 @@ Syntax highlighting for unit files
 
   (use-package gptel
     :hook (after-init . r/configure-gptel)
-    :bind (:map gptel-mode-map
-                ("C-c C-c" . gptel-send))
+    :bind (("C-c cg" . gptel-menu)
+           (:map gptel-mode-map
+                 ("C-c C-c" . gptel-send)))
     :custom ((gptel-gh-github-token-file (expand-file-name "var/cache/github-token" user-emacs-directory))
              (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory)))
     :config (defun r/configure-gptel ()
