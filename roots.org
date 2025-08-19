@@ -399,6 +399,33 @@ is on power and ergonomics.
 
   (use-package wgrep
     :custom (wgrep-auto-save-buffer t))
+
+  ;; wip
+  (use-package better-jumper
+    :hook ((after-init . better-jumper-mode)
+           (pre-command . r/maybe-save-jump))
+    :bind (("C-c jn" . better-jumper-jump-forward)
+           ("C-c jp" . better-jumper-jump-backward))
+    :config
+    (defvar r/jump-commands
+      '(previous-line
+        next-line
+        forward-word
+        backward-word
+        beginning-of-buffer
+        end-of-buffer
+        beginning-of-line
+        end-of-line
+        yank-pop
+        yank
+        org-yank
+        lispy-yank
+        lispy-move-beginning-of-line
+        lispy-move-end-of-line
+        avy-goto-char-timer))
+    (defun r/maybe-save-jump ()
+      (when (memq real-this-command r/jump-commands)
+        (better-jumper-set-jump))))
 #+END_SRC
 ** Interaction and Completion
 These packages work together as building blocks to extend default Emacs input
