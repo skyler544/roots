@@ -910,6 +910,7 @@ caveats.
 ** PHP
 
 #+BEGIN_SRC emacs-lisp
+  ;; php base config
   (use-package php-ts-mode
     :mode "^[^.]+\\.php$"
     :hook (php-ts-mode . eglot-ensure)
@@ -917,24 +918,17 @@ caveats.
                 ("C-c ct" . r/php-test-current-file)
                 ("C-c ss" . r/search-php-manual))
     :config
-    (defun r/php-test-current-file ()
-      "If the current visited file is a test, run just that test."
-      (interactive)
-      (let ((default-directory (r/project-root)))
-        (async-shell-command (format
-                              "vendor/bin/phpunit %s"
-                              (r/project-relative-path)))))
-    (defun r/sail-artisan-model-show ()
-      "If the currently visited buffer is an eloquent model, run sail artisan model:show on it."
-      (interactive)
-      (let ((default-directory (r/project-root))
-            (file-name (file-name-base (buffer-file-name))))
-        (async-shell-command (format "sail artisan model:show %s" file-name))))
     (with-eval-after-load 'apheleia
       (setf (alist-get 'phpcs apheleia-formatters)
             '("composer" "--no-interaction"
               (concat "--working-dir=" (r/project-root))
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
+    (defun r/php-test-current-file ()
+      (interactive)
+      (let ((default-directory (r/project-root)))
+        (async-shell-command (format
+                              "vendor/bin/phpunit %s"
+                              (r/project-relative-path)))))
     (defun r/search-php-manual (query)
       "Search php.net for QUERY, defaulting to thing at point."
       (interactive
@@ -946,6 +940,31 @@ caveats.
                 nil nil thing))))
       (browse-url
        (format "https://www.php.net/search.php#gsc.q=%s" query))))
+
+  ;; laravel stuff
+  (use-package php-ts-mode
+    :bind (:map php-ts-mode-map
+                ("C-c cd" . r/laravel-debug-test-current-file))
+    :config
+    (defun r/laravel-test-command (type args)
+      (let ((default-directory (r/project-root)))
+        (async-shell-command
+         (format "./sail %s test %s %s" type args (r/project-relative-path)))))
+    (defun r/laravel-test-current-file ()
+      (interactive)
+      (r/laravel-test-command "artisan" "--ansi"))
+    (defun r/laravel-debug-test-current-file ()
+      (interactive)
+      (r/laravel-test-command "debug" "--ansi"))
+    (defun r/laravel-test-current-file-with-coverage ()
+      (interactive)
+      (r/laravel-test-command "artisan" "--ansi --coverage --coverage-html=\"build/coverage/report\""))
+    (defun r/sail-artisan-model-show ()
+      "If the currently visited buffer is an eloquent model, run sail artisan model:show on it."
+      (interactive)
+      (let ((default-directory (r/project-root))
+            (file-name (file-name-base (buffer-file-name))))
+        (async-shell-command (format "sail artisan model:show %s" file-name)))))
 
   (use-package web-mode
     :mode ("\\.twig$" "\\.blade\\.php$"))
