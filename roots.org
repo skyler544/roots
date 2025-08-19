@@ -55,15 +55,16 @@ These settings are essentially subjective, but serve to disable some annoyances
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :hook ((after-init . winner-mode)
-           (after-init . repeat-mode)
-           (after-init . savehist-mode)
-           (after-init . save-place-mode)
+    :hook ((after-init . column-number-mode)
            (after-init . electric-pair-mode)
-           (after-init . column-number-mode)
            (after-init . global-auto-revert-mode)
            (after-init . global-visual-line-mode)
            (after-init . global-visual-wrap-prefix-mode)
+           (after-init . kill-ring-deindent-mode)
+           (after-init . repeat-mode)
+           (after-init . save-place-mode)
+           (after-init . savehist-mode)
+           (after-init . winner-mode)
 
            (prog-mode . subword-mode)
            (prog-mode . display-line-numbers-mode)
