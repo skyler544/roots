@@ -1160,7 +1160,7 @@ yaml, markdown, and html.
               (interactive)
               (cond ((eq major-mode 'markdown-mode) (markdown-view-mode))
                     ((eq major-mode 'markdown-view-mode) (markdown-mode))
-                    t nil)))
+                    (t nil))))
 
   (use-package yaml-mode
     :hook (yaml-mode . display-line-numbers-mode))
