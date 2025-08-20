@@ -32,7 +32,7 @@ For a discussion on what lexical binding is, and why this is
 necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the manual.
 
 #+BEGIN_SRC emacs-lisp
-  ;;; -*- lexical-binding: t -*-
+  ;;; -*- lexical-binding: t; no-byte-compile: t -*-
   ;; This file is generated with `org-babel'. See the accompanying file
   ;; `roots.org' for the rationale behind the code.
 #+END_SRC

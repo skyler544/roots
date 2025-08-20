@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t -*-
+;;; -*- lexical-binding: t; no-byte-compile: t -*-
 ;;
 ;; This is Roots. This early-init file sets a few initial settings, enables the
 ;; Emacs package manager, `use-package' (declarative macro for configuring
