@@ -53,7 +53,8 @@ necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the
             "var/project-list.el"
             "var/recentf-save.el"
             "var/save-place.el"
-            "var/savehist.el"))
+            "var/savehist.el"
+            "/opt/homebrew/Cellar/emacs-plus@30/30.2/share/emacs/30.2/etc/themes/modus-vivendi-theme.el"))
 
     (compile-angel-on-load-mode))
 
