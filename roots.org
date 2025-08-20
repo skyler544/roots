@@ -36,6 +36,28 @@ necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the
   ;; This file is generated with `org-babel'. See the accompanying file
   ;; `roots.org' for the rationale behind the code.
 #+END_SRC
+** Compile Angel
+
+#+BEGIN_SRC emacs-lisp
+  (use-package compile-angel :demand t
+    :custom (compile-angel-verbose t)
+    :config
+    (mapc (lambda (file)
+            (push file compile-angel-excluded-files))
+          '("/usr/share/emacs/30.1/etc/themes/modus-vivendi-theme.el"
+            "early-init.el"
+            "init.el"
+            "local-config.el"
+            "var/bookmark-default.el"
+            "var/custom.el"
+            "var/project-list.el"
+            "var/recentf-save.el"
+            "var/save-place.el"
+            "var/savehist.el"))
+
+    (compile-angel-on-load-mode))
+
+#+END_SRC
 ** Profiling
 This section enables ~esup~, the Emacs Start Up Profiler.
 

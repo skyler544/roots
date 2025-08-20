@@ -14,6 +14,8 @@
 (setq gc-cons-threshold most-positive-fixnum)
 (setq inhibit-default-init t)
 
+(setq load-prefer-newer t)
+
 (add-hook 'window-setup-hook
           (lambda ()
             (setq-default inhibit-redisplay nil)
