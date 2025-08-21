@@ -43,18 +43,13 @@ necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the
     :custom (compile-angel-verbose t)
     :config
     (mapc (lambda (file)
-            (push file compile-angel-excluded-files))
-          '("/usr/share/emacs/30.1/etc/themes/modus-vivendi-theme.el"
+            (push file compile-angel-excluded-files-regexps))
+          `("modus-vivendi-theme.el"
+            "modus-operandi-theme.el"
             "early-init.el"
             "init.el"
             "local-config.el"
-            "var/bookmark-default.el"
-            "var/custom.el"
-            "var/project-list.el"
-            "var/recentf-save.el"
-            "var/save-place.el"
-            "var/savehist.el"
-            "/opt/homebrew/Cellar/emacs-plus@30/30.2/share/emacs/30.2/etc/themes/modus-vivendi-theme.el"))
+            "var/"))
 
     (compile-angel-on-load-mode))
 
