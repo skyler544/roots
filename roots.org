@@ -788,23 +788,23 @@ sources are language servers.
 #+END_SRC
 ** TreeSitter
 Abstract syntax tree based language parsing and syntax highlighting. This works
-quite nicely, other than occasional breakage of the grammars. The package
-~treesit-auto~ is something of a stopgap for the disconnect between the built-in
-treesitter major modes and the traditional ones. It automatically installs
-missing grammars and switches to the ~*-ts-mode~ if it exists. There is a caveat
-here (like always) in that the builtin ~yaml-ts-mode~ does not actually provide a
-usable yaml mode (it inherits from ~text-mode~ instead of ~prog-mode~, and it does
-not provide any indentation logic, both of which preclude it actually being
-useful for yaml files), so we disable it here.
+quite nicely, other than occasional breakage of the grammars.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :custom (treesit-font-lock-level 4))
-
-  (use-package treesit-auto
-    :hook (after-init . global-treesit-auto-mode)
-    :config (setq treesit-auto-langs
-                  (delq 'yaml treesit-auto-langs)))
+    :hook (after-init . r/remap-to-treesitter-modes)
+    :custom (treesit-font-lock-level 4)
+    :config (defun r/remap-to-treesitter-modes ()
+              (mapc (lambda (remapping)
+                      (add-to-list 'major-mode-remap-alist remapping))
+                    '((c++-mode . c++-ts-mode)
+                      (c-mode . c-ts-mode)
+                      (css-mode . css-ts-mode)
+                      (java-mode . java-ts-mode)
+                      (javascript-mode . js-ts-mode)
+                      (js-json-mode . json-ts-mode)
+                      (mhtml-mode . html-ts-mode)
+                      (sh-mode . bash-ts-mode)))))
 #+END_SRC
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
@@ -1186,18 +1186,9 @@ yaml, markdown, and html.
   (use-package yaml-pro
     :hook (yaml-mode . yaml-pro-ts-mode))
 
-  (use-package emmet-mode
-    :hook (mhtml-mode . emmet-mode))
-
-  ;; html and css
   (use-package emacs
     :hook ((css-ts-mode . display-line-numbers-mode)
-           (mhtml-mode . display-line-numbers-mode)
-           (mhtml-mode . #'r/capf-comint))
-    :config
-    (defun r/capf-comint ()
-      (add-to-list 'completion-at-point-functions
-                   'comint-completion-at-point)))
+           (html-ts-mode . display-line-numbers-mode)))
 #+END_SRC
 ** Diagrams
 #+BEGIN_SRC emacs-lisp
