@@ -849,12 +849,6 @@ terminal applications, but that person isn't me.
                 ("," . nil)
                 ("C-z" . nil)))
 
-  ;; Configurable command recipes
-  (use-package run-command
-    :bind ("C-c r" . run-command)
-    :custom (run-command-default-runner 'run-command-runner-eat))
-
-  ;; Automatically set shell scripts to executable when saving
   (use-package emacs
     :hook (after-save . executable-make-buffer-file-executable-if-script-p))
 
@@ -1031,34 +1025,32 @@ caveats.
     :mode ("\\.twig$" "\\.blade\\.php$"))
 #+END_SRC
 ** Make
-So far the only configuration I need for ~make~ is a ~run-command~ recipe. Emacs
-otherwise does a great job out-of-the-box. This recipe is one I wrote myself.
+This code picks up all the targets from the nearest Makefile and lets you select
+one of them to run as an ~async-shell-command~.
 
 #+BEGIN_SRC emacs-lisp
-    (use-package run-command
-      :config
-      (defun run-command-recipe-make ()
-        "Provide commands to run Makefile targets."
-        (require 'make-mode)
-        (when-let* ((project-dir
-                     (locate-dominating-file default-directory "Makefile"))
-                    (makefile (concat project-dir "Makefile"))
-                    (targets (mapcar #'car (with-current-buffer
-                                               (find-file-noselect makefile t)
-                                             (setq makefile-need-target-pickup t)
-                                             (makefile-pickup-targets)
-                                             makefile-target-table))))
-          (seq-map
-           (lambda (target)
-             (list
-              :command-name target
-              :command-line (concat "make " target)
-              :display target
-              :working-dir project-dir
-              :hook 'compilation-minor-mode))
-           targets)))
-
-      (add-to-list 'run-command-recipes 'run-command-recipe-make))
+  (use-package emacs
+    :bind ("C-c r" . r/make-run-target)
+    :config
+    (defun r/makefile-targets ()
+      (let* ((makefile (locate-dominating-file default-directory "Makefile"))
+             (makefile (expand-file-name "Makefile" makefile)))
+        (when (and makefile (file-exists-p makefile))
+          (delete-dups
+           (mapcar #'car
+                   (with-current-buffer
+                       (find-file-noselect makefile t)
+                     (setq makefile-need-target-pickup t)
+                     (makefile-pickup-targets)
+                     makefile-target-table))))))
+    (defun r/make-run-target ()
+      (interactive)
+      (let ((targets (r/makefile-targets)))
+        (if targets
+            (let ((target (completing-read "Make: " targets)))
+              (async-shell-command (format "make -k %s" target)
+                                   (format "*Make: %s*" target)))
+          (message "No Makefile targets found.")))))
 #+END_SRC
 ** Docker
 
@@ -1127,38 +1119,6 @@ technology. This is how I interact with it.
               (when (-any (lambda (mode) (eq major-mode mode))
                           '(typescript-ts-mode js-ts-mode))
                 (flymake-eslint-enable))))
-#+END_SRC
-*** Scripts
-This ~run-command~ recipe lets me run scripts from ~package.json~. This recipe is
-stolen directly from their project readme.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package run-command
-    :config
-    (defun run-command-recipe-package-json ()
-      "Provide commands to run script from `package.json'.
-  Automatically detects package manager based on lockfile: npm, yarn, and pnpm."
-      (when-let* ((project-dir (locate-dominating-file default-directory "package.json"))
-                  (project-info (with-temp-buffer
-                                  (insert-file-contents (concat project-dir "package.json"))
-                                  (json-parse-buffer)))
-                  (package-manager
-                   (cond
-                    ((file-exists-p (concat project-dir "pnpm-lock.yaml")) "pnpm")
-                    ((file-exists-p (concat project-dir "yarn.lock")) "yarn")
-                    (t "npm")))
-                  (scripts (map-keys (map-elt project-info "scripts"))))
-        (seq-map
-         (lambda (script)
-           (list
-            :command-name script
-            :command-line (concat package-manager " run " script)
-            :display script
-            :working-dir project-dir
-            :hook 'compilation-minor-mode))
-         scripts)))
-
-    (add-to-list 'run-command-recipes 'run-command-recipe-package-json))
 #+END_SRC
 ** LaTeX
 Syntax highlighting and build tools for LaTeX.
