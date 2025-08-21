@@ -168,9 +168,14 @@ These settings are essentially subjective, but serve to disable some annoyances
     (warning-minimum-level :error)
 
     :config
-    (add-to-list 'display-buffer-alist
-                 '("magit:\\|*help\\|*shell\\|*Proced\\|*Copilot"
-                   display-buffer-same-window)))
+    (dolist (buffer
+             '("magit:"
+               "\\*help"
+               "\\*shell"
+               "\\*Proced"
+               "\\*Copilot"))
+      (add-to-list 'display-buffer-alist
+                   `(,buffer display-buffer-same-window))))
 #+END_SRC
 ** Recent Files
 
@@ -178,9 +183,17 @@ These settings are essentially subjective, but serve to disable some annoyances
   (use-package recentf
     :hook (after-init . recentf-mode)
     :custom (recentf-max-saved-items 200)
-    :config (dolist (exclusion '("\\/sudo:root@localhost.*"
-                                 "\\.org_archive$"
-                                 "\\.\\(?:pdf\\|\\m4v\\|\\mp4\\|gif\\|epub\\|png\\|webp\\|\\jpe?g\\)\\'"))
+    :config (dolist (exclusion
+                     '("\\/sudo:root@localhost.*"
+                       "\\.org_archive$"
+                       "\\.epub$"
+                       "\\.gif$"
+                       "\\.jpe?g$"
+                       "\\.m4v$"
+                       "\\.mp4$"
+                       "\\.pdf$"
+                       "\\.png$"
+                       "\\.webp$"))
               (add-to-list 'recentf-exclude exclusion)))
 #+END_SRC
 ** Directories
