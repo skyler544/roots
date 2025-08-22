@@ -1047,7 +1047,8 @@ one of them to run as an ~async-shell-command~.
       (interactive)
       (let ((targets (r/makefile-targets)))
         (if targets
-            (let ((target (completing-read "Make: " targets)))
+            (let ((target (completing-read "Make: " targets))
+                  (default-directory (r/project-root)))
               (async-shell-command (format "make -k %s" target)
                                    (format "*Make: %s*" target)))
           (message "No Makefile targets found.")))))
