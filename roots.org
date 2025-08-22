@@ -44,7 +44,7 @@ necessary, see the [[info:elisp#Variable Scoping][Variable Scoping]] node in the
     :config
     (mapc (lambda (file)
             (push file compile-angel-excluded-files-regexps))
-          `("modus-vivendi-theme.el"
+          '("modus-vivendi-theme.el"
             "modus-operandi-theme.el"
             "early-init.el"
             "init.el"
