@@ -565,7 +565,7 @@ scenarios in impressive ways.
 
 #+BEGIN_SRC emacs-lisp
   (use-package openwith
-    :hook (after-init . openwith-mode)
+    :hook (emacs-startup . openwith-mode)
     :custom (openwith-associations
              `(("\\.\\(?:mpe?g\\|avi\\|wmv\\|m4v\\|mp4\\|gif\\|mp3\\)\\'"
                 ,(r/system-open-command) (file))

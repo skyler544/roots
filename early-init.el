@@ -8,12 +8,15 @@
 ;;
 ;; Hacks and optimizations
 ;; ----------------------------------------------------
-(add-hook 'after-init-hook
-          (lambda ()
-            (setq gc-cons-threshold (* 1024 1024 20))))
-(setq gc-cons-threshold most-positive-fixnum)
+(let ((file-name-handler-alist-old file-name-handler-alist))
+  (add-hook 'after-init-hook
+            (lambda ()
+              (setq gc-cons-threshold (* 1024 1024 20))
+              (setq file-name-handler-alist file-name-handler-alist-old))
+            100)
+  (setq gc-cons-threshold most-positive-fixnum)
+  (setq file-name-handler-alist nil))
 (setq inhibit-default-init t)
-
 (setq load-prefer-newer t)
 
 (add-hook 'window-setup-hook
