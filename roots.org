@@ -90,7 +90,6 @@ These settings are essentially subjective, but serve to disable some annoyances
 
     :bind (("C-c D" . duplicate-dwim)
            ("C-c SPC" . just-one-space)
-           ("C-c tv" . view-mode)
            ("C-c tw" . visual-line-mode)
            ("C-c wr" . winner-redo)
            ("C-c wu" . winner-undo)
@@ -102,7 +101,11 @@ These settings are essentially subjective, but serve to disable some annoyances
            ;; Touchpad
            ("<pinch>" . nil)
            ([wheel-left] . (lambda () (interactive) (scroll-left 1)))
-           ([wheel-right] . (lambda () (interactive) (scroll-right 1))))
+           ([wheel-right] . (lambda () (interactive) (scroll-right 1)))
+           ;; view-mode
+           ("C-c tv" . view-mode)
+           :map (view-mode-map
+                 ("l" . recenter-top-bottom)))
 
     :custom
     ;; Startup
@@ -1142,19 +1145,10 @@ yaml, markdown, and html.
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
     :hook (markdown-mode . visual-line-mode)
-    :bind ((:map markdown-mode-map
-                 ("C-c mv" . r/markdown-toggle-view-mode))
-           (:map markdown-view-mode-map
-                 ("l" . recenter-top-bottom)))
     :custom ((markdown-hide-urls t)
              (markdown-hide-markup t)
              (markdown-fontify-code-blocks-natively t)
-             (markdown-list-item-bullets '("●")))
-    :config (defun r/markdown-toggle-view-mode ()
-              (interactive)
-              (cond ((eq major-mode 'markdown-mode) (markdown-view-mode))
-                    ((eq major-mode 'markdown-view-mode) (markdown-mode))
-                    (t nil))))
+             (markdown-list-item-bullets '("●"))))
 
   (use-package yaml-mode
     :hook (yaml-mode . display-line-numbers-mode))
