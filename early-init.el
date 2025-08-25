@@ -19,7 +19,8 @@
 (setq inhibit-default-init t)
 (setq load-prefer-newer t)
 
-(add-hook 'window-setup-hook
+;; don't redisplay during init
+(add-hook 'emacs-startup-hook
           (lambda ()
             (setq-default inhibit-redisplay nil)
             (setq-default inhibit-message nil)))
