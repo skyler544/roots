@@ -538,11 +538,13 @@ scenarios in impressive ways.
 #+BEGIN_SRC emacs-lisp
   (use-package corfu
     :hook ((after-init . global-corfu-mode)
+           (after-init . corfu-popupinfo-mode)
            (minibuffer-setup . corfu-enable-in-minibuffer))
     :custom
     (corfu-auto t)
     (corfu-auto-delay 0.5)
     (corfu-cycle t)
+    (corfu-popupinfo-delay '(0.5 . 0.1))
     :config
     (defun corfu-enable-in-minibuffer ()
       "Enable Corfu in the minibuffer if `completion-at-point' is bound."
