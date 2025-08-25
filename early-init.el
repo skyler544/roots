@@ -27,16 +27,14 @@
 (setq inhibit-redisplay t)
 (setq inhibit-message t)
 
-(mapc (lambda (parameter)
-        (push `(,parameter . nil) default-frame-alist))
-      '(menu-bar-lines tool-bar-lines vertical-scroll-bars))
+(dolist (parameter '(menu-bar-lines tool-bar-lines vertical-scroll-bars))
+  (push `(,parameter . nil) default-frame-alist))
 
 ;; Organization
 ;; ----------------------------------------------------
-(mapc (lambda (dir)
-        (let ((dir (locate-user-emacs-file dir)))
-          (unless (file-directory-p dir) (make-directory dir))))
-      '("var" "etc"))
+(dolist (dir '("var" "etc"))
+  (let ((dir (locate-user-emacs-file dir)))
+    (unless (file-directory-p dir) (make-directory dir))))
 
 (startup-redirect-eln-cache
  (locate-user-emacs-file "var/eln-cache"))
