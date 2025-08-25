@@ -334,6 +334,7 @@ specific package.
 
     (defun r/project-root ()
       "Return the current project root."
+      (require 'project)
       (expand-file-name (project-root (project-current t))))
 
     (defun r/project-relative-path ()
