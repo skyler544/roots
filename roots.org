@@ -136,6 +136,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     (require-final-newline t)
 
     ;; Interaction
+    (enable-local-variables :safe)
     (enable-recursive-minibuffers t)
     (isearch-lazy-count t)
     (lazy-count-prefix-format "(%s/%s) ")
@@ -969,6 +970,9 @@ caveats.
 ** PHP
 
 #+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :mode ("\\.twig$" "\\.blade\\.php$"))
+
   ;; php base config
   (use-package php-ts-mode
     :mode "^[^.]+\\.php$"
@@ -1024,9 +1028,6 @@ caveats.
       (let ((default-directory (r/project-root))
             (file-name (file-name-base (buffer-file-name))))
         (async-shell-command (format "sail artisan model:show %s" file-name)))))
-
-  (use-package web-mode
-    :mode ("\\.twig$" "\\.blade\\.php$"))
 #+END_SRC
 ** Make
 This code picks up all the targets from the nearest Makefile and lets you select
