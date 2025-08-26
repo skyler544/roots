@@ -1039,13 +1039,9 @@ one of them to run as an ~async-shell-command~.
       (let* ((makefile (locate-dominating-file default-directory "Makefile"))
              (makefile (expand-file-name "Makefile" makefile)))
         (when (and makefile (file-exists-p makefile))
-          (delete-dups
-           (mapcar #'car
-                   (with-current-buffer
-                       (find-file-noselect makefile t)
-                     (setq makefile-need-target-pickup t)
-                     (makefile-pickup-targets)
-                     makefile-target-table))))))
+          (flatten-list (with-current-buffer (find-file-noselect makefile t)
+                          (makefile-pickup-targets)
+                          makefile-target-table)))))
     (defun r/make-run-target ()
       (interactive)
       (let ((targets (r/makefile-targets)))
