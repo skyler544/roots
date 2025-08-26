@@ -78,6 +78,7 @@ These settings are essentially subjective, but serve to disable some annoyances
            (after-init . global-auto-revert-mode)
            (after-init . global-visual-line-mode)
            (after-init . global-visual-wrap-prefix-mode)
+           (after-init . minibuffer-depth-indicate-mode)
            (after-init . kill-ring-deindent-mode)
            (after-init . repeat-mode)
            (after-init . save-place-mode)
