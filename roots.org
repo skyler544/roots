@@ -1035,7 +1035,7 @@ one of them to run as an ~async-shell-command~.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :bind ("C-c r" . r/make-run-target-eat)
+    :bind ("C-c r" . r/make-run-target)
     :config
     (defun r/makefile-targets ()
       (let* ((makefile (locate-dominating-file default-directory "Makefile"))
@@ -1053,21 +1053,23 @@ one of them to run as an ~async-shell-command~.
               (async-shell-command (format "make -k %s" target)
                                    (format "*Make: %s*" target)))
           (message "No Makefile targets found."))))
-  (defun r/make-run-target-eat ()
-  "Run a Makefile target using `eat-exec'. A keybinding is added for quitting the buffer."
-    (interactive)
-    (require 'eat)
-    (let ((targets (r/makefile-targets)))
-      (if targets
-          (let* ((target (completing-read "Make: " targets))
-                 (buf (get-buffer-create (format "*Make: %s*" target)))
-                 (default-directory (r/project-root)))
-            (with-current-buffer buf
-              (use-local-map (copy-keymap eat-mode-map))
-              (local-set-key (kbd "q") 'quit-window))
-            (pop-to-buffer buf)
-            (eat-exec buf (format "Make: %s" target) "make" nil (list "-k" target)))
-        (message "No Makefile targets found.")))))
+
+    ;; wip, not quite working yet
+    (defun r/make-run-target-eat ()
+      "Run a Makefile target using `eat-exec'. A keybinding is added for quitting the buffer."
+      (interactive)
+      (require 'eat)
+      (let ((targets (r/makefile-targets)))
+        (if targets
+            (let* ((target (completing-read "Make: " targets))
+                   (buf (get-buffer-create (format "*Make: %s*" target)))
+                   (default-directory (r/project-root)))
+              (with-current-buffer buf
+                (use-local-map (copy-keymap eat-mode-map))
+                (local-set-key (kbd "q") 'quit-window))
+              (pop-to-buffer buf)
+              (eat-exec buf (format "Make: %s" target) "make" nil (list "-k" target)))
+          (message "No Makefile targets found.")))))
 #+END_SRC
 ** Docker
 
