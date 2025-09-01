@@ -1198,7 +1198,8 @@ Arguably one of the most important technologies of all.
 Syntax highlighting for unit files
 
 #+BEGIN_SRC emacs-lisp
-  (use-package systemd)
+  (use-package systemd
+    :mode ("\\.container$" . systemd-mode))
 #+END_SRC
 ** LLM Assistants
 
