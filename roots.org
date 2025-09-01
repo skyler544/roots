@@ -76,6 +76,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     :hook ((after-init . column-number-mode)
            (after-init . electric-pair-mode)
            (after-init . global-auto-revert-mode)
+           (after-init . global-subword-mode)
            (after-init . global-visual-line-mode)
            (after-init . global-visual-wrap-prefix-mode)
            (after-init . minibuffer-depth-indicate-mode)
@@ -87,7 +88,6 @@ These settings are essentially subjective, but serve to disable some annoyances
 
            (prog-mode . display-line-numbers-mode)
            (prog-mode . smerge-mode)
-           (prog-mode . subword-mode)
            (display-line-numbers-mode . hl-line-mode))
 
     :bind (("C-c D" . duplicate-dwim)
