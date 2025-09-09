@@ -1353,7 +1353,6 @@ section is tightly connected with the [[*Faces][Faces]] section.
 
 #+BEGIN_SRC emacs-lisp
   (use-package auto-dark
-    :vc (:url "https://github.com/LionyxML/auto-dark-emacs" :rev "1b6c184")
     :hook (after-init . auto-dark-mode)
     :custom (auto-dark-themes '((modus-vivendi)
                                 (modus-operandi))))
