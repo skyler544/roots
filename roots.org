@@ -585,26 +585,27 @@ The swiss-army outline tool.
 This section sets up a baseline for Org Mode as an outlining tool.
 
 #+BEGIN_SRC emacs-lisp
-   (use-package org
-     :hook (org-mode . auto-fill-mode)
-     :bind (("C-c sl" . org-store-link)
-            (:map org-mode-map
-                  ("C-'" . nil)
-                  ("C-c &" . nil))
-            (:map org-src-mode-map
-                  ("C-c C-c" . org-edit-src-exit)))
-     :custom
-     (org-M-RET-may-split-line nil)
-     (org-adapt-indentation t)
-     (org-enforce-todo-dependencies t)
-     (org-fold-catch-invisible-edits 'show-and-error)
-     (org-hide-emphasis-markers t)
-     (org-hide-leading-stars t)
-     (org-src-window-setup 'current-window)
-     (org-startup-indented t)
-     (org-use-tag-inheritance nil)
-     (org-list-demote-modify-bullet
-      '(("+" . "-") ("-" . "+"))))
+  (use-package org
+    :hook (org-mode . auto-fill-mode)
+    :bind (("C-c sl" . org-store-link)
+           (:map org-mode-map
+                 ("C-'" . nil)
+                 ("C-c &" . nil)
+                 ("M-g i" . consult-org-heading))
+           (:map org-src-mode-map
+                 ("C-c C-c" . org-edit-src-exit)))
+    :custom
+    (org-M-RET-may-split-line nil)
+    (org-adapt-indentation t)
+    (org-enforce-todo-dependencies t)
+    (org-fold-catch-invisible-edits 'show-and-error)
+    (org-hide-emphasis-markers t)
+    (org-hide-leading-stars t)
+    (org-src-window-setup 'current-window)
+    (org-startup-indented t)
+    (org-use-tag-inheritance nil)
+    (org-list-demote-modify-bullet
+     '(("+" . "-") ("-" . "+"))))
 #+END_SRC
 ** Calendar
 All I really want in a calendar is to see the days of the month and the week
