@@ -850,7 +850,6 @@ terminal applications, but that person isn't me.
   ;; Emulate A Terminal -> eat
   (use-package eat
     :hook (eshell-load . eat-eshell-mode)
-    :commands eat-compile-terminfo
     :custom (eat-enable-auto-line-mode t)
     :bind (:map eat-semi-char-mode-map
                 ("," . nil)
