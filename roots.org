@@ -838,10 +838,12 @@ terminal applications, but that person isn't me.
 #+BEGIN_SRC emacs-lisp
   ;; Configure built-in `shell' and friends
   (use-package emacs
+    :hook (comint-mode . compilation-minor-mode)
     :custom
-    (comint-scroll-to-bottom-on-output t)
+    (async-shell-command-buffer 'new-buffer)
     (async-shell-command-display-buffer nil)
-    (async-shell-command-buffer 'new-buffer))
+    (comint-scroll-to-bottom-on-output t)
+    (compilation-scroll-output t))
 
   ;; Improvements to `shell-command' and friends.
   (use-package shell-command-x
