@@ -1344,9 +1344,6 @@ Project browser with multiple-root functionality.
 
     (info-menu-star
      ((t (:inherit unspecified :foreground unspecified)))))
-
-  (use-package default-text-scale
-    :hook (after-init . default-text-scale-mode))
 #+END_SRC
 ** Themes
 A good theme can make editing even more fun. Since themes are essentially just a
