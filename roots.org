@@ -979,7 +979,8 @@ caveats.
   ;; php base config
   (use-package php-ts-mode
     :mode "^[^.]+\\.php$"
-    :hook (php-ts-mode . eglot-ensure)
+    :hook ((php-ts-mode . eglot-ensure)
+           (find-file . r/view-mode-in-vendor))
     :bind (:map php-ts-mode-map
                 ("C-c ct" . r/php-test-current-file)
                 ("C-c ss" . r/search-php-manual))
@@ -1005,7 +1006,11 @@ caveats.
                   "Query: ")
                 nil nil thing))))
       (browse-url
-       (format "https://www.php.net/search.php#gsc.q=%s" query))))
+       (format "https://www.php.net/search.php#gsc.q=%s" query)))
+    (defun r/view-mode-in-vendor ()
+      (when (and buffer-file-name
+                 (string-match-p "/vendor/" (expand-file-name buffer-file-name)))
+        (view-mode))))
 
   ;; laravel stuff
   (use-package php-ts-mode
