@@ -435,7 +435,8 @@ is on power and ergonomics.
                  ("TAB" . nil))))
 
   (use-package wrap-region
-    :hook (after-init . wrap-region-mode))
+    :hook (after-init . wrap-region-mode)
+    :config (wrap-region-add-wrapper "`" "`"))
 
   (use-package wgrep
     :custom (wgrep-auto-save-buffer t))
