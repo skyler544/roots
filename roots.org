@@ -762,9 +762,9 @@ other utility packages related to git.
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :custom
-    (magit-diff-refine-hunk 'all)
-    (magit-display-buffer-function 'display-buffer))
+    :custom ((magit-diff-refine-hunk 'all)
+             (magit-display-buffer-function 'display-buffer)
+             (magit-save-repository-buffers 'dontask)))
 
   (use-package why-this
     :custom (why-this-annotate-enable-heat-map nil)
