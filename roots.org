@@ -1244,6 +1244,7 @@ Syntax highlighting for unit files
     :commands r/reload-prompts
     :bind (("C-c gm" . gptel-menu)
            ("C-c gr" . gptel-rewrite)
+           ("C-c gs" . gptel-send)
            (:map gptel-mode-map
                  ("C-c C-c" . gptel-send)))
     :custom ((gptel-gh-github-token-file (expand-file-name "var/cache/github-token" user-emacs-directory))
