@@ -1247,6 +1247,7 @@ Syntax highlighting for unit files
     :custom ((gptel-gh-github-token-file (expand-file-name "var/cache/github-token" user-emacs-directory))
              (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory)))
     :config (defun r/configure-gptel ()
+              (setq gptel-track-media t)
               (setq gptel-model 'gpt-5-mini)
               (setq gptel-backend (gptel-make-gh-copilot "Copilot"))))
 #+END_SRC
