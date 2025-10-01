@@ -1241,15 +1241,44 @@ Syntax highlighting for unit files
 
   (use-package gptel
     :hook (after-init . r/configure-gptel)
-    :bind (("C-c cg" . gptel-menu)
+    :bind (("C-c gm" . gptel-menu)
+           ("C-c gr" . gptel-rewrite)
            (:map gptel-mode-map
                  ("C-c C-c" . gptel-send)))
     :custom ((gptel-gh-github-token-file (expand-file-name "var/cache/github-token" user-emacs-directory))
-             (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory)))
-    :config (defun r/configure-gptel ()
-              (setq gptel-track-media t)
-              (setq gptel-model 'gpt-5-mini)
-              (setq gptel-backend (gptel-make-gh-copilot "Copilot"))))
+             (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory))
+             (gptel-default-mode 'org-mode))
+    :config
+    (defun r/load-prompt (file-base-name)
+      (let* ((dir (expand-file-name "~/prompts"))
+             (file (expand-file-name (concat (symbol-name file-base-name) ".md") dir)))
+        (if (file-exists-p file)
+            (with-temp-buffer
+              (insert-file-contents file)
+              (buffer-string))
+          "")))
+    (defun r/gptel-create-presets (specs)
+      (let ((backend "Copilot"))
+        (dolist (spec specs)
+          (let* ((name (car spec))
+                 (parent (cadr spec))
+                 (system (r/load-prompt name))
+                 (args (list name :backend backend :system system)))
+            (when parent
+              (setq args (append args (list :parents parent))))
+            (apply #'gptel-make-preset args)))))
+    (defun r/gptel-php-presets ()
+      (r/gptel-create-presets
+       '((php-standards nil)
+         (php-programming php-standards)
+         (php-refactor php-programming)
+         (php-review php-standards)
+         (php-plan php-standards))))
+    (defun r/configure-gptel ()
+      (setq gptel-track-media t)
+      (setq gptel-model 'gpt-5-mini)
+      (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
+      (r/gptel-php-presets)))
 #+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
