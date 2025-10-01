@@ -1241,6 +1241,7 @@ Syntax highlighting for unit files
 
   (use-package gptel
     :hook (after-init . r/configure-gptel)
+    :commands r/reload-prompts
     :bind (("C-c gm" . gptel-menu)
            ("C-c gr" . gptel-rewrite)
            (:map gptel-mode-map
@@ -1278,6 +1279,9 @@ Syntax highlighting for unit files
       (setq gptel-track-media t)
       (setq gptel-model 'gpt-5-mini)
       (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
+      (r/gptel-php-presets))
+    (defun r/reload-prompts ()
+      (interactive)
       (r/gptel-php-presets)))
 #+END_SRC
 * UI
