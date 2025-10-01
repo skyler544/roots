@@ -1250,7 +1250,7 @@ Syntax highlighting for unit files
              (gptel-default-mode 'org-mode))
     :config
     (defun r/load-prompt (file-base-name)
-      (let* ((dir (expand-file-name "~/prompts"))
+      (let* ((dir (expand-file-name "~/build/programming/prompts"))
              (file (expand-file-name (concat (symbol-name file-base-name) ".md") dir)))
         (if (file-exists-p file)
             (with-temp-buffer
