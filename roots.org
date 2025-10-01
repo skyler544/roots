@@ -994,6 +994,16 @@ caveats.
             '("composer" "--no-interaction"
               (concat "--working-dir=" (r/project-root))
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
+    (with-eval-after-load 'gptel
+      (setq r/gptel-presets
+            (append r/gptel-presets
+                    '((php/standards nil)
+                      (php/programming php/standards)
+                      (php/refactor php/programming)
+                      (php/review php/standards)
+                      (php/plan php/standards))))
+      (r/gptel-register-presets))
+
     (defun r/php-test-current-file ()
       (interactive)
       (let ((default-directory (r/project-root)))
@@ -1241,7 +1251,7 @@ Syntax highlighting for unit files
 
   (use-package gptel
     :hook (after-init . r/configure-gptel)
-    :commands r/reload-prompts
+    :commands r/gptel-register-presets
     :bind (("C-c gm" . gptel-menu)
            ("C-c gr" . gptel-rewrite)
            ("C-c gs" . gptel-send)
@@ -1251,6 +1261,17 @@ Syntax highlighting for unit files
              (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory))
              (gptel-default-mode 'org-mode))
     :config
+    ;; VARIABLES
+    (defvar r/gptel-presets nil)
+
+    ;; SETUP
+    (defun r/configure-gptel ()
+      (setq gptel-track-media t)
+      (setq gptel-model 'gpt-5-mini)
+      (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
+      (add-hook 'gptel-post-response-functions #'r/gptel-autosave-chat))
+
+    ;; UTILITY FUNCTIONS
     (defun r/load-prompt (file-base-name)
       (let* ((dir (expand-file-name "~/build/programming/prompts"))
              (file (expand-file-name (concat (symbol-name file-base-name) ".md") dir)))
@@ -1259,31 +1280,33 @@ Syntax highlighting for unit files
               (insert-file-contents file)
               (buffer-string))
           "")))
-    (defun r/gptel-create-presets (specs)
-      (let ((backend "Copilot"))
-        (dolist (spec specs)
-          (let* ((name (car spec))
-                 (parent (cadr spec))
-                 (system (r/load-prompt name))
-                 (args (list name :backend backend :system system)))
-            (when parent
-              (setq args (append args (list :parents parent))))
-            (apply #'gptel-make-preset args)))))
-    (defun r/gptel-php-presets ()
-      (r/gptel-create-presets
-       '((php/standards nil)
-         (php/programming php/standards)
-         (php/refactor php/programming)
-         (php/review php/standards)
-         (php/plan php/standards))))
-    (defun r/configure-gptel ()
-      (setq gptel-track-media t)
-      (setq gptel-model 'gpt-5-mini)
-      (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
-      (r/gptel-php-presets))
-    (defun r/reload-prompts ()
+
+    (defun r/gptel-make-preset (spec backend)
+      (let* ((name (car spec))
+             (parent (cadr spec))
+             (system (r/load-prompt name))
+             (args (list name :backend backend :system system)))
+        (when parent
+          (setq args (append args (list :parents parent))))
+        (apply #'gptel-make-preset args)))
+
+    (defun r/gptel-register-presets ()
       (interactive)
-      (r/gptel-php-presets)))
+      (when r/gptel-presets
+        (dolist (spec r/gptel-presets)
+          (r/gptel-make-preset spec "Copilot"))))
+
+    (defun r/gptel-autosave-chat (beg end)
+      (when (string= (buffer-name) "*Copilot*")
+        (let* ((cache-dir (expand-file-name "var/cache/gptel" user-emacs-directory))
+               (timestamp (format-time-string "%s"))
+               (basename (concat "Copilot-" timestamp ".org"))
+               (path (expand-file-name basename cache-dir)))
+          (unless (file-directory-p cache-dir)
+            (make-directory cache-dir t))
+          (set-visited-file-name path)
+          (rename-buffer basename)))
+      (save-buffer)))
 #+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
