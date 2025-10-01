@@ -693,7 +693,7 @@ of what its customization trivially offers.
 
   (use-package org
     :bind ((:map org-mode-map
-                 ([return] . r/org-dwim-at-point))
+                 ("RET" . r/org-dwim-at-point))
            (:map org-read-date-minibuffer-local-map
                  ("C-f" . r/org-calendar-forward-day)
                  ("C-b" . r/org-calendar-backward-day)
