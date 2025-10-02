@@ -1266,7 +1266,9 @@ Syntax highlighting for unit files
              (gptel-default-mode 'org-mode))
     :config
     ;; VARIABLES
-    (defvar r/gptel-presets '((misc/one-line-summary nil)))
+    (defvar r/gptel-presets '((misc/one-line-summary nil)
+                              (misc/terse-summary nil)
+                              (misc/thorough-summary nil)))
 
     ;; SETUP
     (defun r/configure-gptel ()
