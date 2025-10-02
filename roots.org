@@ -1252,6 +1252,12 @@ Syntax highlighting for unit files
                (setq r/copilot-available t))))))))
 #+END_SRC
 *** gptel
+This config is starting to get a little long, but the gist is:
+1. I want my chats to be autosaved with a filename that reflects the topic of the chat
+2. I want to be able to quickly define new presets for various tasks
+
+My prompts live in [[https://github.com/skyler544/prompts][this repo]]. See the PHP section for an example of how to
+register mode-specific prompts.
 
 #+BEGIN_SRC emacs-lisp
   (use-package gptel
