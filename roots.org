@@ -1223,6 +1223,7 @@ Syntax highlighting for unit files
     :mode ("\\.container$" . systemd-mode))
 #+END_SRC
 ** LLM Assistants
+*** Copilot
 
 #+BEGIN_SRC emacs-lisp
   (use-package copilot
@@ -1248,7 +1249,10 @@ Syntax highlighting for unit files
                         (= (process-exit-status proc) 0))
                (r/enable-mode-maybe 'copilot-mode 1)
                (setq r/copilot-available t))))))))
+#+END_SRC
+*** gptel
 
+#+BEGIN_SRC emacs-lisp
   (use-package gptel
     :hook (after-init . r/configure-gptel)
     :commands (r/gptel-register-presets r/gptel-load-chat)
@@ -1310,7 +1314,7 @@ Syntax highlighting for unit files
                      (when parent (list :parents parent)))))
 
     (defun r/gptel--cache-dir ()
-      (let ((cache-dir (expand-file-name "var/cache/gptel" user-emacs-directory)))
+      (let ((cache-dir (expand-file-name "var/cache/gptel/" user-emacs-directory)))
         (unless (file-directory-p cache-dir)
           (make-directory cache-dir t))
         cache-dir))
