@@ -1294,10 +1294,14 @@ Syntax highlighting for unit files
     (defun r/gptel-autosave-chat (beg end)
       (if (string= (buffer-name) "*Copilot*")
           (let ((prompt (buffer-substring-no-properties (point-min) (point-max))))
-            (gptel-with-preset 'misc/one-line-summary
-              (gptel-request prompt
-                :callback #'r/gptel--save-one-line-summary)))
+            (r/gptel--save-chat-with-summary prompt))
         (save-buffer)))
+
+    (defun r/rename-chat-and-save ()
+      (interactive)
+      (when gptel-mode
+        (let ((prompt (buffer-substring-no-properties (point-min) (point-max))))
+          (r/gptel--save-chat-with-summary prompt))))
 
     ;; UTILITY FUNCTIONS
     (defun r/gptel--load-prompt (file-base-name)
@@ -1336,7 +1340,12 @@ Syntax highlighting for unit files
     (defun r/gptel--save-one-line-summary (response info)
       (let* ((title (r/gptel--sanitize-filename response))
              (basename (concat "Copilot-" title ".org")))
-        (r/gptel--save-buffer-to-cache (plist-get info :buffer) basename))))
+        (r/gptel--save-buffer-to-cache (plist-get info :buffer) basename)))
+
+    (defun r/gptel--save-chat-with-summary (prompt)
+      (gptel-with-preset 'misc/one-line-summary
+        (gptel-request prompt
+          :callback #'r/gptel--save-one-line-summary))))
 #+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
