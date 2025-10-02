@@ -190,6 +190,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     :custom (recentf-max-saved-items 200)
     :config (dolist (exclusion
                      '("\\/sudo:root@localhost.*"
+                       "\\/var\\/cache\\/gptel\\/.*"
                        "\\.org_archive$"
                        "\\.epub$"
                        "\\.gif$"
