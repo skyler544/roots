@@ -1272,45 +1272,18 @@ Syntax highlighting for unit files
       (r/gptel-register-presets)
       (add-hook 'gptel-post-response-functions #'r/gptel-autosave-chat))
 
-    ;; UTILITY FUNCTIONS
-    (defun r/load-prompt (file-base-name)
-      (let* ((dir (expand-file-name "~/build/programming/prompts"))
-             (file (expand-file-name (concat (symbol-name file-base-name) ".md") dir)))
-        (if (file-exists-p file)
-            (with-temp-buffer
-              (insert-file-contents file)
-              (buffer-string))
-          "")))
-
-    (defun r/gptel-make-preset (spec backend)
-      (let* ((name (car spec))
-             (parent (cadr spec))
-             (system (r/load-prompt name))
-             (args (list name :backend backend :system system)))
-        (when parent
-          (setq args (append args (list :parents parent))))
-        (apply #'gptel-make-preset args)))
+    ;; USER FUNCTIONS
+    (defun r/gptel-load-chat ()
+      (interactive)
+      (let* ((default-directory (r/gptel--cache-dir)))
+        (call-interactively #'find-file)
+        (gptel-mode)))
 
     (defun r/gptel-register-presets ()
       (interactive)
       (when r/gptel-presets
-        (dolist (spec r/gptel-presets)
-          (r/gptel-make-preset spec "Copilot"))))
-
-    (defun r/gptel--save-one-line-summary (response info)
-      (let ((chat-buf (plist-get info :buffer))
-            (cache-dir (expand-file-name "var/cache/gptel" user-emacs-directory)))
-        (unless (file-directory-p cache-dir)
-          (make-directory cache-dir t))
-        (with-current-buffer chat-buf
-          (let* ((title (if (stringp response) (string-trim response) ""))
-                 (safe (replace-regexp-in-string "[^A-Za-z0-9._-]" "-" title))
-                 (safe (if (> (length safe) 80) (substring safe 0 80) safe))
-                 (basename (concat "Copilot-" safe ".org"))
-                 (path (expand-file-name basename cache-dir)))
-            (set-visited-file-name path)
-            (rename-buffer basename)
-            (save-buffer)))))
+        (cl-loop for (name parent) in r/gptel-presets
+                 do (r/gptel--make-preset name parent "Copilot"))))
 
     (defun r/gptel-autosave-chat (beg end)
       (if (string= (buffer-name) "*Copilot*")
@@ -1320,11 +1293,44 @@ Syntax highlighting for unit files
                 :callback #'r/gptel--save-one-line-summary)))
         (save-buffer)))
 
-    (defun r/gptel-load-chat ()
-      (interactive)
-      (let* ((default-directory (expand-file-name "var/cache/gptel/" user-emacs-directory)))
-        (call-interactively #'find-file)
-        (gptel-mode))))
+    ;; UTILITY FUNCTIONS
+    (defun r/gptel--load-prompt (file-base-name)
+      (with-temp-buffer
+        (ignore-errors (insert-file-contents
+                        (expand-file-name
+                         (concat (symbol-name file-base-name) ".md")
+                         "~/build/programming/prompts/")))
+        (buffer-string)))
+
+    (defun r/gptel--make-preset (name parent backend)
+      (apply #'gptel-make-preset
+             (append (list name
+                           :backend backend
+                           :system (r/gptel--load-prompt name))
+                     (when parent (list :parents parent)))))
+
+    (defun r/gptel--cache-dir ()
+      (let ((cache-dir (expand-file-name "var/cache/gptel" user-emacs-directory)))
+        (unless (file-directory-p cache-dir)
+          (make-directory cache-dir t))
+        cache-dir))
+
+    (defun r/gptel--sanitize-filename (name)
+      (if (stringp name)
+          (let ((safe (replace-regexp-in-string "[^A-Za-z0-9._-]" "-" (string-trim name))))
+            (if (> (length safe) 72) (substring safe 0 72) safe))
+        ""))
+
+    (defun r/gptel--save-buffer-to-cache (buffer basename)
+      (with-current-buffer buffer
+        (set-visited-file-name (expand-file-name basename (r/gptel--cache-dir)))
+        (rename-buffer basename)
+        (save-buffer)))
+
+    (defun r/gptel--save-one-line-summary (response info)
+      (let* ((title (r/gptel--sanitize-filename response))
+             (basename (concat "Copilot-" title ".org")))
+        (r/gptel--save-buffer-to-cache (plist-get info :buffer) basename))))
 #+END_SRC
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
