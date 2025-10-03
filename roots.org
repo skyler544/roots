@@ -1344,7 +1344,7 @@ register mode-specific prompts.
     (defun r/gptel--sanitize-filename (name)
       (if (stringp name)
           (let ((safe (replace-regexp-in-string "[^A-Za-z0-9._-]" "-" (string-trim name))))
-            (if (> (length safe) 72) (substring safe 0 72) safe))
+            (if (> (length safe) 72) (string-trim (substring safe 0 72) nil "-") safe))
         ""))
 
     (defun r/gptel--save-buffer-to-cache (buffer basename)
