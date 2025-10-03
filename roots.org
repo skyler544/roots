@@ -1006,9 +1006,9 @@ caveats.
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
     (with-eval-after-load 'gptel
       (r/gptel-register-presets
-       '((php/standards nil)
+       '((php/standards)
          (php/programming php/standards)
-         (php/refactor php/programming)
+         (php/refactor php/programming php/standards)
          (php/review php/standards)
          (php/plan php/standards))))
 
@@ -1280,9 +1280,9 @@ register mode-specific prompts.
              (gptel-default-mode 'org-mode))
     :config
     ;; VARIABLES
-    (defvar r/gptel-presets '((misc/one-line-summary nil)
-                              (misc/terse-summary nil)
-                              (misc/thorough-summary nil)))
+    (defvar r/gptel-presets '((misc/one-line-summary)
+                              (misc/terse-summary)
+                              (misc/thorough-summary)))
 
     ;; SETUP
     (defun r/configure-gptel ()
@@ -1303,9 +1303,8 @@ register mode-specific prompts.
       (interactive)
       (when presets
         (setq r/gptel-presets (append r/gptel-presets presets)))
-      (when r/gptel-presets
-        (cl-loop for (name parent) in r/gptel-presets
-                 do (r/gptel--make-preset name parent "Copilot"))))
+      (mapc (lambda (preset) (r/gptel--make-preset preset "Copilot"))
+            r/gptel-presets))
 
     (defun r/gptel-autosave-chat (beg end)
       (if (string= (buffer-name) "*Copilot*")
@@ -1328,12 +1327,17 @@ register mode-specific prompts.
                          "~/build/programming/prompts/")))
         (buffer-string)))
 
-    (defun r/gptel--make-preset (name parent backend)
+    (defun r/gptel--combine-prompts (prompt-list)
+      (string-join
+       (mapcar (lambda (prompt) (r/gptel--load-prompt prompt))
+               prompt-list)
+       "\n"))
+
+    (defun r/gptel--make-preset (prompts backend)
       (apply #'gptel-make-preset
-             (append (list name
+             (append (list (car prompts)
                            :backend backend
-                           :system (r/gptel--load-prompt name))
-                     (when parent (list :parents parent)))))
+                           :system (r/gptel--combine-prompts prompts)))))
 
     (defun r/gptel--cache-dir ()
       (let ((cache-dir (expand-file-name "var/cache/gptel/" user-emacs-directory)))
