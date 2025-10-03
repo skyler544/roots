@@ -1276,8 +1276,7 @@ register mode-specific prompts.
            (:map gptel-mode-map
                  ("C-c C-c" . gptel-send)))
     :custom ((gptel-gh-github-token-file (expand-file-name "var/cache/github-token" user-emacs-directory))
-             (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory))
-             (gptel-default-mode 'org-mode))
+             (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory)))
     :config
     ;; VARIABLES
     (defvar r/gptel-presets '((misc/one-line-summary)
@@ -1359,7 +1358,7 @@ register mode-specific prompts.
 
     (defun r/gptel--save-one-line-summary (response info)
       (let* ((title (r/gptel--sanitize-filename response))
-             (basename (concat "Copilot-" title ".org")))
+             (basename (concat "Copilot-" title ".md")))
         (r/gptel--save-buffer-to-cache (plist-get info :buffer) basename)))
 
     (defun r/gptel--save-chat-with-summary (prompt)
