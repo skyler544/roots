@@ -848,7 +848,12 @@ terminal applications, but that person isn't me.
     (async-shell-command-buffer 'new-buffer)
     (async-shell-command-display-buffer nil)
     (comint-scroll-to-bottom-on-output t)
-    (compilation-scroll-output t))
+    (compilation-scroll-output t)
+    :config
+    (with-eval-after-load 'gptel
+      (r/gptel-register-presets
+       '((shell/standards)
+         (shell/programming shell/standards)))))
 
   ;; Improvements to `shell-command' and friends.
   (use-package shell-command-x
@@ -1281,7 +1286,10 @@ register mode-specific prompts.
     ;; VARIABLES
     (defvar r/gptel-presets '((misc/one-line-summary)
                               (misc/terse-summary)
-                              (misc/thorough-summary)))
+                              (misc/thorough-summary)
+                              (research/scientific-advisor)
+                              (research/challenge research/scientific-advisor)
+                              (research/review research/scientific-advisor)))
 
     ;; SETUP
     (defun r/configure-gptel ()
@@ -1329,7 +1337,7 @@ register mode-specific prompts.
     (defun r/gptel--combine-prompts (prompt-list)
       (string-join
        (mapcar (lambda (prompt) (r/gptel--load-prompt prompt))
-               prompt-list)
+               (reverse prompt-list))
        "\n"))
 
     (defun r/gptel--make-preset (prompts backend)
