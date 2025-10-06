@@ -1303,8 +1303,10 @@ register mode-specific prompts.
     ;; USER FUNCTIONS
     (defun r/gptel-load-chat ()
       (interactive)
-      (let* ((default-directory (r/gptel--cache-dir)))
+      (let* ((original-default-directory default-directory)
+             (default-directory (r/gptel--cache-dir)))
         (call-interactively #'find-file)
+        (setq-local default-directory original-default-directory)
         (gptel-mode)))
 
     (defun r/gptel-register-presets (&optional presets)
@@ -1314,17 +1316,16 @@ register mode-specific prompts.
       (mapc (lambda (preset) (r/gptel--make-preset preset "Copilot"))
             r/gptel-presets))
 
-    (defun r/gptel-autosave-chat (beg end)
-      (if (string= (buffer-name) "*Copilot*")
-          (let ((prompt (buffer-substring-no-properties (point-min) (point-max))))
-            (r/gptel--save-chat-with-summary prompt))
-        (save-buffer)))
-
     (defun r/rename-chat-and-save ()
       (interactive)
       (when gptel-mode
         (let ((prompt (buffer-substring-no-properties (point-min) (point-max))))
           (r/gptel--save-chat-with-summary prompt))))
+
+    (defun r/gptel-autosave-chat (beg end)
+      (if (string= (buffer-name) "*Copilot*")
+          (r/rename-chat-and-save)
+        (save-buffer)))
 
     ;; UTILITY FUNCTIONS
     (defun r/gptel--load-prompt (file-base-name)
@@ -1361,9 +1362,11 @@ register mode-specific prompts.
 
     (defun r/gptel--save-buffer-to-cache (buffer basename)
       (with-current-buffer buffer
-        (set-visited-file-name (expand-file-name basename (r/gptel--cache-dir)))
-        (rename-buffer basename)
-        (save-buffer)))
+        (let ((original-default-directory default-directory))
+          (set-visited-file-name (expand-file-name basename (r/gptel--cache-dir)))
+          (rename-buffer basename)
+          (save-buffer)
+          (setq-local default-directory original-default-directory))))
 
     (defun r/gptel--save-one-line-summary (response info)
       (let* ((title (r/gptel--sanitize-filename response))
