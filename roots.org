@@ -1289,7 +1289,8 @@ register mode-specific prompts.
                               (misc/thorough-summary)
                               (research/scientific-advisor)
                               (research/challenge research/scientific-advisor)
-                              (research/review research/scientific-advisor)))
+                              (research/review research/scientific-advisor)
+                              (translation/en-de)))
 
     ;; SETUP
     (defun r/configure-gptel ()
