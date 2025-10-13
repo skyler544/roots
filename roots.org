@@ -848,12 +848,7 @@ terminal applications, but that person isn't me.
     (async-shell-command-buffer 'new-buffer)
     (async-shell-command-display-buffer nil)
     (comint-scroll-to-bottom-on-output t)
-    (compilation-scroll-output t)
-    :config
-    (with-eval-after-load 'gptel
-      (r/gptel-register-presets
-       '((shell/standards)
-         (shell/programming shell/standards)))))
+    (compilation-scroll-output t))
 
   ;; Improvements to `shell-command' and friends.
   (use-package shell-command-x
@@ -979,15 +974,6 @@ caveats.
 
   (use-package highlight-quoted
     :hook (emacs-lisp-mode . highlight-quoted-mode))
-
-  (use-package emacs
-    :config
-    (with-eval-after-load 'gptel
-        (r/gptel-register-presets
-         '((elisp/standards nil)
-           (elisp/programming elisp/standards)
-           (elisp/refactor elisp/programming)
-           (elisp/review elisp/standards)))))
 #+END_SRC
 ** PHP
 
@@ -1009,13 +995,6 @@ caveats.
             '("composer" "--no-interaction"
               (concat "--working-dir=" (r/project-root))
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
-    (with-eval-after-load 'gptel
-      (r/gptel-register-presets
-       '((php/standards)
-         (php/programming php/standards)
-         (php/refactor php/programming php/standards)
-         (php/review php/standards)
-         (php/plan php/standards))))
 
     (defun r/php-test-current-file ()
       (interactive)
@@ -1275,6 +1254,7 @@ register mode-specific prompts.
 
 #+BEGIN_SRC emacs-lisp
   (use-package gptel
+    :unless (getenv "NO_COPILOT")
     :hook (after-init . r/configure-gptel)
     :commands (r/gptel-register-presets r/gptel-load-chat)
     :bind (("C-c gm" . gptel-menu)
@@ -1286,13 +1266,7 @@ register mode-specific prompts.
              (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory)))
     :config
     ;; VARIABLES
-    (defvar r/gptel-presets '((misc/one-line-summary)
-                              (misc/terse-summary)
-                              (misc/thorough-summary)
-                              (research/scientific-advisor)
-                              (research/challenge research/scientific-advisor)
-                              (research/review research/scientific-advisor)
-                              (translation/en-de)))
+    (defvar r/gptel-presets nil)
 
     ;; SETUP
     (defun r/configure-gptel ()
@@ -1380,6 +1354,39 @@ register mode-specific prompts.
         (gptel-request prompt
           :callback #'r/gptel--save-one-line-summary))))
 #+END_SRC
+**** Prompts
+These prompts are contained in a [[https://github.com/skyler544/prompts][separate repository]]. The idea is to have a
+hierarchy of similar prompts tweaked to specific tasks.
+#+begin_src emacs-lisp
+  (unless (getenv "NO_COPILOT")
+    (with-eval-after-load 'gptel
+      ;; DEFAULTS
+      (r/gptel-register-presets
+       '((misc/one-line-summary)
+         (misc/terse-summary)
+         (misc/thorough-summary)
+         (research/scientific-advisor)
+         (research/challenge research/scientific-advisor)
+         (research/review research/scientific-advisor)
+         (translation/en-de)))
+      ;; PHP
+      (r/gptel-register-presets
+       '((php/standards)
+         (php/programming php/standards)
+         (php/refactor php/programming php/standards)
+         (php/review php/standards)
+         (php/plan php/standards)))
+      ;; SHELL
+      (r/gptel-register-presets
+       '((shell/standards)
+         (shell/programming shell/standards)))
+      ;; EMACS LISP
+      (r/gptel-register-presets
+       '((elisp/standards nil)
+         (elisp/programming elisp/standards)
+         (elisp/refactor elisp/programming)
+         (elisp/review elisp/standards)))))
+#+end_src
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
 not as important as the actual functionality and should be considered a layer of
