@@ -1273,6 +1273,7 @@ register mode-specific prompts.
       (setq gptel-track-media t)
       (setq gptel-model 'gpt-5-mini)
       (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
+      (setq gptel-temperature 0.7)
       (r/gptel-register-presets)
       (add-hook 'gptel-post-response-functions #'r/gptel-autosave-chat))
 
