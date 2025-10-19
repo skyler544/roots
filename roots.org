@@ -983,7 +983,7 @@ caveats.
 
   ;; php base config
   (use-package php-ts-mode
-    :mode "^[^.]+\\.php$"
+    :mode "\\.php$"
     :hook ((php-ts-mode . eglot-ensure)
            (find-file . r/view-mode-in-vendor))
     :bind (:map php-ts-mode-map
