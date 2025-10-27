@@ -178,7 +178,8 @@ These settings are essentially subjective, but serve to disable some annoyances
                "\\*help"
                "\\*shell"
                "\\*Proced"
-               "\\*Copilot"))
+               "\\*Copilot"
+               "CAPTURE-"))
       (add-to-list 'display-buffer-alist
                    `(,buffer display-buffer-same-window))))
 #+END_SRC
