@@ -305,6 +305,23 @@ everything else dired is capable of, and there's just no contest.
      'proced-format-alist
      '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm))))
 #+END_SRC
+** TRAMP
+
+#+BEGIN_SRC emacs-lisp
+  ;; https://coredumped.dev/2025/06/18/making-tramp-go-brrrr./
+  (use-package tramp
+    :custom ((remote-file-name-inhibit-locks t)
+             (tramp-use-scp-direct-remote-copying t)
+             (remote-file-name-inhibit-auto-save-visited t)
+             (tramp-copy-size-limit (* 1024 1024)))
+    :config
+    (connection-local-set-profile-variables
+     'remote-direct-async-process
+     '((tramp-direct-async-process . t)))
+    (connection-local-set-profiles
+     '(:application tramp :protocol "rsync")
+     'remote-direct-async-process))
+#+END_SRC
 ** Dubious hacks
 This is where I put any purported "performance" code and "fixes", for which I
 have neither evidence supporting the supposed benefit, nor reason to doubt it.
@@ -768,7 +785,8 @@ other utility packages related to git.
   (use-package magit
     :custom ((magit-diff-refine-hunk 'all)
              (magit-display-buffer-function 'display-buffer)
-             (magit-save-repository-buffers 'dontask)))
+             (magit-save-repository-buffers 'dontask)
+             (magit-tramp-pipe-stty-settings 'pty)))
 
   (use-package why-this
     :custom (why-this-annotate-enable-heat-map nil)
