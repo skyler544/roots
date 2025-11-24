@@ -1432,7 +1432,8 @@ This stuff isn't really necessary, but it looks cool.
                             flymake-goto-next-error
                             flymake-goto-prev-error
                             isearch-repeat-backward
-                            isearch-repeat-forward)
+                            isearch-repeat-forward
+                            r/sh-command-at-point)
                           pulsar-pulse-functions))
     :custom (pulsar-pulse-region-functions
              pulsar-pulse-region-common-functions))
