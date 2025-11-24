@@ -1235,6 +1235,11 @@ Syntax highlighting for unit files
   (use-package systemd
     :mode ("\\.container$" . systemd-mode))
 #+END_SRC
+** Documentation
+
+#+BEGIN_SRC emacs-lisp
+  (use-package devdocs)
+#+END_SRC
 ** LLM Assistants
 *** Copilot
 
