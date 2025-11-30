@@ -1427,7 +1427,7 @@ This stuff isn't really necessary, but it looks cool.
     :hook (after-init . eros-mode)
     :custom-face
     (eros-result-overlay-face
-     ((t ( :background unspecified :inherit region :box t)))))
+     ((t (:background unspecified :inherit region :box t)))))
 
   ;; Briefly flash current line in certain situations
   (use-package pulsar
@@ -1439,9 +1439,7 @@ This stuff isn't really necessary, but it looks cool.
                             isearch-repeat-backward
                             isearch-repeat-forward
                             r/sh-command-at-point)
-                          pulsar-pulse-functions))
-    :custom (pulsar-pulse-region-functions
-             pulsar-pulse-region-common-functions))
+                          pulsar-pulse-functions)))
 
   ;; Highlight TODO items in buffers
   (use-package hl-todo
