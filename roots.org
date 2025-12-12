@@ -1193,7 +1193,8 @@ yaml, markdown, and html.
 
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
-    :hook (markdown-mode . visual-line-mode)
+    :hook ((markdown-mode . visual-line-mode)
+           (markdown-mode . olivetti-mode))
     :bind (:map markdown-mode-map
                 ("C-c th" . markdown-toggle-markup-hiding))
     :custom ((markdown-hide-urls t)
@@ -1452,7 +1453,8 @@ This stuff isn't really necessary, but it looks cool.
 
   (use-package olivetti
     :bind ("C-c to" . olivetti-mode)
-    :custom (olivetti-style t))
+    :custom ((olivetti-style 'fancy)
+             (olivetti-body-width 0.96)))
 
   (use-package rainbow-mode)
 #+END_SRC
