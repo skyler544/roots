@@ -1391,6 +1391,7 @@ hierarchy of similar prompts tweaked to specific tasks.
        '((misc/one-line-summary)
          (misc/terse-summary)
          (misc/thorough-summary)
+         (misc/brevity)
          (research/scientific-advisor)
          (research/challenge research/scientific-advisor)
          (research/review research/scientific-advisor)
