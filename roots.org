@@ -631,7 +631,6 @@ This section sets up a baseline for Org Mode as an outlining tool.
     (org-hide-leading-stars t)
     (org-src-window-setup 'current-window)
     (org-startup-indented t)
-    (org-use-tag-inheritance nil)
     (org-list-demote-modify-bullet
      '(("+" . "-") ("-" . "+"))))
 #+END_SRC
