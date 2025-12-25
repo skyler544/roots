@@ -1414,6 +1414,18 @@ hierarchy of similar prompts tweaked to specific tasks.
          (elisp/refactor elisp/programming)
          (elisp/review elisp/standards)))))
 #+end_src
+*** Agent Shell
+#+begin_src emacs-lisp
+  (use-package agent-shell
+    :unless (getenv "NO_COPILOT")
+    :bind (:map agent-shell-mode-map
+                ("C-c '" . agent-shell-prompt-compose))
+    :custom ((agent-shell-goose-authentication
+              (agent-shell-make-goose-authentication :none t))
+             (agent-shell-header-style 'text)
+             (agent-shell-preferred-agent-config
+              (agent-shell-goose-make-agent-config))))
+#+end_src
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
 not as important as the actual functionality and should be considered a layer of
