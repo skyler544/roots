@@ -1426,6 +1426,16 @@ hierarchy of similar prompts tweaked to specific tasks.
              (agent-shell-preferred-agent-config
               (agent-shell-goose-make-agent-config))))
 #+end_src
+*** Macher
+#+begin_src emacs-lisp
+  (use-package macher
+    :init (defvar r/macher-installed nil)
+    :hook (gptel-mode . r/macher-install)
+    :config (defun r/macher-install ()
+              (unless r/macher-installed
+                (macher-install)
+                (setq r/macher-installed t))))
+#+end_src
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
 not as important as the actual functionality and should be considered a layer of
