@@ -1434,6 +1434,7 @@ hierarchy of similar prompts tweaked to specific tasks.
 *** Macher
 #+begin_src emacs-lisp
   (use-package macher
+    :unless (getenv "NO_COPILOT")
     :init (defvar r/macher-installed nil)
     :hook (gptel-mode . r/macher-install)
     :config (defun r/macher-install ()
