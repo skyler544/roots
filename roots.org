@@ -811,7 +811,8 @@ easy enough to set up. All-in-all it's a decent experience.
                 ("C-c ea" . eglot-code-actions)
                 ("C-c ed" . flymake-show-project-diagnostics)
                 ("C-c ef" . eglot-format-buffer)
-                ("C-c er" . eglot-reconnect))
+                ("C-c er" . eglot-reconnect)
+                ("C-c eR" . eglot-rename))
     :custom
     (eglot-autoshutdown t)
     (eglot-confirm-server-initiated-edits nil)
