@@ -1395,7 +1395,8 @@ hierarchy of similar prompts tweaked to specific tasks.
          (research/scientific-advisor)
          (research/challenge research/scientific-advisor)
          (research/review research/scientific-advisor)
-         (translation/en-de)))
+         (translation/en-de)
+         (programming/simple)))
       ;; PHP
       (r/gptel-register-presets
        '((php/standards)
