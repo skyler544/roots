@@ -155,6 +155,7 @@ These settings are essentially subjective, but serve to disable some annoyances
 
     ;; Scrolling
     (fast-but-imprecise-scrolling t)
+    (make-cursor-line-fully-visible t)
     (pixel-scroll-precision-mode t)
     (scroll-conservatively 101)
 
