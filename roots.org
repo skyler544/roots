@@ -1140,8 +1140,9 @@ one of them to run as an ~async-shell-command~.
 ** Go
 #+BEGIN_SRC emacs-lisp
   (use-package go-ts-mode
+    :mode "\\.go$"
     :hook (go-ts-mode . eglot-ensure)
-    :mode "\\.go$")
+    :custom (go-ts-mode-indent-offset 4))
 #+END_SRC
 ** JS/TS
 The Javascript/Typescript landscape is a huge maze of both awesome and terrible
