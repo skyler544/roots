@@ -201,7 +201,8 @@ These settings are essentially subjective, but serve to disable some annoyances
                        "\\.mp4$"
                        "\\.pdf$"
                        "\\.png$"
-                       "\\.webp$"))
+                       "\\.webp$"
+                       "^/tmp/.*"))
               (add-to-list 'recentf-exclude exclusion)))
 #+END_SRC
 ** Directories
