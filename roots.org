@@ -1409,6 +1409,9 @@ hierarchy of similar prompts tweaked to specific tasks.
          (php/refactor php/programming php/standards)
          (php/review php/standards)
          (php/plan php/standards)))
+      ;; GO
+      (r/gptel-register-presets
+       '((go/standards)))
       ;; SHELL
       (r/gptel-register-presets
        '((shell/standards)
