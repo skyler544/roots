@@ -106,7 +106,9 @@ These settings are essentially subjective, but serve to disable some annoyances
            ;; Touchpad
            ("<pinch>" . nil)
            ([wheel-left] . (lambda () (interactive) (scroll-left 1)))
-           ([wheel-right] . (lambda () (interactive) (scroll-right 1))))
+           ([wheel-right] . (lambda () (interactive) (scroll-right 1)))
+           ;; Mouse
+           ("<mouse-2>" . nil))
 
     :custom
     ;; Startup
