@@ -1399,6 +1399,7 @@ hierarchy of similar prompts tweaked to specific tasks.
          (misc/terse-summary)
          (misc/thorough-summary)
          (misc/brevity)
+         (misc/step-by-step)
          (research/scientific-advisor)
          (research/challenge research/scientific-advisor)
          (research/review research/scientific-advisor)
