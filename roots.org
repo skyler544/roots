@@ -861,6 +861,11 @@ quite nicely, other than occasional breakage of the grammars.
                       (mhtml-mode . html-ts-mode)
                       (sh-mode . bash-ts-mode)))))
 #+END_SRC
+** Dumb Jump
+#+BEGIN_SRC emacs-lisp
+  (use-package dumb-jump
+    :config (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+#+END_SRC
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
 terminal emulator. For instance, there's no need to mess around with pagers if
