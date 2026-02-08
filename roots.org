@@ -1209,9 +1209,15 @@ yaml, markdown, and html.
     :bind (:map markdown-mode-map
                 ("C-c th" . markdown-toggle-markup-hiding))
     :custom ((markdown-hide-urls t)
-             (markdown-hide-markup t)
+             (markdown-hide-markup nil)
+             (markdown-hide-markup-in-view-modes nil)
              (markdown-fontify-code-blocks-natively t)
-             (markdown-list-item-bullets '("●"))))
+             (markdown-list-item-bullets '("●")))
+    :config
+    ;; 02.08.2026 work around bug between eglot and markdown where any text with
+    ;; an invisibility property is removed from the eldoc content. this breaks PHP
+    ;; namespaces such that Foo\Bar becomes FooBar in eldoc.
+    (setq markdown-markup-properties '(face markdown-markup-face)))
 
   (use-package yaml-mode
     :hook (yaml-mode . display-line-numbers-mode))
