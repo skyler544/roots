@@ -995,7 +995,9 @@ caveats.
     (with-eval-after-load 'apheleia
       (setf (alist-get 'phpcs apheleia-formatters)
             '("composer" "--no-interaction"
-              (concat "--working-dir=" (r/project-root))
+              (concat "--working-dir=" (expand-file-name (locate-dominating-file
+                                                          default-directory
+                                                          "composer.json")))
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
 
     (defun r/php-test-current-file ()
