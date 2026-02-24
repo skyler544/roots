@@ -1249,18 +1249,10 @@ Syntax highlighting for unit files
     (defun r/copilot-mode-maybe ()
       (if r/copilot-available
           (r/enable-mode-maybe 'copilot-mode 1)
-        (when (executable-find "npm")
-          (make-process
-           :name "copilot-check"
-           :buffer nil
-           :command '("npm" "list" "-g" "@github/copilot-language-server")
-           :noquery t
-           :sentinel
-           (lambda (proc event)
-             (when (and (memq (process-status proc) '(exit signal))
-                        (= (process-exit-status proc) 0))
-               (r/enable-mode-maybe 'copilot-mode 1)
-               (setq r/copilot-available t))))))))
+        (when (and (executable-find "npm")
+                   (file-exists-p (locate-user-emacs-file "var/copilot/bin/copilot-language-server")))
+          (r/enable-mode-maybe 'copilot-mode 1)
+          (setq r/copilot-available t)))))
 #+END_SRC
 *** gptel
 This config is starting to get a little long, but the gist is:
