@@ -1000,6 +1000,11 @@ caveats.
                                                           "composer.json")))
               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
 
+    (defun r/php-function-name-at-point ()
+      (let ((def (thing-at-point 'defun)))
+        (when (and def (string-match "function\\s-+\\([A-Za-z0-9_]+\\)" def))
+          (match-string 1 def))))
+
     (defun r/php-test-current-file ()
       (interactive)
       (let ((default-directory (r/project-root)))
@@ -1031,6 +1036,14 @@ caveats.
       (let ((default-directory (r/project-root)))
         (async-shell-command
          (format "./sail %s test %s %s" type args (r/project-relative-path)))))
+    (defun r/laravel-test-at-point ()
+      (interactive)
+      (let* ((default-directory (r/project-root))
+             (class (file-name-base (buffer-name)))
+             (method (r/php-function-name-at-point))
+             (filter (concat class "::" method))
+             (cmd (format "./sail artisan test --filter %s" (shell-quote-argument filter))))
+        (async-shell-command cmd)))
     (defun r/laravel-test-current-file ()
       (interactive)
       (r/laravel-test-command "artisan" "--ansi"))
