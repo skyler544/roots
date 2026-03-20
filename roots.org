@@ -1513,8 +1513,6 @@ Project browser with multiple-root functionality.
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
     :custom-face
-    (default
-     ((t (:height 100))))
     (fringe
      ((t (:background unspecified))))
     (variable-pitch
