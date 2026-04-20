@@ -1453,7 +1453,11 @@ This stuff isn't really necessary, but it looks cool.
 
   ;; Highlight TODO items in buffers
   (use-package hl-todo
-    :hook (prog-mode . hl-todo-mode))
+    :hook ((after-init . r/setup-hl-todo)
+           (org-mode . hl-todo-mode)
+           (prog-mode . hl-todo-mode))
+    :config (defun r/setup-hl-todo ()
+              (add-to-list 'hl-todo-keyword-faces '("RISK" . "#a60000"))))
 
   (use-package page-break-lines
     :hook (after-init . global-page-break-lines-mode)
