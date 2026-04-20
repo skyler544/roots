@@ -642,6 +642,7 @@ This section defines my capture and agenda workflow.
     :hook (org-agenda-mode . hl-line-mode)
     :bind (("C-c oa" . org-agenda)
            ("C-c oc" . org-capture))
+    :commands r/start-feature
     :config
     ;; The `display-buffer-no-window' function behaves differently than other
     ;; `display-buffer' actions, requiring a non-nil `allow-no-window' as an
@@ -652,6 +653,13 @@ This section defines my capture and agenda workflow.
                    display-buffer-no-window
                    (allow-no-window . t)))
     (add-to-list 'org-export-backends 'md)
+    (defun r/start-feature (name)
+      (interactive "sFeature name: ")
+      (let ((file (expand-file-name (concat name ".org") org-directory)))
+        (with-current-buffer (find-file-noselect file)
+          (when (= (buffer-size) 0)
+            (insert "* " name "\n")
+            (save-buffer)))))
     :custom
     (org-agenda-files (list org-directory))
     (org-agenda-span 10)
@@ -670,6 +678,16 @@ This section defines my capture and agenda workflow.
     (org-directory "~/mega/org/")
     (org-default-notes-file (concat org-directory "backlog.org"))
     (org-archive-location "archive/%s_archive::")
+    (org-tag-persistent-alist
+     '(("risk" . ?R)
+       ("requirement" . ?r)
+       ("design" . ?d)
+       ("implementation" . ?i)
+       ("decision" . ?D)
+       ("discuss" . ?s)
+       ("review" . ?v)
+       ("clarify" . ?c)))
+
     (org-capture-templates
      '(("t" "Todo" entry (file "backlog.org")
         "* TODO %?\n** Actions [/]\n** Notes")
@@ -681,7 +699,9 @@ This section defines my capture and agenda workflow.
        ("j" "Journal" plain (file+olp+datetree "journal.org")
         "%?\n---")
        ("i" "Idea" plain (file+headline "backlog.org" "Ideas")
-        "+ %U\n  %?"))))
+        "+ %U\n  %?")
+       ("f" "Feature" entry (file "backlog.org")
+        "* %? %^g"))))
 #+END_SRC
 ** Tweaks
 This section contains custom code and packages for tweaking Org outside
