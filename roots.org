@@ -672,12 +672,12 @@ This section defines my capture and agenda workflow.
     (org-archive-location "archive/%s_archive::")
     (org-capture-templates
      '(("t" "Todo" entry (file "backlog.org")
-        "* TODO [#B] %?\nSCHEDULED: %t\n** Estimate:\n** Actions [/]\n** Notes")
+        "* TODO %?\n** Actions [/]\n** Notes")
        ("r" "Region to todo" entry (file "backlog.org")
-        "* TODO [#B] %i\nSCHEDULED: %t\n** Estimate:\n** Actions [/]\n** Notes"
+        "* TODO %i\n** Actions [/]\n** Notes"
         :immediate-finish t)
        ("y" "Yakshaving" entry (file "backlog.org")
-        "* TODO [#C] %? :yakshaving:\n** Estimate:\n** Actions [/]\n** Notes")
+        "* TODO %? :yakshaving:\n** Actions [/]\n** Notes")
        ("j" "Journal" plain (file+olp+datetree "journal.org")
         "%?\n---")
        ("i" "Idea" plain (file+headline "backlog.org" "Ideas")
