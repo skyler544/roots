@@ -653,13 +653,26 @@ This section defines my capture and agenda workflow.
                    display-buffer-no-window
                    (allow-no-window . t)))
     (add-to-list 'org-export-backends 'md)
+
     (defun r/start-feature (name)
+      "Create a new org file for a feature with the given `NAME', and insert a template for the feature's documentation."
       (interactive "sFeature name: ")
-      (let ((file (expand-file-name (concat name ".org") org-directory)))
-        (with-current-buffer (find-file-noselect file)
-          (when (= (buffer-size) 0)
-            (insert "* " name "\n")
-            (save-buffer)))))
+      (require 's nil :noerror)
+      (let* ((file-base-name (s-replace " " "-" (downcase (s-trim name))))
+             (file (expand-file-name (concat file-base-name ".org") org-directory)))
+        (with-current-buffer (find-file file)
+          (insert "#+TITLE: " name "\n")
+          (insert "#+STARTUP: overview\n\n")
+          (insert "* Context\n")
+          (insert "* Goal\n")
+          (insert "* Requirements\n")
+          (insert "* Design\n")
+          (insert "* Risks\n")
+          (insert "* Decisions\n")
+          (insert "* Tasks\n")
+          (insert "* Scratch\n")
+          (save-buffer))))
+
     :custom
     (org-agenda-files (list org-directory))
     (org-agenda-span 10)
@@ -679,14 +692,14 @@ This section defines my capture and agenda workflow.
     (org-default-notes-file (concat org-directory "backlog.org"))
     (org-archive-location "archive/%s_archive::")
     (org-tag-persistent-alist
-     '(("risk" . ?R)
-       ("requirement" . ?r)
-       ("design" . ?d)
-       ("implementation" . ?i)
-       ("decision" . ?D)
-       ("discuss" . ?s)
-       ("review" . ?v)
-       ("clarify" . ?c)))
+     '(("risk")
+       ("requirement")
+       ("design")
+       ("implementation")
+       ("decision")
+       ("discuss")
+       ("review")
+       ("clarify")))
 
     (org-capture-templates
      '(("t" "Todo" entry (file "backlog.org")
@@ -699,7 +712,7 @@ This section defines my capture and agenda workflow.
        ("j" "Journal" plain (file+olp+datetree "journal.org")
         "%?\n---")
        ("f" "Feature" entry (file "backlog.org")
-        "* %? %^g"))))
+        "* %?"))))
 #+END_SRC
 ** Tweaks
 This section contains custom code and packages for tweaking Org outside
