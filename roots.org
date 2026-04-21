@@ -698,8 +698,6 @@ This section defines my capture and agenda workflow.
         "* TODO %? :yakshaving:\n** Actions [/]\n** Notes")
        ("j" "Journal" plain (file+olp+datetree "journal.org")
         "%?\n---")
-       ("i" "Idea" plain (file+headline "backlog.org" "Ideas")
-        "+ %U\n  %?")
        ("f" "Feature" entry (file "backlog.org")
         "* %? %^g"))))
 #+END_SRC
