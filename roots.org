@@ -679,6 +679,8 @@ This section defines my capture and agenda workflow.
     (org-agenda-start-day "-3d")
     (org-agenda-start-on-weekday nil)
     (org-agenda-window-setup 'current-window)
+    (org-todo-keywords '((type "TODO" "LATER" "|" "DONE")))
+    (org-todo-keyword-faces '(("LATER" . org-warning)))
 
     (org-clock-clocked-in-display 'frame-title)
     (org-log-done 'time)
