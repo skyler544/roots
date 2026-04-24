@@ -1505,20 +1505,6 @@ Shows icons via some special icon fonts.
   (use-package all-the-icons-dired
     :hook (dired-mode . all-the-icons-dired-mode))
 #+END_SRC
-** Project Drawer
-Project browser with multiple-root functionality.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package treemacs-all-the-icons
-    :commands r/treemacs-all-the-icons
-    :config (defun r/treemacs-all-the-icons ()
-              (treemacs-load-theme "all-the-icons")))
-
-  (use-package treemacs
-    :hook ((treemacs-mode . r/treemacs-all-the-icons)
-           (treemacs-mode . (lambda ()
-                              (setq-local truncate-lines t)))))
-#+END_SRC
 ** Faces
 
 #+BEGIN_SRC emacs-lisp
