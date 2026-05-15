@@ -1274,8 +1274,7 @@ Syntax highlighting for unit files
   (use-package copilot
     :unless (getenv "NO_COPILOT")
     :init (defvar r/copilot-available nil)
-    :hook ((prog-mode . r/copilot-mode-maybe)
-           (markdown-mode . r/copilot-mode-maybe))
+    :hook (php-ts-mode . r/copilot-mode-maybe)
     :bind ("C-<tab>" . copilot-accept-completion)
     :custom (copilot-idle-delay 0.5)
     :config
