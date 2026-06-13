@@ -47,7 +47,7 @@
   :init
   (package-initialize)
   (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/"))
+               '("melpa" . "https://melpa.org/packages/"))
   (unless package-archive-contents
     (package-refresh-contents)))
 
