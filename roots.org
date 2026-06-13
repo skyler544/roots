@@ -1279,6 +1279,7 @@ register mode-specific prompts.
 #+BEGIN_SRC emacs-lisp
   (use-package gptel
     :unless (getenv "NO_COPILOT")
+    :vc (:url "https://github.com/karthink/gptel" :rev :newest)
     :hook (after-init . r/configure-gptel)
     :commands (r/gptel-register-presets r/gptel-load-chat)
     :bind (("C-c gm" . gptel-menu)
@@ -1286,17 +1287,17 @@ register mode-specific prompts.
            ("C-c gs" . gptel-send)
            (:map gptel-mode-map
                  ("C-c C-c" . gptel-send)))
-    :custom ((gptel-gh-github-token-file (expand-file-name "var/cache/github-token" user-emacs-directory))
-             (gptel-gh-token-file (expand-file-name "var/cache/token" user-emacs-directory)))
+    :init
+    (setq gptel--openai-oauth-token-file
+          (no-littering-expand-var-file-name "cache/gptel/openai-oauth-token"))
     :config
     ;; VARIABLES
     (defvar r/gptel-presets nil)
 
     ;; SETUP
     (defun r/configure-gptel ()
-      (setq gptel-track-media t)
-      (setq gptel-model 'claude-haiku-4.5)
-      (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
+      (setq gptel-model 'gpt-5.4-mini)
+      (setq gptel-backend (gptel-make-openai-oauth "Codex"))
       (r/gptel-register-presets)
       (add-hook 'gptel-post-response-functions #'r/gptel-autosave-chat))
 
@@ -1313,7 +1314,7 @@ register mode-specific prompts.
       (interactive)
       (when presets
         (setq r/gptel-presets (append r/gptel-presets presets)))
-      (mapc (lambda (preset) (r/gptel--make-preset preset "Copilot"))
+      (mapc (lambda (preset) (r/gptel--make-preset preset gptel-backend))
             r/gptel-presets))
 
     (defun r/rename-chat-and-save ()
@@ -1323,7 +1324,7 @@ register mode-specific prompts.
           (r/gptel--save-chat-with-summary prompt))))
 
     (defun r/gptel-autosave-chat (beg end)
-      (if (string= (buffer-name) "*Copilot*")
+      (if (string= (buffer-name) "*Codex*")
           (r/rename-chat-and-save)
         (save-buffer)))
 
@@ -1369,14 +1370,41 @@ register mode-specific prompts.
           (setq-local default-directory original-default-directory))))
 
     (defun r/gptel--save-one-line-summary (response info)
-      (let* ((title (r/gptel--sanitize-filename response))
-             (basename (concat "Copilot-" title ".md")))
-        (r/gptel--save-buffer-to-cache (plist-get info :buffer) basename)))
+      (if (not (stringp response))
+          (message "Could not name gptel chat: %s" (plist-get info :status))
+        (let ((title (r/gptel--sanitize-filename response)))
+          (if (string-empty-p title)
+              (message "Could not name gptel chat: summary was empty")
+            (r/gptel--save-buffer-to-cache
+             (plist-get info :buffer)
+             (concat "Chat-" title ".md"))))))
+
+    (defun r/gptel--streaming-summary-callback ()
+      (let (chunks)
+        (lambda (response info)
+          (cond
+           ((stringp response) (push response chunks))
+           ((eq response t)
+            (r/gptel--save-one-line-summary
+             (apply #'concat (nreverse chunks)) info))
+           ((null response)
+            (r/gptel--save-one-line-summary response info))))))
 
     (defun r/gptel--save-chat-with-summary (prompt)
       (gptel-with-preset 'misc/one-line-summary
         (gptel-request prompt
-          :callback #'r/gptel--save-one-line-summary))))
+          :stream t
+          :callback (r/gptel--streaming-summary-callback)))))
+#+END_SRC
+**** gptel-agent
+
+#+BEGIN_SRC emacs-lisp
+  (use-package gptel-agent :defer t
+    :unless (getenv "NO_COPILOT")
+    :vc (:url "https://github.com/karthink/gptel-agent" :rev :newest)
+    :init (with-eval-after-load 'gptel
+            (require 'gptel-agent)
+            (gptel-agent-update)))
 #+END_SRC
 **** Prompts
 These prompts are contained in a [[https://github.com/skyler544/prompts][separate repository]]. The idea is to have a
@@ -1416,17 +1444,6 @@ hierarchy of similar prompts tweaked to specific tasks.
          (elisp/programming elisp/standards)
          (elisp/refactor elisp/programming)
          (elisp/review elisp/standards)))))
-#+end_src
-*** Macher
-#+begin_src emacs-lisp
-  (use-package macher
-    :unless (getenv "NO_COPILOT")
-    :init (defvar r/macher-installed nil)
-    :hook (gptel-mode . r/macher-install)
-    :config (defun r/macher-install ()
-              (unless r/macher-installed
-                (macher-install)
-                (setq r/macher-installed t))))
 #+end_src
 ** Distrobox
 
