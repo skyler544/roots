@@ -1282,8 +1282,6 @@ register mode-specific prompts.
   (use-package gptel
     :unless (getenv "NO_COPILOT")
     :vc (:url "https://github.com/karthink/gptel" :rev :newest)
-    :hook (after-init . r/configure-gptel)
-    :commands (r/gptel-register-presets r/gptel-load-chat)
     :bind (("C-c gm" . gptel-menu)
            ("C-c gr" . gptel-rewrite)
            ("C-c gs" . gptel-send)
@@ -1297,20 +1295,8 @@ register mode-specific prompts.
     (defvar r/gptel-presets nil)
 
     ;; SETUP
-    (defun r/configure-gptel ()
-      (setq gptel-model 'gpt-5.4-mini)
-      (setq gptel-backend (gptel-make-openai-oauth "Codex"))
-      (r/gptel-register-presets)
-      (add-hook 'gptel-post-response-functions #'r/gptel-autosave-chat))
-
-    ;; USER FUNCTIONS
-    (defun r/gptel-load-chat ()
-      (interactive)
-      (let* ((original-default-directory default-directory)
-             (default-directory (r/gptel--cache-dir)))
-        (call-interactively #'find-file)
-        (setq-local default-directory original-default-directory)
-        (gptel-mode)))
+    (setq gptel-model 'gpt-5.4-mini)
+    (setq gptel-backend (gptel-make-openai-oauth "gptel"))
 
     (defun r/gptel-register-presets (&optional presets)
       (interactive)
@@ -1318,17 +1304,6 @@ register mode-specific prompts.
         (setq r/gptel-presets (append r/gptel-presets presets)))
       (mapc (lambda (preset) (r/gptel--make-preset preset gptel-backend))
             r/gptel-presets))
-
-    (defun r/rename-chat-and-save ()
-      (interactive)
-      (when gptel-mode
-        (let ((prompt (buffer-substring-no-properties (point-min) (point-max))))
-          (r/gptel--save-chat-with-summary prompt))))
-
-    (defun r/gptel-autosave-chat (beg end)
-      (if (string= (buffer-name) "*Codex*")
-          (r/rename-chat-and-save)
-        (save-buffer)))
 
     ;; UTILITY FUNCTIONS
     (defun r/gptel--load-prompt (file-base-name)
@@ -1349,7 +1324,35 @@ register mode-specific prompts.
       (apply #'gptel-make-preset
              (append (list (car prompts)
                            :backend backend
-                           :system (r/gptel--combine-prompts prompts)))))
+                           :system (r/gptel--combine-prompts prompts))))))
+#+END_SRC
+**** Chat persistence
+
+#+BEGIN_SRC emacs-lisp
+  (use-package gptel :ensure nil
+    :unless (getenv "NO_COPILOT")
+    :commands r/gptel-load-chat
+    :config
+    (add-hook 'gptel-post-response-functions #'r/gptel-autosave-chat)
+
+    (defun r/gptel-load-chat ()
+      (interactive)
+      (let* ((original-default-directory default-directory)
+             (default-directory (r/gptel--cache-dir)))
+        (call-interactively #'find-file)
+        (setq-local default-directory original-default-directory)
+        (gptel-mode)))
+
+    (defun r/rename-chat-and-save ()
+      (interactive)
+      (when gptel-mode
+        (let ((prompt (buffer-substring-no-properties (point-min) (point-max))))
+          (r/gptel--save-chat-with-summary prompt))))
+
+    (defun r/gptel-autosave-chat (beg end)
+      (if (string= (buffer-name) "*gptel*")
+          (r/rename-chat-and-save)
+        (save-buffer)))
 
     (defun r/gptel--cache-dir ()
       (let ((cache-dir (expand-file-name "var/cache/gptel/" user-emacs-directory)))
@@ -1379,7 +1382,7 @@ register mode-specific prompts.
               (message "Could not name gptel chat: summary was empty")
             (r/gptel--save-buffer-to-cache
              (plist-get info :buffer)
-             (concat "Chat-" title ".md"))))))
+             (concat "gptel-" title ".md"))))))
 
     (defun r/gptel--streaming-summary-callback ()
       (let (chunks)
