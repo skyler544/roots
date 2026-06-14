@@ -1368,7 +1368,32 @@ Syntax highlighting for unit files
     :vc (:url "https://github.com/karthink/gptel-agent" :rev :newest)
     :init (with-eval-after-load 'gptel
             (require 'gptel-agent)
-            (gptel-agent-update)))
+            (gptel-agent-update))
+    :config
+    (defun r/gptel-read-only-tools-no-confirm (call)
+      (when (member (plist-get call :name) '("Read" "Grep"))
+          (let* ((args (plist-get call :args))
+             (path (pcase (plist-get call :name)
+                     ("Read" (plist-get args :file_path))
+                     ("Grep" (plist-get args :path))))
+             (buffer (get-buffer (plist-get call :buffer))))
+        (list
+         :confirm
+         (condition-case nil
+             (with-current-buffer buffer
+               (let* ((project (project-current))
+                      (root (file-truename (project-root project)))
+                      (target
+                       (file-truename
+                        (expand-file-name
+                         (substitute-in-file-name path)
+                         default-directory))))
+                 (not (or (file-equal-p target root)
+                          (file-in-directory-p target root)))))
+           (error t))))))
+
+    (add-hook 'gptel-pre-tool-call-functions
+              #'r/gptel-read-only-tools-no-confirm))
 #+END_SRC
 ** Distrobox
 
