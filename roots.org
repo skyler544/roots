@@ -1411,7 +1411,7 @@ register mode-specific prompts.
 **** Prompts
 These prompts are contained in a [[https://github.com/skyler544/prompts][separate repository]]. The idea is to have a
 hierarchy of similar prompts tweaked to specific tasks.
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (unless (getenv "NO_COPILOT")
     (with-eval-after-load 'gptel
       ;; DEFAULTS
@@ -1446,7 +1446,7 @@ hierarchy of similar prompts tweaked to specific tasks.
          (elisp/programming elisp/standards)
          (elisp/refactor elisp/programming)
          (elisp/review elisp/standards)))))
-#+end_src
+#+END_SRC
 ** Distrobox
 
 #+BEGIN_SRC emacs-lisp
