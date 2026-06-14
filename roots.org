@@ -167,6 +167,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     (custom-safe-themes t)
     (custom-unlispify-tag-names nil)
     (disabled-command-function nil)
+    (ffap-machine-p-known 'reject)
     (fill-column 80)
     (global-auto-revert-non-file-buffers t)
     (kill-do-not-save-duplicates t)
