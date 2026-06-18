@@ -415,7 +415,7 @@ specific package.
       (async-shell-command
        (format "%s %s"
                (r/system-open-command)
-               default-directory)))
+               (shell-quote-argument (expand-file-name default-directory)))))
 
     (defun r/enable-mode-maybe (mode state)
       "Enable a mode if we're looking at a real buffer, but not in a
@@ -1037,7 +1037,8 @@ caveats.
       (let ((default-directory (r/project-root)))
         (async-shell-command (format
                               "vendor/bin/phpunit %s"
-                              (r/project-relative-path)))))
+                              (shell-quote-argument
+                               (r/project-relative-path))))))
     (defun r/search-php-manual (query)
       "Search php.net for QUERY, defaulting to thing at point."
       (interactive
@@ -1062,7 +1063,8 @@ caveats.
     (defun r/laravel-test-command (type args)
       (let ((default-directory (r/project-root)))
         (async-shell-command
-         (format "./sail %s test %s %s" type args (r/project-relative-path)))))
+         (format "./sail %s test %s %s" type args
+                 (shell-quote-argument (r/project-relative-path))))))
     (defun r/laravel-test-at-point ()
       (interactive)
       (let* ((default-directory (r/project-root))
@@ -1190,7 +1192,8 @@ technology. This is how I interact with it.
               (interactive)
               (let ((default-directory (r/project-root)))
                 (async-shell-command (format "npm test %s"
-                                             (r/project-relative-path))))))
+                                             (shell-quote-argument
+                                              (r/project-relative-path)))))))
 
   (use-package flymake-eslint
     :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
