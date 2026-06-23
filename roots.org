@@ -1004,6 +1004,12 @@ caveats.
   (use-package highlight-quoted
     :hook (emacs-lisp-mode . highlight-quoted-mode))
 #+END_SRC
+** Debugging
+#+BEGIN_SRC emacs-lisp
+  (use-package dape
+    :hook ((after-init . dape-breakpoint-load)
+           (kill-emacs . dape-breakpoint-save)))
+#+END_SRC
 ** PHP
 
 #+BEGIN_SRC emacs-lisp
@@ -1078,7 +1084,9 @@ caveats.
       (r/laravel-test-command "artisan" "--ansi"))
     (defun r/laravel-debug-test-current-file ()
       (interactive)
-      (r/laravel-test-command "debug" "--ansi"))
+      (let* ((default-directory (r/project-root))
+             (cmd (format "./sail debug test --ansi %s"
+                          (shell-quote-argument (r/project-relative-path)))))))
     (defun r/laravel-test-current-file-with-coverage ()
       (interactive)
       (r/laravel-test-command "artisan" "--ansi --coverage --coverage-html=\"build/coverage/report\""))
@@ -1088,6 +1096,22 @@ caveats.
       (let ((default-directory (r/project-root))
             (file-name (file-name-base (buffer-file-name))))
         (async-shell-command (format "sail artisan model:show %s" file-name)))))
+
+  ;; sail debugging
+  (use-package php-ts-mode :after dape
+    :bind (:map php-ts-mode-map
+                ("C-c cb" . dape-breakpoint-toggle)
+                ("C-c cl" . r/sail-debug-listen))
+    :config
+    (defun r/sail-dape-xdebug-config ()
+      `(:request "launch" :name "Laravel Sail Xdebug" :hostname "0.0.0.0" prefix-local ,(directory-file-name (r/project-root)) prefix-remote "/var/www/html"
+                 (alist-get 'xdebug dape-configs)))
+
+    (defun r/sail-debug-listen ()
+      "Listen for a Laravel Sail Xdebug connection with dape."
+      (interactive)
+      (require 'dape)
+      (dape (r/sail-dape-xdebug-config))))
 #+END_SRC
 ** Make
 This code picks up all the targets from the nearest Makefile and lets you select
