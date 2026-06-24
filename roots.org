@@ -1302,6 +1302,7 @@ Syntax highlighting for unit files
 #+BEGIN_SRC emacs-lisp
   (use-package gptel :unless (getenv "NO_COPILOT")
     :vc (:url "https://github.com/karthink/gptel" :rev :newest)
+    :hook (after-init . r/setup-gptel)
     :bind (("C-c gm" . gptel-menu)
            ("C-c gr" . gptel-rewrite)
            ("C-c gs" . gptel-send)
@@ -1310,8 +1311,9 @@ Syntax highlighting for unit files
     :init (setq gptel--openai-oauth-token-file
                 (no-littering-expand-var-file-name "cache/gptel/openai-oauth-token"))
     :config
-    (setq gptel-model 'gpt-5.4-mini)
-    (setq gptel-backend (gptel-make-openai-oauth "gptel")))
+    (defun r/setup-gptel ()
+      (setq gptel-model 'gpt-5.4-mini)
+      (setq gptel-backend (gptel-make-openai-oauth "gptel"))))
 #+END_SRC
 **** Chat persistence
 
