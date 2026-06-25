@@ -317,17 +317,19 @@ everything else dired is capable of, and there's just no contest.
 #+BEGIN_SRC emacs-lisp
   ;; https://coredumped.dev/2025/06/18/making-tramp-go-brrrr./
   (use-package tramp
+    :hook (after-init . r/setup-tramp)
     :custom ((remote-file-name-inhibit-locks t)
              (tramp-use-scp-direct-remote-copying t)
              (remote-file-name-inhibit-auto-save-visited t)
              (tramp-copy-size-limit (* 1024 1024)))
     :config
-    (connection-local-set-profile-variables
-     'remote-direct-async-process
-     '((tramp-direct-async-process . t)))
-    (connection-local-set-profiles
-     '(:application tramp :protocol "rsync")
-     'remote-direct-async-process))
+    (defun r/setup-tramp ()
+      (connection-local-set-profile-variables
+       'remote-direct-async-process
+       '((tramp-direct-async-process . t)))
+      (connection-local-set-profiles
+       '(:application tramp :protocol "rsync")
+       'remote-direct-async-process)))
 #+END_SRC
 ** Dubious hacks
 This is where I put any purported "performance" code and "fixes", for which I
