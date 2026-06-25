@@ -1100,8 +1100,8 @@ caveats.
   ;; sail debugging
   (use-package php-ts-mode :after dape
     :bind (:map php-ts-mode-map
-                ("C-c cb" . dape-breakpoint-toggle)
-                ("C-c cl" . r/sail-debug-listen))
+                ("C-c db" . dape-breakpoint-toggle)
+                ("C-c dl" . r/sail-debug-listen))
     :config
     (defun r/sail-dape-xdebug-config ()
       `(:request "launch" :name "Laravel Sail Xdebug" :hostname "0.0.0.0" prefix-local ,(directory-file-name (r/project-root)) prefix-remote "/var/www/html"
