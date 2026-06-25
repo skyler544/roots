@@ -1102,8 +1102,12 @@ caveats.
     :commands r/sail-debug-listen
     :config
     (defun r/sail-dape-xdebug-config ()
-      `(:request "launch" :name "Laravel Sail Xdebug" :hostname "0.0.0.0" prefix-local ,(directory-file-name (r/project-root)) prefix-remote "/var/www/html"
-                 (alist-get 'xdebug dape-configs)))
+      `(:request "launch"
+        :name "Laravel Sail Xdebug"
+        :hostname "0.0.0.0"
+        prefix-local ,(directory-file-name (r/project-root))
+        prefix-remote "/var/www/html"
+        ,@(alist-get 'xdebug dape-configs)))
 
     (defun r/sail-debug-listen ()
       "Listen for a Laravel Sail Xdebug connection with dape."
