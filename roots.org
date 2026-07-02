@@ -1024,8 +1024,7 @@ caveats.
     :hook ((php-ts-mode . eglot-ensure)
            (find-file . r/view-mode-in-vendor))
     :bind (:map php-ts-mode-map
-                ("C-c ct" . r/php-test-current-file)
-                ("C-c ss" . r/search-php-manual))
+                ("C-c ct" . r/php-test-current-file))
     :config
     (with-eval-after-load 'apheleia
       (setf (alist-get 'phpcs apheleia-formatters)
@@ -1047,17 +1046,6 @@ caveats.
                               "vendor/bin/phpunit %s"
                               (shell-quote-argument
                                (r/project-relative-path))))))
-    (defun r/search-php-manual (query)
-      "Search php.net for QUERY, defaulting to thing at point."
-      (interactive
-       (let ((thing (thing-at-point 'symbol t)))
-         (list (read-string
-                (if thing
-                    (format "Query (default %s): " thing)
-                  "Query: ")
-                nil nil thing))))
-      (browse-url
-       (format "https://www.php.net/search.php#gsc.q=%s" query)))
     (defun r/view-mode-in-vendor ()
       (when (and buffer-file-name
                  (string-match-p "/vendor/" (expand-file-name buffer-file-name)))
