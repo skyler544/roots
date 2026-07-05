@@ -1105,13 +1105,14 @@ caveats.
       (require 'dape)
       (dape (r/sail-dape-xdebug-config))))
 #+END_SRC
-*** Hacky fix for RET and comma in heredoc/nowdoc
+*** Hacky fix for editing in php-ts-mode in heredoc/nowdoc
 
 #+BEGIN_SRC emacs-lisp
   (use-package php-ts-mode
     :hook (php-ts-mode . r/fix-janky-php-input)
     :config
     (defun r/php-ts--in-heredoc-body-p ()
+      "Check if point is inside a here/now doc."
       (let ((node (treesit-node-at (point))))
         (treesit-parent-until
          node
@@ -1120,27 +1121,26 @@ caveats.
                    '("heredoc_body" "nowdoc_body")))
          t)))
 
-    (defun r/fix-janky-php-input ()
-      (let ((ret-fallback (or (key-binding (kbd "RET") t) #'newline))
-            (comma-fallback (or (key-binding (kbd ",") t) #'self-insert-command)))
-        (local-set-key
-         (kbd "RET")
-         (lambda ()
-           (interactive)
-           (if (r/php-ts--in-heredoc-body-p)
-               (let ((indent (current-indentation)))
-                 (newline)
-                 (indent-to indent))
-             (call-interactively ret-fallback))))
+    (defun r/php-ts--inhibit-electric-indent-in-heredoc (_char)
+      "No electric indent inside here/now doc, it's broken as of 07.05.2026"
+      (when (r/php-ts--in-heredoc-body-p)
+        'no-indent))
 
-        (local-set-key
-         (kbd ",")
-         (lambda ()
-           (interactive)
-           (if (r/php-ts--in-heredoc-body-p)
-               (let ((electric-indent-inhibit t))
-                 (self-insert-command 1))
-             (call-interactively comma-fallback)))))))
+    (defun r/php-ts-newline-dwim ()
+      (interactive)
+      (if (r/php-ts--in-heredoc-body-p)
+          (let ((indent (current-indentation)))
+            ;; manually indents the "right amount" to work around busted behavior
+            (newline)
+            (indent-to indent))
+        (call-interactively #'newline)))
+
+    (defun r/fix-janky-php-input ()
+          "No electric indent and work around RET inside here/now doc, it's broken as of 07.05.2026"
+      (add-hook 'electric-indent-functions
+                #'r/php-ts--inhibit-electric-indent-in-heredoc
+                nil t)
+      (local-set-key (kbd "RET") #'r/php-ts-newline-dwim)))
 #+END_SRC
 ** Documentation
 #+BEGIN_SRC emacs-lisp
