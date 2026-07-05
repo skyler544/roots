@@ -1105,6 +1105,43 @@ caveats.
       (require 'dape)
       (dape (r/sail-dape-xdebug-config))))
 #+END_SRC
+*** Hacky fix for RET and comma in heredoc/nowdoc
+
+#+BEGIN_SRC emacs-lisp
+  (use-package php-ts-mode
+    :hook (php-ts-mode . r/fix-janky-php-input)
+    :config
+    (defun r/php-ts--in-heredoc-body-p ()
+      (let ((node (treesit-node-at (point))))
+        (treesit-parent-until
+         node
+         (lambda (n)
+           (member (treesit-node-type n)
+                   '("heredoc_body" "nowdoc_body")))
+         t)))
+
+    (defun r/fix-janky-php-input ()
+      (let ((ret-fallback (or (key-binding (kbd "RET") t) #'newline))
+            (comma-fallback (or (key-binding (kbd ",") t) #'self-insert-command)))
+        (local-set-key
+         (kbd "RET")
+         (lambda ()
+           (interactive)
+           (if (r/php-ts--in-heredoc-body-p)
+               (let ((indent (current-indentation)))
+                 (newline)
+                 (indent-to indent))
+             (call-interactively ret-fallback))))
+
+        (local-set-key
+         (kbd ",")
+         (lambda ()
+           (interactive)
+           (if (r/php-ts--in-heredoc-body-p)
+               (let ((electric-indent-inhibit t))
+                 (self-insert-command 1))
+             (call-interactively comma-fallback)))))))
+#+END_SRC
 ** Documentation
 #+BEGIN_SRC emacs-lisp
   (use-package dash-docs
