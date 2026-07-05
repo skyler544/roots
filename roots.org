@@ -1146,6 +1146,7 @@ caveats.
 #+BEGIN_SRC emacs-lisp
   (use-package dash-docs
     :init
+    (setq dash-docs-docset-path (expand-file-name "~/.cache/docsets/"))
     (setq dash-docs-common-docsets '("PHP"))
     (setq dash-docs-enable-debugging nil)
     (setq dash-docs-browser-func 'eww))
