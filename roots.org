@@ -1422,6 +1422,7 @@ Syntax highlighting for unit files
   (defun r/distrobox-man ()
     "Open man page for distrobox-wrapped binary."
     (interactive)
+    (require 'man nil :noerror)
     (let* ((scripts (directory-files "~/.local/bin" t "^[^.]"))
            (names (mapcar #'file-name-nondirectory scripts))
            (choice (completing-read "Man page: " names))
