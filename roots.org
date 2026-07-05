@@ -1105,6 +1105,19 @@ caveats.
       (require 'dape)
       (dape (r/sail-dape-xdebug-config))))
 #+END_SRC
+** Documentation
+#+BEGIN_SRC emacs-lisp
+  (use-package dash-docs
+    :init
+    (setq dash-docs-common-docsets '("PHP"))
+    (setq dash-docs-enable-debugging nil)
+    (setq dash-docs-browser-func 'eww))
+
+  (use-package consult-dash :after dash-docs
+    :config
+    (consult-customize consult-dash
+                       :initial (thing-at-point 'symbol)))
+#+END_SRC
 ** Make
 This code picks up all the targets from the nearest Makefile and lets you select
 one of them to run as an ~async-shell-command~.
