@@ -1483,6 +1483,26 @@ Syntax highlighting for unit files
     (add-hook 'gptel-pre-tool-call-functions
               #'r/gptel-read-only-tools-no-confirm))
 #+END_SRC
+*** Agent Shell
+
+#+BEGIN_SRC emacs-lisp
+  (use-package agent-shell :unless (getenv "NO_COPILOT")
+    :commands r/agent-shell-prompt-resume
+    :bind (:map agent-shell-mode-map
+                ("RET" . newline)
+                ("C-c C-c" . shell-maker-submit)
+                ("C-c C-k" . agent-shell-interrupt))
+    :custom
+    (agent-shell-header-style 'text)
+    (agent-shell-show-config-icons nil)
+    (agent-shell-session-strategy 'new)
+    (agent-shell-session-restore-verbosity 'full)
+    :config
+    (defun r/agent-shell-prompt-resume ()
+      (interactive)
+      (let ((agent-shell-session-strategy 'prompt))
+        (agent-shell '(4)))))
+#+END_SRC
 ** Distrobox
 
 #+BEGIN_SRC emacs-lisp
