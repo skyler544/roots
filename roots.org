@@ -919,12 +919,39 @@ terminal applications, but that person isn't me.
 
   ;; Custom behaviors and tweaks
   (use-package emacs
-    :bind ("C-c &" . r/sh-command-at-point)
+    :bind (("M-&" . r/ghostel-shell-command)
+           ("C-x p &" . r/project-ghostel-shell-command)
+           ("C-c &" . r/sh-command-at-point))
     :config
+    (defun r/ghostel-shell-command-buffer-name (command)
+      "Return a shell-command-style ghostel buffer name for COMMAND."
+      (if (boundp 'shell-command-x-buffer-name-function)
+          (funcall shell-command-x-buffer-name-function command t)
+        ghostel-compile-buffer-name))
+
+    (defun r/ghostel-shell-command (command &optional directory)
+      (interactive
+       (list (read-shell-command "Ghostel shell command: "
+                                 nil 'shell-command-history)))
+      (require 'ghostel-compile)
+      (let ((default-directory (or directory default-directory)))
+        (ghostel-compile--start
+         command
+         (r/ghostel-shell-command-buffer-name command)
+         default-directory)))
+
+    (defun r/project-ghostel-shell-command (command)
+      (interactive
+       (let* ((project (project-current t))
+              (default-directory (project-root project)))
+         (list (read-shell-command "Ghostel project shell command: "
+                                   nil 'shell-command-history))))
+      (let ((project (project-current t)))
+        (r/ghostel-shell-command command (project-root project))))
+
     (defun r/sh-command-at-point ()
-      "Run the command at point or in the selected region in the shell."
       (interactive)
-      (async-shell-command
+      (r/ghostel-shell-command
        (if (use-region-p)
            (buffer-substring (region-beginning) (region-end))
          (thing-at-point 'line t)))))
