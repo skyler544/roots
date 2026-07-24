@@ -182,7 +182,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     (dolist (buffer
              '("magit:"
                "\\*help"
-               "\\*shell"
+               "\\*compilation:"
                "\\*Proced"
                "\\*Copilot"
                "CAPTURE-"))
