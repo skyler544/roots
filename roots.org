@@ -896,11 +896,23 @@ terminal applications, but that person isn't me.
           (lambda (name-of-mode)
             (concat "*compilation: " compile-command "*"))))
 
-  (use-package ghostel
+  (use-package ghostel :after devil
     :hook ((after-init . ghostel-compile-global-mode)
            (after-init . ghostel-comint-global-mode))
     :bind (:map ghostel-semi-char-mode-map
-                ("C-z" . nil)))
+                ("C-z" . nil))
+    :config
+    (defun r/devil-literal-comma-space ()
+      (interactive)
+      "Hacky workaround for making devil comma space work in ghostel"
+      (if (derived-mode-p 'ghostel-mode)
+          (ghostel--send-string ", ")
+        (devil-execute-key "%k SPC")))
+
+    (setq devil-special-keys
+          (assoc-delete-all "%k SPC" devil-special-keys))
+    (push (cons "%k SPC" #'r/devil-literal-comma-space)
+          devil-special-keys))
 
   (use-package emacs
     :hook (after-save . executable-make-buffer-file-executable-if-script-p))
