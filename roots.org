@@ -896,15 +896,9 @@ terminal applications, but that person isn't me.
           (lambda (name-of-mode)
             (concat "*compilation: " compile-command "*"))))
 
-  ;; Emulate A Terminal -> eat
-  (use-package eat
-    :hook (eshell-load . eat-eshell-mode)
-    :custom (eat-enable-auto-line-mode t)
-    :bind (:map eat-semi-char-mode-map
-                ("," . nil)
-                ("C-z" . nil)))
-
   (use-package ghostel
+    :hook ((after-init . ghostel-compile-global-mode)
+           (after-init . ghostel-comint-global-mode))
     :bind (:map ghostel-semi-char-mode-map
                 ("C-z" . nil)))
 
@@ -1172,7 +1166,7 @@ one of them to run as an ~async-shell-command~.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
-    :bind ("C-c r" . r/make-run-target)
+    :bind ("C-c r" . r/make-compile-target)
     :config
     (defun r/makefile-targets ()
       (let* ((makefile (locate-dominating-file default-directory "Makefile"))
@@ -1181,31 +1175,14 @@ one of them to run as an ~async-shell-command~.
           (flatten-list (with-current-buffer (find-file-noselect makefile t)
                           (makefile-pickup-targets)
                           makefile-target-table)))))
-    (defun r/make-run-target ()
+
+    (defun r/make-compile-target ()
       (interactive)
       (let ((targets (r/makefile-targets)))
         (if targets
             (let ((target (completing-read "Make: " targets))
                   (default-directory (locate-dominating-file default-directory "Makefile")))
-              (async-shell-command (format "make -k %s" target)
-                                   (format "*Make: %s*" target)))
-          (message "No Makefile targets found."))))
-
-    ;; wip, not quite working yet
-    (defun r/make-run-target-eat ()
-      "Run a Makefile target using `eat-exec'. A keybinding is added for quitting the buffer."
-      (interactive)
-      (require 'eat)
-      (let ((targets (r/makefile-targets)))
-        (if targets
-            (let* ((target (completing-read "Make: " targets))
-                   (buf (get-buffer-create (format "*Make: %s*" target)))
-                   (default-directory (r/project-root)))
-              (with-current-buffer buf
-                (use-local-map (copy-keymap eat-mode-map))
-                (local-set-key (kbd "q") 'quit-window))
-              (pop-to-buffer buf)
-              (eat-exec buf (format "Make: %s" target) "make" nil (list "-k" target)))
+              (compile (format "make -k %s" target)))
           (message "No Makefile targets found.")))))
 #+END_SRC
 ** Docker
