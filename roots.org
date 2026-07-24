@@ -893,8 +893,8 @@ terminal applications, but that person isn't me.
   (use-package compile
     :custom
     (compilation-buffer-name-function
-          (lambda (name-of-mode)
-            (concat "*compilation: " compile-command "*"))))
+     (lambda (name-of-mode)
+       (concat "*compilation: " compile-command "*"))))
 
   (use-package ghostel :after devil
     :hook ((after-init . ghostel-compile-global-mode)
