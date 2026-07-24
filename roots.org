@@ -886,10 +886,6 @@ terminal applications, but that person isn't me.
     (comint-scroll-to-bottom-on-output t)
     (compilation-scroll-output t))
 
-  ;; Improvements to `shell-command' and friends.
-  (use-package shell-command-x
-    :hook (after-init . shell-command-x-mode))
-
   (use-package compile
     :custom
     (compilation-buffer-name-function
@@ -899,8 +895,11 @@ terminal applications, but that person isn't me.
   (use-package ghostel :after devil
     :hook ((after-init . ghostel-compile-global-mode)
            (after-init . ghostel-comint-global-mode))
-    :bind (:map ghostel-semi-char-mode-map
-                ("C-z" . nil))
+    :bind (("M-&" . r/ghostel-shell-command)
+           ("C-x p &" . r/project-ghostel-shell-command)
+           ("C-c &" . r/sh-command-at-point)
+           :map ghostel-semi-char-mode-map
+           ("C-z" . nil))
     :config
     (defun r/devil-literal-comma-space ()
       (interactive)
@@ -912,22 +911,10 @@ terminal applications, but that person isn't me.
     (setq devil-special-keys
           (assoc-delete-all "%k SPC" devil-special-keys))
     (push (cons "%k SPC" #'r/devil-literal-comma-space)
-          devil-special-keys))
+          devil-special-keys)
 
-  (use-package emacs
-    :hook (after-save . executable-make-buffer-file-executable-if-script-p))
-
-  ;; Custom behaviors and tweaks
-  (use-package emacs
-    :bind (("M-&" . r/ghostel-shell-command)
-           ("C-x p &" . r/project-ghostel-shell-command)
-           ("C-c &" . r/sh-command-at-point))
-    :config
     (defun r/ghostel-shell-command-buffer-name (command)
-      "Return a shell-command-style ghostel buffer name for COMMAND."
-      (if (boundp 'shell-command-x-buffer-name-function)
-          (funcall shell-command-x-buffer-name-function command t)
-        ghostel-compile-buffer-name))
+      (concat "*shell: " command "*"))
 
     (defun r/ghostel-shell-command (command &optional directory)
       (interactive
@@ -955,6 +942,9 @@ terminal applications, but that person isn't me.
        (if (use-region-p)
            (buffer-substring (region-beginning) (region-end))
          (thing-at-point 'line t)))))
+
+  (use-package emacs
+    :hook (after-save . executable-make-buffer-file-executable-if-script-p))
 #+END_SRC
 ** Hideshow
 Hideshow is built-in, but does not provide any straightforward way of folding
