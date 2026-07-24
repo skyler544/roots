@@ -893,8 +893,6 @@ terminal applications, but that person isn't me.
        (concat "*compilation: " compile-command "*"))))
 
   (use-package ghostel :after devil
-    :hook ((after-init . ghostel-compile-global-mode)
-           (after-init . ghostel-comint-global-mode))
     :bind (("M-&" . r/ghostel-shell-command)
            ("C-x p &" . r/project-ghostel-shell-command)
            ("C-c &" . r/sh-command-at-point)
@@ -942,6 +940,9 @@ terminal applications, but that person isn't me.
        (if (use-region-p)
            (buffer-substring (region-beginning) (region-end))
          (thing-at-point 'line t)))))
+
+  (use-package ghostel-compile :ensure nil
+    :hook (after-init . ghostel-compile-global-mode))
 
   (use-package emacs
     :hook (after-save . executable-make-buffer-file-executable-if-script-p))
