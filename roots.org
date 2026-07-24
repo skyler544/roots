@@ -898,6 +898,10 @@ terminal applications, but that person isn't me.
                 ("," . nil)
                 ("C-z" . nil)))
 
+  (use-package ghostel
+    :bind (:map ghostel-semi-char-mode-map
+                ("C-z" . nil)))
+
   (use-package emacs
     :hook (after-save . executable-make-buffer-file-executable-if-script-p))
 
