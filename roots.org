@@ -890,6 +890,12 @@ terminal applications, but that person isn't me.
   (use-package shell-command-x
     :hook (after-init . shell-command-x-mode))
 
+  (use-package compile
+    :custom
+    (compilation-buffer-name-function
+          (lambda (name-of-mode)
+            (concat "*compilation: " compile-command "*"))))
+
   ;; Emulate A Terminal -> eat
   (use-package eat
     :hook (eshell-load . eat-eshell-mode)
