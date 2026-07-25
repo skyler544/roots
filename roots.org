@@ -892,13 +892,26 @@ terminal applications, but that person isn't me.
      (lambda (name-of-mode)
        (concat "*compilation: " compile-command "*"))))
 
+  (use-package emacs
+    :hook (after-save . executable-make-buffer-file-executable-if-script-p))
+#+END_SRC
+*** Ghostel
+
+#+BEGIN_SRC emacs-lisp
   (use-package ghostel :after devil
-    :bind (("M-&" . r/ghostel-shell-command)
+    :bind (("C-c &" . r/sh-command-at-point)
+           ("C-c RET" . r/ghostel-dwim)
            ("C-x p &" . r/project-ghostel-shell-command)
-           ("C-c &" . r/sh-command-at-point)
+           ("M-&" . r/ghostel-shell-command)
            :map ghostel-semi-char-mode-map
            ("C-z" . nil))
     :config
+    (defun r/ghostel-dwim ()
+      (interactive)
+      (if (project-current)
+          (ghostel-project)
+        (ghostel)))
+
     (defun r/devil-literal-comma-space ()
       (interactive)
       "Hacky workaround for making devil comma space work in ghostel"
@@ -943,9 +956,6 @@ terminal applications, but that person isn't me.
 
   (use-package ghostel-compile :ensure nil
     :hook (after-init . ghostel-compile-global-mode))
-
-  (use-package emacs
-    :hook (after-save . executable-make-buffer-file-executable-if-script-p))
 #+END_SRC
 ** Hideshow
 Hideshow is built-in, but does not provide any straightforward way of folding
