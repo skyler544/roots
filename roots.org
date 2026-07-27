@@ -1232,25 +1232,6 @@ one of them to run as an ~async-shell-command~.
   (use-package dockerfile-ts-mode
     :mode ("Dockerfile$" "Containerfile$"))
 #+END_SRC
-** Java
-
-#+BEGIN_SRC emacs-lisp
-  (use-package eglot
-    :hook ((java-ts-mode . eglot-ensure)
-           (java-ts-mode . visual-line-mode))
-    :config
-    (let* ((lombok-path (string-trim
-                         (shell-command-to-string
-                          "find ~/.m2 -type f -name 'lombok*.jar' | head -n 1")))
-           (java-agent (concat "--jvm-arg=-javaagent:" lombok-path)))
-      (setcdr (assoc '(java-mode java-ts-mode) eglot-server-programs)
-              `("jdtls" ,java-agent)))
-    (with-eval-after-load 'apheleia
-      (setf (alist-get 'google-java-format apheleia-formatters)
-            `("clang-format" "-assume-filename"
-              ,(apheleia-formatters-local-buffer-file-name)))))
-
-#+END_SRC
 ** C
 #+BEGIN_SRC emacs-lisp
   (use-package c-ts-mode
