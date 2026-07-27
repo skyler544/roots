@@ -1275,9 +1275,6 @@ technology. This is how I interact with it.
   (use-package dotenv-mode
     :mode "\\.env\\.testing")
 
-  (use-package js
-    :custom (js-indent-level 2))
-
   (use-package typescript-ts-mode
     :mode "\\.ts$"
     :hook (typescript-ts-mode . eglot-ensure)
