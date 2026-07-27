@@ -1071,6 +1071,10 @@ caveats.
     :bind (:map php-ts-mode-map
                 ("C-c ct" . r/php-test-current-file))
     :config
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '(php-ts-mode . ("phpantom_lsp"))))
+
     (with-eval-after-load 'apheleia
       (setf (alist-get 'phpcs apheleia-formatters)
             '("composer" "--no-interaction"
