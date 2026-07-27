@@ -374,14 +374,6 @@ specific package.
       "Return the path to the current file relative to the project root."
       (file-relative-name buffer-file-name (r/project-root)))
 
-    (defun r/sudo-async-shell-command (&optional command)
-      (interactive)
-      (if command
-          (r/sudo (lambda ()
-                    (interactive)
-                    (async-shell-command command)))
-        (r/sudo #'async-shell-command)))
-
     (defun r/sudo-find-file ()
       (interactive)
       (r/sudo #'find-file))
@@ -899,6 +891,7 @@ terminal applications, but that person isn't me.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ghostel :after devil
+    :commands r/sudo-ghostel-shell-command
     :bind (("C-c &" . r/sh-command-at-point)
            ("C-c RET" . r/ghostel-dwim)
            ("C-x p &" . r/project-ghostel-shell-command)
@@ -952,7 +945,15 @@ terminal applications, but that person isn't me.
       (r/ghostel-shell-command
        (if (use-region-p)
            (buffer-substring (region-beginning) (region-end))
-         (thing-at-point 'line t)))))
+         (thing-at-point 'line t))))
+
+    (defun r/sudo-ghostel-shell-command (&optional command)
+      (interactive)
+      (if command
+          (r/sudo (lambda ()
+                    (interactive)
+                    (r/ghostel-shell-command command)))
+        (r/sudo #'r/ghostel-shell-command))))
 
   (use-package ghostel-compile :ensure nil
     :hook (after-init . ghostel-compile-global-mode))
