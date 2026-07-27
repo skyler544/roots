@@ -183,6 +183,7 @@ These settings are essentially subjective, but serve to disable some annoyances
              '("magit:"
                "\\*help"
                "\\*compilation:"
+               "\\*shell:"
                "\\*Proced"
                "\\*Copilot"
                "CAPTURE-"))
