@@ -20,7 +20,7 @@
 (setq load-prefer-newer noninteractive)
 
 ;; don't redisplay during init
-(add-hook 'emacs-startup-hook
+(add-hook 'after-init-hook
           (lambda ()
             (setq-default inhibit-redisplay nil)
             (setq-default inhibit-message nil)))
