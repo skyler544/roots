@@ -670,6 +670,10 @@ This section defines my capture and agenda workflow.
           (save-buffer))))
 
     :custom
+    (org-directory "~/mega/org/")
+    (org-default-notes-file (concat org-directory "backlog.org"))
+    (org-archive-location "archive/%s_archive::")
+
     (org-agenda-files (list org-directory))
     (org-agenda-span 10)
     (org-agenda-start-day "-3d")
@@ -687,10 +691,6 @@ This section defines my capture and agenda workflow.
     (org-refile-targets
      '((nil :maxlevel . 3)
        (org-agenda-files :maxlevel . 2)))
-
-    (org-directory "~/mega/org/")
-    (org-default-notes-file (concat org-directory "backlog.org"))
-    (org-archive-location "archive/%s_archive::")
 
     (org-capture-templates
      '(("t" "Todo" entry (file "backlog.org")
