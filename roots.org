@@ -171,7 +171,6 @@ These settings are essentially subjective, but serve to disable some annoyances
     (fill-column 80)
     (global-auto-revert-non-file-buffers t)
     (kill-do-not-save-duplicates t)
-    (load-prefer-newer noninteractive)
     (native-comp-async-report-warnings-errors nil)
     (ring-bell-function 'ignore)
     (save-interprogram-paste-before-kill t)

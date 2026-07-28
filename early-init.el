@@ -17,7 +17,7 @@
   (setq gc-cons-threshold most-positive-fixnum)
   (setq file-name-handler-alist nil))
 (setq inhibit-default-init t)
-(setq load-prefer-newer t)
+(setq load-prefer-newer noninteractive)
 
 ;; don't redisplay during init
 (add-hook 'emacs-startup-hook
