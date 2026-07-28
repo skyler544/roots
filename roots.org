@@ -1068,8 +1068,6 @@ caveats.
     :mode "\\.php$"
     :hook ((php-ts-mode . eglot-ensure)
            (php-ts-mode . r/view-mode-in-vendor))
-    :bind (:map php-ts-mode-map
-                ("C-c ct" . r/php-test-current-file))
     :config
     (with-eval-after-load 'eglot
       (add-to-list 'eglot-server-programs
@@ -1082,58 +1080,67 @@ caveats.
                                "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
         (setf (alist-get 'phpcs apheleia-formatters) format-command)))
 
-    (defun r/php-function-name-at-point ()
-      (let ((def (thing-at-point 'defun)))
-        (when (and def (string-match "function\\s-+\\([A-Za-z0-9_]+\\)" def))
-          (match-string 1 def))))
-
-    (defun r/php-test-current-file ()
-      (interactive)
-      (let ((default-directory (r/project-root)))
-        (async-shell-command (format
-                              "vendor/bin/phpunit %s"
-                              (shell-quote-argument
-                               (r/project-relative-path))))))
     (defun r/view-mode-in-vendor ()
       (when (and buffer-file-name
                  (string-match-p "/vendor/" (expand-file-name buffer-file-name)))
-        (view-mode))))
+        (view-mode)))
 
-  ;; laravel stuff
-  (use-package php-ts-mode
-    :bind (:map php-ts-mode-map
-                ("C-c cd" . r/laravel-debug-test-current-file))
-    :config
-    (defun r/laravel-test-command (type args)
-      (let ((default-directory (r/project-root)))
-        (async-shell-command
-         (format "./sail %s test %s %s" type args
-                 (shell-quote-argument (r/project-relative-path))))))
-    (defun r/laravel-test-at-point ()
-      (interactive)
-      (let* ((default-directory (r/project-root))
-             (class (file-name-base (buffer-name)))
-             (method (r/php-function-name-at-point))
-             (filter (concat class "::" method))
-             (cmd (format "./sail artisan test --filter %s" (shell-quote-argument filter))))
-        (async-shell-command cmd)))
-    (defun r/laravel-test-current-file ()
-      (interactive)
-      (r/laravel-test-command "artisan" "--ansi"))
-    (defun r/laravel-debug-test-current-file ()
-      (interactive)
-      (let* ((default-directory (r/project-root))
-             (cmd (format "./sail debug test --ansi %s"
-                          (shell-quote-argument (r/project-relative-path)))))))
-    (defun r/laravel-test-current-file-with-coverage ()
-      (interactive)
-      (r/laravel-test-command "artisan" "--ansi --coverage --coverage-html=\"build/coverage/report\""))
     (defun r/sail-artisan-model-show ()
       "If the currently visited buffer is an eloquent model, run sail artisan model:show on it."
       (interactive)
       (let ((default-directory (r/project-root))
             (file-name (file-name-base (buffer-file-name))))
         (async-shell-command (format "sail artisan model:show %s" file-name)))))
+
+  ;; running tests
+  (use-package php-ts-mode
+    :bind (:map php-ts-mode-map
+                ("C-c ct" . r/php-test-current-file)
+                ("C-c cT" . r/php-test-at-point))
+    :config
+    (defvar r/php-test-command-function #'r/phpunit-test-command)
+    (defvar r/php-test-at-point-command-function #'r/phpunit-test-at-point-command)
+
+    (defun r/phpunit-test-command (file)
+      (format "vendor/bin/phpunit %s"
+              (shell-quote-argument file)))
+
+    (defun r/phpunit-test-at-point-command ()
+      (interactive)
+      (format "vendor/bin/phpunit --filter %s"
+              (shell-quote-argument (r/php-test-at-point-filter))))
+
+    (defun r/laravel-test-command (file)
+      (format "./sail artisan test %s"
+              (shell-quote-argument file)))
+
+    (defun r/laravel-test-at-point-command ()
+      (interactive)
+      (format "./sail artisan test --filter %s"
+              (shell-quote-argument (r/php-test-at-point-filter))))
+
+    (defun r/php-test-current-file ()
+      (interactive)
+      (let* ((default-directory (r/project-root))
+             (file (r/project-relative-path))
+             (command (funcall r/php-test-command-function file)))
+        (r/ghostel-shell-command command)))
+
+    (defun r/php-test-at-point ()
+      (interactive)
+      (let* ((default-directory (r/project-root))
+             (command (funcall r/php-test-at-point-command-function)))
+        (r/ghostel-shell-command command)))
+
+    (defun r/php-function-name-at-point ()
+      (let ((def (thing-at-point 'defun)))
+        (when (and def (string-match "function\\s-+\\([A-Za-z0-9_]+\\)" def))
+          (match-string 1 def))))
+
+    (defun r/php-test-at-point-filter ()
+      (let* ((class (file-name-base (buffer-name)))
+             (method (r/php-function-name-at-point)))
+        (concat class "::" method))))
 
   ;; sail debugging
   (use-package php-ts-mode :after dape
