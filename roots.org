@@ -221,17 +221,21 @@ be created and the file should be put there.
   (use-package emacs
     :hook (after-init . r/advise-file-operations)
     :config
-    (defun r/make-directory-if-not-exists (&rest r)
-      "Create parent directory if not exists while operating on `FILENAME' in `R'."
-      (dolist (filename r)
-        (when (stringp filename)
-          (make-directory (file-name-directory filename) t))))
+    (defun r/make-parent-directory (filename)
+      "Create FILENAME's parent directory when necessary."
+      (when-let ((parent (file-name-directory filename)))
+        (make-directory parent t)))
+
+    (defun r/advise-find-file (filename &rest _)
+      (r/make-parent-directory filename))
+
+    (defun r/advise-copy-or-rename-file (_source destination &rest _)
+      (r/make-parent-directory destination))
 
     (defun r/advise-file-operations ()
-      (dolist (f '(find-file copy-file rename-file))
-        (advice-add f :before
-                    (lambda (&rest r)
-                      (apply #'r/make-directory-if-not-exists r))))))
+      (advice-add 'find-file :before #'r/advise-find-file)
+      (advice-add 'copy-file :before #'r/advise-copy-or-rename-file)
+      (advice-add 'rename-file :before #'r/advise-copy-or-rename-file)))
 #+END_SRC
 ** Helpful
 
