@@ -1252,8 +1252,6 @@ one of them to run as an ~async-shell-command~.
     :custom (go-ts-mode-indent-offset 4))
 #+END_SRC
 ** JS/TS
-The Javascript/Typescript landscape is a huge maze of both awesome and terrible
-technology. This is how I interact with it.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dot-env)
@@ -1262,21 +1260,12 @@ technology. This is how I interact with it.
 
   (use-package typescript-ts-mode
     :mode "\\.ts$"
-    :hook (typescript-ts-mode . eglot-ensure)
-    :bind (:map typescript-ts-mode-map
-                ("C-c ct" . r/js-ts-test-current-file))
-    :config (defun r/js-ts-test-current-file ()
-              (interactive)
-              (let ((default-directory (r/project-root)))
-                (async-shell-command (format "npm test %s"
-                                             (shell-quote-argument
-                                              (r/project-relative-path)))))))
+    :hook (typescript-ts-mode . eglot-ensure))
 
   (use-package flymake-eslint
     :hook (eglot-managed-mode . r/flymake-eslint-enable-maybe)
     :config (defun r/flymake-eslint-enable-maybe ()
-              (when (-any (lambda (mode) (eq major-mode mode))
-                          '(typescript-ts-mode js-ts-mode))
+              (when (memq major-mode '(typescript-ts-mode js-ts-mode))
                 (flymake-eslint-enable))))
 #+END_SRC
 ** LaTeX
