@@ -1214,8 +1214,8 @@ one of them to run as an ~async-shell-command~.
     :bind ("C-c r" . r/make-compile-target)
     :config
     (defun r/makefile-targets ()
-      (let* ((makefile (locate-dominating-file default-directory "Makefile"))
-             (makefile (expand-file-name "Makefile" makefile)))
+      (let* ((makefile-dir (locate-dominating-file default-directory "Makefile"))
+             (makefile (expand-file-name "Makefile" makefile-dir)))
         (when (and makefile (file-exists-p makefile))
           (flatten-list (with-current-buffer (find-file-noselect makefile t)
                           (makefile-pickup-targets)
