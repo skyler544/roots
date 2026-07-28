@@ -1067,7 +1067,7 @@ caveats.
   (use-package php-ts-mode
     :mode "\\.php$"
     :hook ((php-ts-mode . eglot-ensure)
-           (find-file . r/view-mode-in-vendor))
+           (php-ts-mode . r/view-mode-in-vendor))
     :bind (:map php-ts-mode-map
                 ("C-c ct" . r/php-test-current-file))
     :config
