@@ -1076,12 +1076,11 @@ caveats.
                    '(php-ts-mode . ("phpantom_lsp"))))
 
     (with-eval-after-load 'apheleia
-      (setf (alist-get 'phpcs apheleia-formatters)
-            '("composer" "--no-interaction"
-              (concat "--working-dir=" (expand-file-name (locate-dominating-file
-                                                          default-directory
-                                                          "composer.json")))
-              "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
+      (let* ((composer-dir (locate-dominating-file default-directory "composer.json"))
+             (working-dir (concat "--working-dir=" (expand-file-name composer-dir)))
+             (format-command `("composer" "--no-interaction" ,working-dir
+                               "exec" "php-cs-fixer" "fix" "--quiet" (buffer-file-name))))
+        (setf (alist-get 'phpcs apheleia-formatters) format-command)))
 
     (defun r/php-function-name-at-point ()
       (let ((def (thing-at-point 'defun)))
