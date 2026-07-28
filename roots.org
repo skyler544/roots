@@ -1205,10 +1205,24 @@ caveats.
     (setq dash-docs-enable-debugging nil)
     (setq dash-docs-browser-func 'eww))
 
-  (use-package consult-dash :after dash-docs
+  (use-package consult-dash
+    :bind ("C-c cd" . r/consult-dash)
     :config
-    (consult-customize consult-dash
-                       :initial (thing-at-point 'symbol)))
+    (defun r/consult-dash-docsets ()
+      (append consult-dash-docsets
+              (and (boundp 'dash-docs-docsets) dash-docs-docsets)
+              dash-docs-common-docsets
+              (dash-docs-installed-docsets)))
+
+    (defun r/consult-dash (&optional narrow)
+      (interactive "P")
+      (if narrow
+          (let* ((docset (dash-docs-read-docset "Search docset" (r/consult-dash-docsets)))
+                 (dash-docs-common-docsets nil)
+                 (dash-docs-docsets nil)
+                 (consult-dash-docsets (list docset)))
+            (consult-dash))
+        (consult-dash))))
 #+END_SRC
 ** Make
 This code picks up all the targets from the nearest Makefile and lets you select
