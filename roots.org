@@ -1060,9 +1060,6 @@ caveats.
 ** PHP
 
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-    :mode ("\\.twig$" "\\.blade\\.php$"))
-
   ;; php base config
   (use-package php-ts-mode
     :mode "\\.php$"
@@ -1159,6 +1156,14 @@ caveats.
       (interactive)
       (require 'dape)
       (dape (r/sail-dape-xdebug-config))))
+
+  ;; templates
+  (use-package web-mode
+    :init
+    (setq auto-mode-alist
+          (cons '("\\.blade\\.php\\'" . web-mode)
+                (assoc-delete-all "\\.blade\\.php\\'"
+                                  auto-mode-alist))))
 #+END_SRC
 *** Hacky fix for editing in php-ts-mode in heredoc/nowdoc
 
