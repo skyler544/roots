@@ -1196,7 +1196,7 @@ caveats.
   (use-package dash-docs
     :init
     (setq dash-docs-docsets-path (expand-file-name "~/.cache/docsets/"))
-    (setq dash-docs-common-docsets '("PHP" "PHPUnit" "Laravel"))
+    (setq dash-docs-common-docsets '("PHP" "PHPUnit" "Laravel" "VueJS_(Composition)"))
     (setq dash-docs-enable-debugging nil)
     (setq dash-docs-browser-func 'eww))
 
