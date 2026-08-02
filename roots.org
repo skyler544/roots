@@ -1286,6 +1286,16 @@ one of them to run as an ~async-shell-command~.
     :config (defun r/flymake-eslint-enable-maybe ()
               (when (memq major-mode '(typescript-ts-mode js-ts-mode))
                 (flymake-eslint-enable))))
+
+  ;; work around problem with apheleia-npx
+  (use-package json-ts-mode :ensure nil
+    :config
+    (with-eval-after-load 'apheleia
+      (setf (alist-get 'prettier-json apheleia-formatters)
+            '("prettier"
+              "--stdin-filepath" filepath
+              "--parser=json"
+              (apheleia-formatters-js-indent "--use-tabs" "--tab-width")))))
 #+END_SRC
 ** LaTeX
 Syntax highlighting and build tools for LaTeX.
