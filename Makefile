@@ -3,7 +3,6 @@ EARLY  := --load 'early-init.el'
 INIT   := --load 'init.el'
 TANGLE := "(progn (require 'ob-tangle) \
 				  (org-babel-tangle-file \"roots.org\"))"
-TERM   := "(use-package eat :ensure :config (eat-compile-terminfo))"
 PHP    := "(use-package php-ts-mode \
 			  :config (php-ts-mode-install-parsers))"
 TS     := "(use-package treesit-auto :demand \
@@ -14,10 +13,7 @@ all: run
 
 shave: package-clean clean treesit-clean install run
 
-install: retangle eat treesit-install php install-all run
-
-eat:
-	$(EMACS) --batch --eval $(TERM)
+install: retangle treesit-install php install-all run
 
 treesit-install:
 	$(EMACS) --batch $(EARLY) --eval $(TS)
