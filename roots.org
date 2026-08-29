@@ -1504,6 +1504,8 @@ Syntax highlighting for unit files
                 ("RET" . newline)
                 ("C-c C-c" . shell-maker-submit)
                 ("C-c C-k" . agent-shell-interrupt))
+    :hook (agent-shell-mode . (lambda ()
+                                (visual-wrap-prefix-mode -1)))
     :custom
     (agent-shell-header-style 'text)
     (agent-shell-show-config-icons nil)
