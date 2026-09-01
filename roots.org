@@ -859,6 +859,7 @@ quite nicely, other than occasional breakage of the grammars.
                       (javascript-mode . js-ts-mode)
                       (js-json-mode . json-ts-mode)
                       (mhtml-mode . html-ts-mode)
+                      (python-mode . python-ts-mode)
                       (sh-mode . bash-ts-mode)))))
 #+END_SRC
 ** Dumb Jump
@@ -1194,6 +1195,16 @@ caveats.
     (defun r/setup-php-ts-indentation ()
       (add-hook 'electric-indent-functions #'r/php-ts--inhibit-electric-indent nil t)
       (local-set-key (kbd "RET") #'r/php-ts-newline-dwim)))
+#+END_SRC
+** Python
+
+#+BEGIN_SRC emacs-lisp
+  (use-package python-ts-mode :ensure nil
+    :hook (python-ts-mode . eglot-ensure)
+    :config
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '(python-ts-mode . ("basedpyright-langserver" "--stdio")))))
 #+END_SRC
 ** Documentation
 #+BEGIN_SRC emacs-lisp
