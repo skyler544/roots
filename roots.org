@@ -902,7 +902,10 @@ terminal applications, but that person isn't me.
            ("C-x p &" . r/project-ghostel-shell-command)
            ("M-&" . r/ghostel-shell-command)
            :map ghostel-semi-char-mode-map
-           ("C-z" . nil))
+           ("M-&" . nil)
+           ("C-z" . nil)
+           :map ghostel-char-mode-map
+           ("M-&" . nil))
     :config
     (defun r/ghostel-dwim ()
       (interactive)
