@@ -906,6 +906,10 @@ terminal applications, but that person isn't me.
            ("C-z" . nil)
            :map ghostel-char-mode-map
            ("M-&" . nil))
+    :custom
+    (ghostel-mark-activation-input-mode nil)
+    (ghostel-mouse-drag-input-mode nil)
+    (ghostel-point-leave-input-mode nil)
     :config
     (defun r/ghostel-dwim ()
       (interactive)
