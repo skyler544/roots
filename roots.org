@@ -926,7 +926,10 @@ terminal applications, but that person isn't me.
           devil-special-keys)
 
     (defun r/ghostel-shell-command-buffer-name (command)
-      (concat "*shell: " command "*"))
+      (require 'subr-x nil :no-error)
+      (concat "*shell: "
+              (string-limit (string-clean-whitespace command) 72)
+              "*"))
 
     (defun r/ghostel-shell-command (command &optional directory)
       (interactive
