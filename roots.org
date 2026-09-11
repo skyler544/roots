@@ -929,11 +929,13 @@ terminal applications, but that person isn't me.
     (push (cons "%k SPC" #'r/devil-literal-comma-space)
           devil-special-keys)
 
-    (defun r/ghostel-shell-command-buffer-name (command)
-      (require 'subr-x nil :no-error)
-      (concat "*shell: "
-              (string-limit (string-clean-whitespace command) 72)
-              "*"))
+     (defun r/ghostel-shell-command-buffer-name (command &optional directory)
+       (require 'subr-x nil :no-error)
+       (let ((dir (file-name-nondirectory
+                   (directory-file-name (or directory default-directory)))))
+         (concat "*" dir ": "
+                 (string-limit (string-clean-whitespace command) 72)
+                 "*")))
 
     (defun r/ghostel-shell-command (command &optional directory)
       (interactive
@@ -943,17 +945,17 @@ terminal applications, but that person isn't me.
       (let ((default-directory (or directory default-directory)))
         (ghostel-compile--start
          command
-         (r/ghostel-shell-command-buffer-name command)
+         (r/ghostel-shell-command-buffer-name command default-directory)
          default-directory)))
 
-    (defun r/project-ghostel-shell-command (command)
+    (defun r/project-ghostel-shell-command (command &optional directory)
       (interactive
-       (let* ((project (project-current t))
-              (default-directory (project-root project)))
-         (list (read-shell-command "Ghostel project shell command: "
-                                   nil 'shell-command-history))))
-      (let ((project (project-current t)))
-        (r/ghostel-shell-command command (project-root project))))
+       (let* ((root (project-root (project-current t))))
+         (list (let ((default-directory root))
+                 (read-shell-command "Ghostel project shell command: "
+                                     nil 'shell-command-history))
+               root)))
+      (r/ghostel-shell-command command directory))
 
     (defun r/sh-command-at-point ()
       (interactive)
