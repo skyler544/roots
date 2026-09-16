@@ -175,14 +175,16 @@ These settings are essentially subjective, but serve to disable some annoyances
     (ring-bell-function 'ignore)
     (save-interprogram-paste-before-kill t)
     (uniquify-buffer-name-style 'forward)
-    (warning-minimum-level :error)
-
+    (warning-minimum-level :error))
+#+END_SRC
+** Buffer Display
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
     :config
     (dolist (buffer
              '("magit:"
                "\\*help"
-               "\\*compilation:"
-               "\\*shell:"
+               "\\`\\*[^*:]+: "
                "\\*Proced"
                "\\*Copilot"
                "CAPTURE-"))
