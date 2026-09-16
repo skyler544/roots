@@ -371,6 +371,11 @@ specific package.
                      (expand-file-name default-directory))))
         (call-interactively command)))
 
+    (defun r/directory-name (&optional directory)
+      "Return the last component of DIRECTORY, defaulting to `default-directory'."
+      (file-name-nondirectory
+       (directory-file-name (or directory default-directory))))
+
     (defun r/project-root ()
       "Return the current project root."
       (require 'project)
@@ -889,7 +894,7 @@ terminal applications, but that person isn't me.
     :custom
     (compilation-buffer-name-function
      (lambda (name-of-mode)
-       (concat "*compilation: " compile-command "*"))))
+       (concat "*" (r/directory-name) ": " compile-command "*"))))
 
   (use-package emacs
     :hook (after-save . executable-make-buffer-file-executable-if-script-p))
@@ -931,13 +936,11 @@ terminal applications, but that person isn't me.
     (push (cons "%k SPC" #'r/devil-literal-comma-space)
           devil-special-keys)
 
-     (defun r/ghostel-shell-command-buffer-name (command &optional directory)
-       (require 'subr-x nil :no-error)
-       (let ((dir (file-name-nondirectory
-                   (directory-file-name (or directory default-directory)))))
-         (concat "*" dir ": "
-                 (string-limit (string-clean-whitespace command) 72)
-                 "*")))
+    (defun r/ghostel-shell-command-buffer-name (command &optional directory)
+      (require 'subr-x nil :no-error)
+      (concat "*" (r/directory-name directory) ": "
+              (string-limit (string-clean-whitespace command) 72)
+              "*"))
 
     (defun r/ghostel-shell-command (command &optional directory)
       (interactive
