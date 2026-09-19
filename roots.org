@@ -918,11 +918,11 @@ terminal applications, but that person isn't me.
     (ghostel-mouse-drag-input-mode nil)
     (ghostel-point-leave-input-mode nil)
     :config
-    (defun r/ghostel-dwim ()
-      (interactive)
+    (defun r/ghostel-dwim (&optional new-buffer)
+      (interactive "P")
       (if (project-current)
-          (ghostel-project)
-        (ghostel)))
+          (ghostel-project new-buffer)
+        (ghostel new-buffer)))
 
     (defun r/devil-literal-comma-space ()
       (interactive)
