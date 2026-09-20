@@ -1281,7 +1281,7 @@ one of them to run as an ~async-shell-command~.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-ts-mode
-    :mode ("Dockerfile$" "Containerfile$"))
+    :mode ("Dockerfile" "Containerfile"))
 #+END_SRC
 ** C
 #+BEGIN_SRC emacs-lisp
