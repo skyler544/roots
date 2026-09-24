@@ -1590,7 +1590,8 @@ Syntax highlighting for unit files
 ** Nix
 
 #+begin_src emacs-lisp
-  (use-package nix-ts-mode)
+  (use-package nix-ts-mode
+    :mode "\\.nix")
 #+end_src
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
