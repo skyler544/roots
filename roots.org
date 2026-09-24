@@ -183,6 +183,7 @@ These settings are essentially subjective, but serve to disable some annoyances
     :config
     (dolist (buffer
              '("magit:"
+               "magit-revision:"
                "\\*help"
                "\\`\\*[^*:]+: "
                "\\*Proced"
