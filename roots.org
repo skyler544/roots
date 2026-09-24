@@ -1578,6 +1578,11 @@ Syntax highlighting for unit files
       (when (re-search-forward "name: \\([^\n]+\\)" nil t)
         (match-string 1))))
 #+END_SRC
+** Nix
+
+#+begin_src emacs-lisp
+  (use-package nix-ts-mode)
+#+end_src
 * UI
 This section enables themes, tweaks font faces, adds icons, etc. This section is
 not as important as the actual functionality and should be considered a layer of
