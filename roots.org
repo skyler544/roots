@@ -1142,18 +1142,27 @@ caveats.
       (format "./sail artisan test --filter %s"
               (shell-quote-argument (r/php-test-at-point-filter))))
 
-    (defun r/php-test-current-file ()
-      (interactive)
-      (let* ((default-directory (r/project-root))
-             (file (r/project-relative-path))
-             (command (funcall r/php-test-command-function file)))
+    (defun r/php-run-test-command (command &optional other-window)
+      (let ((default-directory (r/project-root))
+            (display-buffer-overriding-action
+             (if other-window
+                 '((display-buffer-use-some-window display-buffer-pop-up-window)
+                   (inhibit-same-window . t))
+               display-buffer-overriding-action)))
         (r/ghostel-shell-command command)))
 
-    (defun r/php-test-at-point ()
-      (interactive)
-      (let* ((default-directory (r/project-root))
-             (command (funcall r/php-test-at-point-command-function)))
-        (r/ghostel-shell-command command)))
+    (defun r/php-test-current-file (&optional other-window)
+      (interactive "P")
+      (let ((default-directory (r/project-root)))
+        (r/php-run-test-command
+         (funcall r/php-test-command-function (r/project-relative-path))
+         other-window)))
+
+    (defun r/php-test-at-point (&optional other-window)
+      (interactive "P")
+      (r/php-run-test-command
+       (funcall r/php-test-at-point-command-function)
+       other-window))
 
     (defun r/php-function-name-at-point ()
       (let ((def (thing-at-point 'defun)))
