@@ -918,6 +918,7 @@ terminal applications, but that person isn't me.
     (ghostel-mark-activation-input-mode nil)
     (ghostel-mouse-drag-input-mode nil)
     (ghostel-point-leave-input-mode nil)
+    (ghostel-buffer-identification-format nil)
     :config
     (defun r/ghostel-dwim (&optional new-buffer)
       (interactive "P")
