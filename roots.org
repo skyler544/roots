@@ -1545,7 +1545,7 @@ Syntax highlighting for unit files
 
 #+BEGIN_SRC emacs-lisp
   (use-package agent-shell :unless (getenv "NO_COPILOT")
-    :commands r/agent-shell-prompt-resume
+    :commands r/agent-shell-resume
     :bind (:map agent-shell-mode-map
                 ("RET" . newline)
                 ("C-c C-c" . shell-maker-submit)
@@ -1558,7 +1558,7 @@ Syntax highlighting for unit files
     (agent-shell-session-strategy 'new)
     (agent-shell-session-restore-verbosity 'full)
     :config
-    (defun r/agent-shell-prompt-resume ()
+    (defun r/agent-shell-resume ()
       (interactive)
       (let ((agent-shell-session-strategy 'prompt))
         (agent-shell '(4)))))
