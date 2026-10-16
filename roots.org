@@ -1114,7 +1114,7 @@ caveats.
       (interactive)
       (let ((default-directory (r/project-root))
             (file-name (file-name-base (buffer-file-name))))
-        (async-shell-command (format "sail artisan model:show %s" file-name)))))
+        (r/ghostel-shell-command (format "sail artisan model:show %s" file-name)))))
 
   ;; running tests
   (use-package php-ts-mode
