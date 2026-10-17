@@ -933,23 +933,19 @@ terminal applications, but that person isn't me.
     (ghostel-buffer-identification-format nil)
     :config
     (defun r/ghostel-notify (title body)
-      (alert body :title title))
+      (alert body :title title :icon "utilities-terminal-symbolic"))
 
     (defun r/ghostel-compile-notify (buffer status)
       (unless (ghostel--buffer-focused-p buffer)
         (r/ghostel-notify
-         "Command finished"
-         (format "%s: %s"
-                 (buffer-name buffer)
-                 (string-trim status)))))
+         (buffer-name buffer)
+         (string-trim status))))
 
     (defun r/ghostel-command-notify (buffer status)
       (unless (ghostel--buffer-focused-p buffer)
         (r/ghostel-notify
-         "Command finished"
-         (format "%s exited with status %s"
-                 (buffer-name buffer)
-                 (or status "unknown")))))
+         (buffer-name buffer)
+         (format "Exit status: %s" (or status "unknown")))))
 
     (add-hook 'ghostel-command-finish-functions
               #'r/ghostel-command-notify)
