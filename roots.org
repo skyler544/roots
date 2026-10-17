@@ -188,6 +188,7 @@ These settings are essentially subjective, but serve to disable some annoyances
                "\\`\\*[^*:]+: "
                "\\*Proced"
                "\\*ghostel:"
+               "\\*gptel"
                "CAPTURE-"))
       (add-to-list 'display-buffer-alist
                    `(,buffer display-buffer-same-window))))
@@ -711,7 +712,7 @@ This section defines my capture and agenda workflow.
         "* TODO %i\n** Actions [/]\n** Notes"
         :immediate-finish t)
        ("y" "Yakshaving" entry (file "backlog.org")
-        "* TODO %? :yakshaving:\n** Actions [/]\n** Notes")
+        "* %? \n** Actions [/]\n** Notes")
        ("j" "Journal" plain (file+olp+datetree "journal.org")
         "%?\n---")
        ("f" "Feature" entry (file "backlog.org")
