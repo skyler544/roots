@@ -912,6 +912,9 @@ terminal applications, but that person isn't me.
 *** Ghostel
 
 #+BEGIN_SRC emacs-lisp
+  (use-package alert
+    :custom (alert-default-style 'libnotify))
+
   (use-package ghostel :after devil
     :commands r/sudo-ghostel-shell-command
     :bind (("C-c &" . r/sh-command-at-point)
@@ -929,6 +932,28 @@ terminal applications, but that person isn't me.
     (ghostel-point-leave-input-mode nil)
     (ghostel-buffer-identification-format nil)
     :config
+    (defun r/ghostel-notify (title body)
+      (alert body :title title))
+
+    (defun r/ghostel-compile-notify (buffer status)
+      (unless (ghostel--buffer-focused-p buffer)
+        (r/ghostel-notify
+         "Command finished"
+         (format "%s: %s"
+                 (buffer-name buffer)
+                 (string-trim status)))))
+
+    (defun r/ghostel-command-notify (buffer status)
+      (unless (ghostel--buffer-focused-p buffer)
+        (r/ghostel-notify
+         "Command finished"
+         (format "%s exited with status %s"
+                 (buffer-name buffer)
+                 (or status "unknown")))))
+
+    (add-hook 'ghostel-command-finish-functions
+              #'r/ghostel-command-notify)
+
     (defun r/ghostel-dwim (&optional new-buffer)
       (interactive "P")
       (if (project-current)
@@ -989,7 +1014,10 @@ terminal applications, but that person isn't me.
         (r/sudo #'r/ghostel-shell-command))))
 
   (use-package ghostel-compile :ensure nil
-    :hook (after-init . ghostel-compile-global-mode))
+    :hook (after-init . ghostel-compile-global-mode)
+    :config
+    (add-hook 'ghostel-compile-finish-functions
+              #'r/ghostel-compile-notify))
 #+END_SRC
 ** Hideshow
 Hideshow is built-in, but does not provide any straightforward way of folding
