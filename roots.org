@@ -267,6 +267,11 @@ be created and the file should be put there.
   (use-package ibuffer-project
     :hook (ibuffer . r/ibuffer-project)
     :bind ("C-x C-b" . ibuffer)
+    :custom (ibuffer-formats
+             '((mark modified read-only locked " "
+                     (name 40 40 :left :elide)
+                     " " project-file-relative)
+               (mark " " (name 40 -1) " " filename)))
     :config
     (defun r/ibuffer-project ()
       (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
