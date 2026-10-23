@@ -370,6 +370,7 @@ specific package.
            ("C-c cu" . r/sudo-find-file)
            ("C-c mw" . r/mark-symbol-at-point)
            ("C-c n" . r/system-filebrowser)
+           ("C-c ws" . r/windmove-swap-states-dwim)
            ("C-g" . r/keyboard-quit))
     :config
     (defun r/sudo (command)
@@ -416,6 +417,13 @@ specific package.
       (if (> (minibuffer-depth) 0)
           (abort-recursive-edit)
         (keyboard-quit)))
+
+    (defun r/windmove-swap-states-dwim ()
+      "Swap states with the window on the right, or on the left if there is none."
+      (interactive)
+      (require 'windmove)
+      (windmove-swap-states-in-direction
+       (if (window-in-direction 'right) 'right 'left)))
 
     (defun r/system-open-command ()
       (if (eq system-type 'darwin)
