@@ -987,25 +987,34 @@ terminal applications, but that person isn't me.
               (string-limit (string-clean-whitespace command) 72)
               "*"))
 
-    (defun r/ghostel-shell-command (command &optional directory)
+    (defun r/ghostel-shell-command (command &optional directory new-buffer)
       (interactive
        (list (read-shell-command "Ghostel shell command: "
-                                 nil 'shell-command-history)))
+                                 nil 'shell-command-history)
+             nil
+             current-prefix-arg))
       (require 'ghostel-compile)
-      (let ((default-directory (or directory default-directory)))
+      (let* ((default-directory (or directory default-directory))
+             (buffer-name
+              (r/ghostel-shell-command-buffer-name
+               command default-directory)))
         (ghostel-compile--start
          command
-         (r/ghostel-shell-command-buffer-name command default-directory)
+         (if new-buffer
+             (generate-new-buffer-name buffer-name)
+           buffer-name)
          default-directory)))
 
-    (defun r/project-ghostel-shell-command (command &optional directory)
+    (defun r/project-ghostel-shell-command
+        (command &optional directory new-buffer)
       (interactive
        (let* ((root (project-root (project-current t))))
          (list (let ((default-directory root))
                  (read-shell-command "Ghostel project shell command: "
                                      nil 'shell-command-history))
-               root)))
-      (r/ghostel-shell-command command directory))
+               root
+               current-prefix-arg)))
+      (r/ghostel-shell-command command directory new-buffer))
 
     (defun r/sh-command-at-point ()
       (interactive)
