@@ -344,6 +344,20 @@ everything else dired is capable of, and there's just no contest.
        '(:application tramp :protocol "rsync")
        'remote-direct-async-process)))
 #+END_SRC
+** man
+
+#+BEGIN_SRC emacs-lisp
+  (use-package man
+    :hook (Man-cooked . r/man-fix-osc8-links)
+    :config
+    (defun r/man-fix-osc8-links ()
+      "Remove OSC 8 hyperlink escapes from a rendered man page."
+      (let ((inhibit-read-only t))
+        (save-excursion
+          (goto-char (point-min))
+          (while (re-search-forward "\e]8;;[^\e]*\e\\\\" nil t)
+            (replace-match ""))))))
+#+END_SRC
 ** Dubious hacks
 This is where I put any purported "performance" code and "fixes", for which I
 have neither evidence supporting the supposed benefit, nor reason to doubt it.
