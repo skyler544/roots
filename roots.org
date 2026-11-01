@@ -1061,7 +1061,8 @@ secondary feature here; it does work, but I never use it.
 #+BEGIN_SRC emacs-lisp
   (use-package hideshow
     :hook ((php-ts-mode . hs-minor-mode)
-           (php-ts-mode . r/hs-fold-imports-lang))
+           (php-ts-mode . r/hs-fold-imports-lang)
+           (bash-ts-mode . hs-minor-mode))
     :bind ("C-c <tab>" . hs-toggle-hiding)
     :config
     (defun r/hs-fold-imports (pattern)
