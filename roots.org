@@ -483,7 +483,14 @@ is on power and ergonomics.
 #+BEGIN_SRC emacs-lisp
   (use-package devil :pin melpa
     :hook (after-init . global-devil-mode)
-    :custom (devil-all-keys-repeatable t))
+    :custom (devil-all-keys-repeatable t)
+    :config
+    (defun r/devil-repeatable-key-p (described-key)
+      "Non-nil unless DESCRIBED-KEY ends with `devil-key'.
+  A repeat on the devil key would block the next devil sequence."
+      (not (string-suffix-p devil-key described-key)))
+    (advice-add 'devil--set-repeatable-keys
+                :before-while #'r/devil-repeatable-key-p))
 
   (use-package avy
     :bind ("C-'" . avy-goto-char-timer)
