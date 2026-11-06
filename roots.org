@@ -330,19 +330,17 @@ everything else dired is capable of, and there's just no contest.
 #+BEGIN_SRC emacs-lisp
   ;; https://coredumped.dev/2025/06/18/making-tramp-go-brrrr./
   (use-package tramp
-    :hook (after-init . r/setup-tramp)
+    :init
+    (connection-local-set-profile-variables
+     'remote-direct-async-process
+     '((tramp-direct-async-process . t)))
+    (connection-local-set-profiles
+     '(:application tramp :protocol "rsync")
+     'remote-direct-async-process)
     :custom ((remote-file-name-inhibit-locks t)
              (tramp-use-scp-direct-remote-copying t)
              (remote-file-name-inhibit-auto-save-visited t)
-             (tramp-copy-size-limit (* 1024 1024)))
-    :config
-    (defun r/setup-tramp ()
-      (connection-local-set-profile-variables
-       'remote-direct-async-process
-       '((tramp-direct-async-process . t)))
-      (connection-local-set-profiles
-       '(:application tramp :protocol "rsync")
-       'remote-direct-async-process)))
+             (tramp-copy-size-limit (* 1024 1024))))
 
   (use-package tramp-cmds :ensure nil
     :autoload tramp-file-name-with-sudo)
@@ -917,7 +915,7 @@ quite nicely, other than occasional breakage of the grammars.
 ** Dumb Jump
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
-    :config (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+    :init (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 #+END_SRC
 ** Shell
 Interacting with the shell through Emacs is quite a bit nicer than via a
@@ -1308,7 +1306,7 @@ caveats.
 ** Python
 
 #+BEGIN_SRC emacs-lisp
-  (use-package python-ts-mode :ensure nil
+  (use-package python :ensure nil
     :hook (python-ts-mode . eglot-ensure)
     :config
     (with-eval-after-load 'eglot
@@ -1473,10 +1471,6 @@ yaml, markdown, and html.
 Arguably one of the most important technologies of all.
 
 #+BEGIN_SRC emacs-lisp
-  ;; dictcc uses this function; generate autoload with use-package
-  (use-package thingatpt
-    :commands word-at-point)
-
   (use-package dictcc
     :custom (dictcc-completion-backend 'completing-read))
 #+END_SRC
@@ -1493,7 +1487,6 @@ Syntax highlighting for unit files
 #+BEGIN_SRC emacs-lisp
   (use-package gptel :unless (getenv "NO_COPILOT")
     :vc (:url "https://github.com/karthink/gptel" :rev :newest)
-    :hook (after-init . r/setup-gptel)
     :bind (("C-c gm" . gptel-menu)
            ("C-c gr" . gptel-rewrite)
            ("C-c gs" . gptel-send)
@@ -1502,9 +1495,8 @@ Syntax highlighting for unit files
     :init (setq gptel--openai-oauth-token-file
                 (no-littering-expand-var-file-name "cache/gptel/openai-oauth-token"))
     :config
-    (defun r/setup-gptel ()
-      (setq gptel-model 'gpt-5.6-sol)
-      (setq gptel-backend (gptel-make-openai-oauth "gptel"))))
+    (setq gptel-model 'gpt-5.6-sol)
+    (setq gptel-backend (gptel-make-openai-oauth "gptel")))
 #+END_SRC
 **** Chat persistence
 
@@ -1673,11 +1665,9 @@ This stuff isn't really necessary, but it looks cool.
 
   ;; Highlight TODO items in buffers
   (use-package hl-todo
-    :hook ((after-init . r/setup-hl-todo)
-           (org-mode . hl-todo-mode)
+    :hook ((org-mode . hl-todo-mode)
            (prog-mode . hl-todo-mode))
-    :config (defun r/setup-hl-todo ()
-              (add-to-list 'hl-todo-keyword-faces '("RISK" . "#a60000"))))
+    :config (add-to-list 'hl-todo-keyword-faces '("RISK" . "#a60000")))
 
   (use-package page-break-lines
     :hook (after-init . global-page-break-lines-mode)
