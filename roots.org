@@ -990,8 +990,8 @@ terminal applications, but that person isn't me.
         (ghostel new-buffer)))
 
     (defun r/devil-literal-comma-space ()
-      (interactive)
       "Hacky workaround for making devil comma space work in ghostel"
+      (interactive)
       (if (derived-mode-p 'ghostel-mode)
           (ghostel--send-string ", ")
         (devil-execute-key "%k SPC")))
