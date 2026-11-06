@@ -361,6 +361,12 @@ everything else dired is capable of, and there's just no contest.
           (while (re-search-forward "\e]8;;[^\e]*\e\\\\" nil t)
             (replace-match ""))))))
 #+END_SRC
+** windmove
+
+#+begin_src emacs-lisp
+  (use-package windmove :ensure nil
+    :autoload windmove-swap-states-in-direction)
+#+end_src
 ** Dubious hacks
 This is where I put any purported "performance" code and "fixes", for which I
 have neither evidence supporting the supposed benefit, nor reason to doubt it.
@@ -431,7 +437,6 @@ specific package.
     (defun r/windmove-swap-states-dwim ()
       "Swap states with the window on the right, or on the left if there is none."
       (interactive)
-      (require 'windmove)
       (windmove-swap-states-in-direction
        (if (window-in-direction 'right) 'right 'left)))
 
@@ -696,8 +701,8 @@ This section defines my capture and agenda workflow.
     (defun r/start-feature (name)
       "Create a new org file for a feature with the given `NAME', and insert a template for the feature's documentation."
       (interactive "sFeature name: ")
-      (require 's nil :noerror)
-      (let* ((file-base-name (s-replace " " "-" (downcase (s-trim name))))
+      (let* ((file-base-name
+              (string-replace " " "-" (downcase (string-trim name))))
              (file (expand-file-name (concat file-base-name ".org") org-directory)))
         (with-current-buffer (find-file file)
           (insert "#+TITLE: " name "\n")
