@@ -1631,31 +1631,6 @@ Syntax highlighting for unit files
       (let ((agent-shell-session-strategy 'prompt))
         (agent-shell '(4)))))
 #+END_SRC
-** Distrobox
-
-#+BEGIN_SRC emacs-lisp
-  (defun r/distrobox-man ()
-    "Open man page for distrobox-wrapped binary."
-    (interactive)
-    (require 'man nil :noerror)
-    (let* ((scripts (directory-files "~/.local/bin" t "^[^.]"))
-           (names (mapcar #'file-name-nondirectory scripts))
-           (choice (completing-read "Man page: " names))
-           (script-path (expand-file-name choice "~/.local/bin")))
-
-      (let ((container (r/distrobox-parse-container script-path)))
-        (if (not container) (message (format "%s is not a distrobox wrapper" script-path))
-          (let ((manual-program
-                 (format "distrobox enter %s -- man" container)))
-            (man choice))))))
-
-  (defun r/distrobox-parse-container (script)
-    "Extract container name from distrobox wrapper script."
-    (with-temp-buffer
-      (insert-file-contents script)
-      (when (re-search-forward "name: \\([^\n]+\\)" nil t)
-        (match-string 1))))
-#+END_SRC
 ** Nix
 
 #+begin_src emacs-lisp
