@@ -1154,8 +1154,23 @@ caveats.
 ** Debugging
 #+BEGIN_SRC emacs-lisp
   (use-package dape
-    :hook ((after-init . dape-breakpoint-load)
-           (kill-emacs . dape-breakpoint-save)))
+    :commands r/sail-debug-listen
+    :config
+    (dape-breakpoint-load)
+    (add-hook 'kill-emacs-hook #'dape-breakpoint-save)
+
+    (defun r/sail-dape-xdebug-config ()
+      `(:request "launch"
+        :name "Laravel Sail Xdebug"
+        :hostname "0.0.0.0"
+        prefix-local ,(directory-file-name (r/project-root))
+        prefix-remote "/var/www/html"
+        ,@(alist-get 'xdebug dape-configs)))
+
+    (defun r/sail-debug-listen ()
+      "Listen for a Laravel Sail Xdebug connection with dape."
+      (interactive)
+      (dape (r/sail-dape-xdebug-config))))
 #+END_SRC
 ** PHP
 
@@ -1247,23 +1262,6 @@ caveats.
       (let* ((class (file-name-base (buffer-name)))
              (method (r/php-function-name-at-point)))
         (concat class "::" method))))
-
-  ;; sail debugging
-  (use-package php-ts-mode :after dape
-    :commands r/sail-debug-listen
-    :config
-    (defun r/sail-dape-xdebug-config ()
-      `(:request "launch"
-        :name "Laravel Sail Xdebug"
-        :hostname "0.0.0.0"
-        prefix-local ,(directory-file-name (r/project-root))
-        prefix-remote "/var/www/html"
-        ,@(alist-get 'xdebug dape-configs)))
-
-    (defun r/sail-debug-listen ()
-      "Listen for a Laravel Sail Xdebug connection with dape."
-      (interactive)
-      (dape (r/sail-dape-xdebug-config))))
 #+END_SRC
 *** Hacky fix for editing in php-ts-mode in heredoc/nowdoc or blade templates
 
