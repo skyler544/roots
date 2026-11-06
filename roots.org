@@ -489,7 +489,19 @@ is on power and ergonomics.
   A repeat on the devil key would block the next devil sequence."
       (not (string-suffix-p devil-key described-key)))
     (advice-add 'devil--set-repeatable-keys
-                :before-while #'r/devil-repeatable-key-p))
+                :before-while #'r/devil-repeatable-key-p)
+
+    (defun r/devil-literal-comma-space ()
+      "Hacky workaround for making devil comma space work in ghostel"
+      (interactive)
+      (if (derived-mode-p 'ghostel-mode)
+          (ghostel--send-string ", ")
+        (devil-execute-key "%k SPC")))
+
+    (setq devil-special-keys
+          (assoc-delete-all "%k SPC" devil-special-keys))
+    (push (cons "%k SPC" #'r/devil-literal-comma-space)
+          devil-special-keys))
 
   (use-package avy
     :bind ("C-'" . avy-goto-char-timer)
@@ -948,7 +960,7 @@ terminal applications, but that person isn't me.
   (use-package alert
     :custom (alert-default-style 'libnotify))
 
-  (use-package ghostel :after devil
+  (use-package ghostel
     :commands r/sudo-ghostel-shell-command
     :bind (("C-c &" . r/sh-command-at-point)
            ("C-c RET" . r/ghostel-dwim)
@@ -988,18 +1000,6 @@ terminal applications, but that person isn't me.
       (if (project-current)
           (ghostel-project new-buffer)
         (ghostel new-buffer)))
-
-    (defun r/devil-literal-comma-space ()
-      "Hacky workaround for making devil comma space work in ghostel"
-      (interactive)
-      (if (derived-mode-p 'ghostel-mode)
-          (ghostel--send-string ", ")
-        (devil-execute-key "%k SPC")))
-
-    (setq devil-special-keys
-          (assoc-delete-all "%k SPC" devil-special-keys))
-    (push (cons "%k SPC" #'r/devil-literal-comma-space)
-          devil-special-keys)
 
     (defun r/ghostel-shell-command-buffer-name (command &optional directory)
       (concat "*" (r/directory-name directory) ": "
