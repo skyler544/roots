@@ -343,6 +343,9 @@ everything else dired is capable of, and there's just no contest.
       (connection-local-set-profiles
        '(:application tramp :protocol "rsync")
        'remote-direct-async-process)))
+
+  (use-package tramp-cmds :ensure nil
+    :autoload tramp-file-name-with-sudo)
 #+END_SRC
 ** man
 
@@ -387,12 +390,6 @@ specific package.
            ("C-c ws" . r/windmove-swap-states-dwim)
            ("C-g" . r/keyboard-quit))
     :config
-    (defun r/sudo (command)
-      (let ((default-directory
-             (concat "/sudo::"
-                     (expand-file-name default-directory))))
-        (call-interactively command)))
-
     (defun r/directory-name (&optional directory)
       "Return the last component of DIRECTORY, defaulting to `default-directory'."
       (file-name-nondirectory
@@ -407,9 +404,9 @@ specific package.
       "Return the path to the current file relative to the project root."
       (file-relative-name buffer-file-name (r/project-root)))
 
-    (defun r/sudo-find-file ()
-      (interactive)
-      (r/sudo #'find-file))
+    (defun r/sudo-find-file (filename)
+      (interactive (list (read-file-name "Find file as root: ")))
+      (find-file (tramp-file-name-with-sudo filename)))
 
     (defun r/top-join-line ()
       (interactive)
@@ -1015,16 +1012,15 @@ terminal applications, but that person isn't me.
              nil
              current-prefix-arg))
       (require 'ghostel-compile)
-      (let* ((default-directory (or directory default-directory))
+      (let* ((directory (or directory default-directory))
              (buffer-name
-              (r/ghostel-shell-command-buffer-name
-               command default-directory)))
+              (r/ghostel-shell-command-buffer-name command directory)))
         (ghostel-compile--start
          command
          (if new-buffer
              (generate-new-buffer-name buffer-name)
            buffer-name)
-         default-directory)))
+         directory)))
 
     (defun r/project-ghostel-shell-command
         (command &optional directory new-buffer)
@@ -1044,13 +1040,13 @@ terminal applications, but that person isn't me.
            (buffer-substring (region-beginning) (region-end))
          (thing-at-point 'line t))))
 
-    (defun r/sudo-ghostel-shell-command (&optional command)
-      (interactive)
-      (if command
-          (r/sudo (lambda ()
-                    (interactive)
-                    (r/ghostel-shell-command command)))
-        (r/sudo #'r/ghostel-shell-command))))
+    (defun r/sudo-ghostel-shell-command (command &optional new-buffer)
+      (interactive
+       (list (read-shell-command "Sudo ghostel shell command: "
+                                 nil 'shell-command-history)
+             current-prefix-arg))
+      (r/ghostel-shell-command
+       command (tramp-file-name-with-sudo default-directory) new-buffer)))
 
   (use-package ghostel-compile :ensure nil
     :hook (after-init . ghostel-compile-global-mode)
