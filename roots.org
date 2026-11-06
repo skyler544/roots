@@ -397,7 +397,6 @@ specific package.
 
     (defun r/project-root ()
       "Return the current project root."
-      (require 'project)
       (expand-file-name (project-root (project-current t))))
 
     (defun r/project-relative-path ()
@@ -1000,7 +999,6 @@ terminal applications, but that person isn't me.
           devil-special-keys)
 
     (defun r/ghostel-shell-command-buffer-name (command &optional directory)
-      (require 'subr-x nil :no-error)
       (concat "*" (r/directory-name directory) ": "
               (string-limit (string-clean-whitespace command) 72)
               "*"))
@@ -1011,7 +1009,6 @@ terminal applications, but that person isn't me.
                                  nil 'shell-command-history)
              nil
              current-prefix-arg))
-      (require 'ghostel-compile)
       (let* ((directory (or directory default-directory))
              (buffer-name
               (r/ghostel-shell-command-buffer-name command directory)))
@@ -1263,7 +1260,6 @@ caveats.
     (defun r/sail-debug-listen ()
       "Listen for a Laravel Sail Xdebug connection with dape."
       (interactive)
-      (require 'dape)
       (dape (r/sail-dape-xdebug-config))))
 #+END_SRC
 *** Hacky fix for editing in php-ts-mode in heredoc/nowdoc or blade templates
@@ -1586,7 +1582,6 @@ Syntax highlighting for unit files
     :unless (getenv "NO_COPILOT")
     :vc (:url "https://github.com/karthink/gptel-agent" :rev :newest)
     :init (with-eval-after-load 'gptel
-            (require 'gptel-agent)
             (gptel-agent-update))
     :config
     (defun r/gptel-read-only-tools-no-confirm (call)
