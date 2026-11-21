@@ -1137,14 +1137,8 @@ functionality for manipulating Lisp code, but that power comes with some
 caveats.
 
 #+BEGIN_SRC emacs-lisp
-  ;; these are lispy dependencies that as of 2026-09-20 are no longer
-  ;; installed automatically. lispy packaging bug?
-  (use-package ace-window)
-  (use-package hydra)
-  (use-package swiper)
-  (use-package zoutline)
-
   (use-package lispy
+    :vc (:url "https://github.com/enzuru/lispy" :rev :newest)
     :bind ((:map lispy-mode-map
                  ("C-<backspace>" . lispy-delete-backward))
            (:map lispy-mode-map-lispy
