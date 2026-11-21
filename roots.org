@@ -388,6 +388,7 @@ specific package.
   (use-package emacs
     :bind (("C-M-j" . r/top-join-line)
            ("C-M-d" . r/kill-whole-word)
+           ("C-c ca" . r/toggle-arguments-layout)
            ("C-c cu" . r/sudo-find-file)
            ("C-c mw" . r/mark-symbol-at-point)
            ("C-c n" . r/system-filebrowser)
@@ -468,6 +469,30 @@ specific package.
       (interactive)
       (kill-word 1)
       (backward-kill-word 1))
+
+    (defun r/toggle-arguments-layout ()
+      "Toggle the argument list, parameter list or array at point between one and many lines."
+      (interactive)
+      (let* ((node (treesit-parent-until
+                    (treesit-node-at (point))
+                    (lambda (n) (string-match-p "arguments\\|parameters\\|array_creation"
+                                                (treesit-node-type n)))
+                    t))
+             (start (treesit-node-start node))
+             (end (copy-marker (treesit-node-end node))))
+        (save-excursion
+          (if (> (count-lines start end) 1)
+              (progn
+                (goto-char end)
+                (while (> (line-beginning-position) start)
+                  (delete-indentation)))
+            (dolist (pos (cons (1- end)
+                               (reverse (mapcar #'treesit-node-start
+                                                (treesit-node-children node t)))))
+              (goto-char pos)
+              (delete-horizontal-space)
+              (newline))
+            (indent-region start end)))))
 
     (defun r/disable-visual-line-mode-in-buffer ()
       (visual-line-mode -1)
@@ -970,7 +995,11 @@ terminal applications, but that person isn't me.
            ("M-&" . nil)
            ("C-z" . nil)
            :map ghostel-char-mode-map
-           ("M-&" . nil))
+           ("M-&" . nil)
+           :map ghostel-readonly-mode-map
+           ("C-a" . nil)
+           :map ghostel-line-mode-map
+           ("C-a" . nil))
     :custom
     (ghostel-mark-activation-input-mode nil)
     (ghostel-mouse-drag-input-mode nil)
