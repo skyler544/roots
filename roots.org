@@ -496,7 +496,26 @@ specific package.
 
     (defun r/disable-visual-line-mode-in-buffer ()
       (visual-line-mode -1)
-      (setq-local truncate-lines t)))
+      (setq-local truncate-lines t))
+
+    (defun r/package-maintenance ()
+      "List available upgrades and offer to install them."
+      (interactive)
+      (add-to-list 'package-archives
+                   '("melpa" . "https://melpa.org/packages/"))
+      (package-refresh-contents)
+      (list-packages t)
+      (let (upgrades)
+        (with-current-buffer "*Packages*"
+          (package-menu-mark-upgrades)
+          (package-menu-filter-upgradable)
+          (setq upgrades tabulated-list-entries))
+        (if (null upgrades)
+            (message "No archive package upgrades are available")
+          (when (yes-or-no-p "Install the listed package upgrades? ")
+            (with-current-buffer "*Packages*"
+              (package-menu-execute t))
+            (package-recompile-all))))))
 #+END_SRC
 * Core Extensions
 This section sets up a general layer of useful features; the focus

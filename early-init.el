@@ -36,16 +36,19 @@
 
 ;; Package management
 ;; ----------------------------------------------------
+(defconst r/package-setup-p (and (getenv "ROOTS_PACKAGE_SETUP") t)
+  "Non-nil while the explicit package setup runs.")
+
 (use-package package
   :init
   (package-initialize)
   (add-to-list 'package-archives
                '("melpa" . "https://melpa.org/packages/"))
-  (unless package-archive-contents
+  (when r/package-setup-p
     (package-refresh-contents)))
 
 (use-package use-package
-  :custom ((use-package-always-ensure t)
+  :custom ((use-package-always-ensure r/package-setup-p)
            (use-package-always-defer t)
            (use-package-expand-minimally t)))
 

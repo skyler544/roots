@@ -1,28 +1,41 @@
 EMACS  := emacs --init-directory=.
+SETUP  := ROOTS_PACKAGE_SETUP=1
 EARLY  := --load 'early-init.el'
 INIT   := --load 'init.el'
 TANGLE := "(progn (require 'ob-tangle) \
 				  (org-babel-tangle-file \"roots.org\"))"
-PHP    := "(use-package php-ts-mode \
+PHP    := "(use-package php-ts-mode :demand t \
 			  :config (php-ts-mode-install-parsers))"
 TS     := "(use-package treesit-auto :demand \
 			   :custom (treesit-auto-install t) \
 			   :config (treesit-auto-install-all))"
+GHOSTTY := "(progn \
+				 (require 'ghostel-module-install) \
+				 (unless (ghostel--download-module \
+				          (ghostel--module-directory) nil t) \
+				   (error \"Failed to install the prebuilt Ghostty module\")))"
+
+.NOTPARALLEL:
 
 all: run
 
-shave: package-clean clean treesit-clean install run
+shave: package-clean treesit-clean install run
 
-install: retangle treesit-install php install-all run
+install: retangle install-all ghostty-module-install treesit-install
 
-treesit-install:
-	$(EMACS) --batch $(EARLY) --eval $(TS)
+treesit-install: php
+	$(SETUP) $(EMACS) --batch $(EARLY) --eval $(TS)
 
 php:
-	$(EMACS) --batch --eval $(PHP)
+	$(SETUP) $(EMACS) --batch $(EARLY) --eval $(PHP)
 
 install-all:
-	$(EMACS) --batch $(EARLY) $(INIT)
+	$(SETUP) $(EMACS) --batch $(EARLY) \
+		--eval '(package-upgrade-all)' $(INIT) \
+		--eval '(package-recompile-all)'
+
+ghostty-module-install: install-all
+	$(EMACS) --batch $(EARLY) --eval $(GHOSTTY)
 
 run: retangle
 	$(EMACS)
