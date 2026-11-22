@@ -6,25 +6,19 @@
 ;;
 ;; Requires Emacs 30+ with native compilation and treesitter.
 ;;
-;; Hacks and optimizations
+;; Startup hacks and optimizations
 ;; ----------------------------------------------------
 (let ((file-name-handler-alist-old file-name-handler-alist))
   (add-hook 'emacs-startup-hook
             (lambda ()
-              (setq gc-cons-threshold (* 1024 1024 20))
-              (setq file-name-handler-alist file-name-handler-alist-old)))
-  (setq gc-cons-threshold most-positive-fixnum)
-  (setq file-name-handler-alist nil))
-(setq inhibit-default-init t)
-(setq load-prefer-newer noninteractive)
+              (setq file-name-handler-alist file-name-handler-alist-old)
+              (setq-default inhibit-redisplay nil))))
 
-;; don't redisplay during init
-(add-hook 'after-init-hook
-          (lambda ()
-            (setq-default inhibit-redisplay nil)
-            (setq-default inhibit-message nil)))
-(setq inhibit-redisplay t)
-(setq inhibit-message t)
+(setq gc-cons-threshold most-positive-fixnum
+      file-name-handler-alist nil
+      inhibit-default-init t
+      load-prefer-newer noninteractive
+      inhibit-redisplay t)
 
 (dolist (parameter '(menu-bar-lines tool-bar-lines vertical-scroll-bars))
   (push `(,parameter . nil) default-frame-alist))
