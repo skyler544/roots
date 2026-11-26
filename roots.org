@@ -446,7 +446,7 @@ specific package.
 
     (defun r/system-filebrowser ()
       (interactive)
-      (async-shell-command
+      (r/ghostel-shell-command
        (format "%s %s"
                (r/system-open-command)
                (shell-quote-argument (expand-file-name default-directory)))))
